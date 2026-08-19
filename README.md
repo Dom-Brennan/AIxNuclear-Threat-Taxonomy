@@ -1,7 +1,7 @@
 # AIxNuclear-Threat-Taxonomy
 The AIxNuclear Taxonomy is an interactive and evolving taxonomy to capture the effects of AI on nuclear risk. This taxonomy leverages agentic AI to generate, interrogate, and qualify AIxNuclear threats. By doing so, we can visualize gaps that are in need of resilience-building.
 
-To access this taxonomy, download 'dashboard.html' and 'seed_taxonomy_populated.json'. Open the Dashboard with any web browser (Safari, Google Chrome, etc.) and click 'LOAD TAXONOMY JSON' at the top-right of the page.
+To access this taxonomy, download 'dashboard.html' and 'seed_taxonomy_populated.json'. Open the Dashboard with any web browser (Safari, Google Chrome, etc.) and click 'LOAD TAXONOMY JSON' at the top-right of the page. Load 'seed_taxonomy_populated.json'.
 
 A python script has been created to automate this procedure. This script has not yet been shared. This script can be requested.
 
