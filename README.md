@@ -6,3 +6,5 @@ To access this taxonomy, download 'dashboard.html' and 'seed_taxonomy_populated.
 A python script has been created to automate this procedure. This script has not yet been shared. This script can be requested.
 
 Eventually, an open-weight model will be trained to replicate the quantitative and qualitative evaluation of AIxNuclear threat according to the taxonomy populated by specialists in nuclear engineering, nuclear security, nonproliferation, AI design, cyber security, and so on.
+
+This taxonomy and all related data are built without security clearance or any proprietary information.
