@@ -48,6 +48,7 @@
   header{
     padding:20px 24px 16px; border-bottom:1px solid var(--line);
     display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    position:sticky; top:0; z-index:30; background:var(--bg);
   }
   header .title-block{display:flex; align-items:baseline; gap:14px;}
   h1{
@@ -69,9 +70,14 @@
   input[type=file]{display:none;}
 
   .layout{display:grid; grid-template-columns:220px 1fr; gap:0; min-height:calc(100vh - 66px);}
+  /* Help and Taxonomy have no <aside> -- without this override their lone <main> was placed into
+     just the first 220px grid track (CSS Grid auto-placement doesn't span unfilled tracks on its
+     own), squeezing all that content into a narrow column with empty space to its right. */
+  #view-help, #view-taxonomy{grid-template-columns:1fr;}
 
   aside{
     border-right:1px solid var(--line); padding:20px 16px; background:var(--panel);
+    position:sticky; top:66px; align-self:start; max-height:calc(100vh - 66px); overflow-y:auto;
   }
   .filter-group{margin-bottom:24px;}
   .filter-group .label-row{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;}
@@ -83,6 +89,12 @@
     cursor:pointer; letter-spacing:.06em; text-transform:uppercase;
   }
   .link-btn:hover{color:var(--amber);}
+  .add-entry-btn{
+    font-family:var(--font-mono); font-size:12px; letter-spacing:.05em; text-transform:uppercase;
+    color:#1a1410; background:var(--amber); border:1px solid var(--amber); border-radius:3px;
+    padding:8px 14px; cursor:pointer; font-weight:700; box-shadow:0 1px 3px rgba(0,0,0,0.35);
+  }
+  .add-entry-btn:hover{background:#f4b955; border-color:#f4b955;}
   .toggle-row{display:flex; align-items:center; gap:8px; padding:5px 0; cursor:pointer; user-select:none;}
   .toggle-row input{accent-color:var(--amber); width:14px; height:14px;}
   .toggle-row span{font-size:12.5px;}
@@ -171,6 +183,39 @@
   .editor-layout{display:grid; grid-template-columns:300px 1fr; gap:0; height:calc(100vh - 66px); overflow:hidden;}
   .editor-list{border-right:1px solid var(--line); background:var(--panel); overflow-y:auto; height:100%;}
   .editor-list-header{padding:14px 16px 10px; border-bottom:1px solid var(--line);}
+  .editor-list-header .label-row{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
+  .adv-filter-toggle{
+    width:100%; text-align:left; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.05em;
+    text-transform:uppercase; color:var(--amber-dim); background:none; border:none; cursor:pointer;
+    padding:8px 0 2px; margin-top:2px;
+  }
+  .adv-filter-toggle:hover, .adv-filter-toggle.open{color:var(--amber);}
+  .adv-filter-panel{
+    display:flex; flex-direction:column; gap:6px; padding:8px 10px; margin-top:4px;
+    border:1px solid var(--line); border-radius:3px; background:var(--panel-2);
+  }
+  .adv-filter-label{font-family:var(--font-mono); font-size:9.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--text-dim); margin-top:2px;}
+  .adv-filter-hint{font-size:10.5px; color:var(--text-dim); line-height:1.4; margin-bottom:2px;}
+  .adv-filter-mode{
+    display:flex; align-items:center; gap:14px; padding:7px 9px; background:var(--panel-2);
+    border:1px solid var(--line); border-radius:3px; font-size:11.5px;
+  }
+  .adv-filter-mode-label{font-family:var(--font-mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--text-dim); margin-right:auto;}
+  .adv-filter-mode label{display:flex; align-items:center; gap:4px; cursor:pointer; color:var(--text);}
+  .adv-filter-mode input{cursor:pointer;}
+  .adv-checklist{
+    max-height:170px; overflow-y:auto; border:1px solid var(--line); border-radius:3px;
+    background:var(--panel); padding:4px;
+  }
+  .adv-check-row{
+    display:flex; align-items:flex-start; gap:6px; padding:4px 5px; font-size:11.5px; line-height:1.35;
+    cursor:pointer; white-space:normal; word-break:break-word; border-radius:2px;
+  }
+  .adv-check-row:hover{background:var(--panel-2); color:var(--amber);}
+  .adv-check-row input{margin-top:2px; flex-shrink:0; cursor:pointer;}
+  .adv-check-row.child{padding-left:20px; color:var(--text-dim); font-size:11px;}
+  .adv-check-row.child:hover{color:var(--amber);}
+  .adv-filter-panel .link-btn{align-self:flex-start; margin-top:4px;}
   .editor-search{
     width:100%; font-family:var(--font-mono); font-size:12px; background:var(--panel-2); color:var(--text);
     border:1px solid var(--line); padding:7px 8px; border-radius:2px; margin-top:8px;
@@ -445,6 +490,48 @@
   .dread-legend-row .desc{color:var(--text-dim);}
   .dread-legend-source{font-size:10.5px; color:var(--text-dim); margin-top:8px; font-family:var(--font-mono);}
   .dread-legend-source a{color:var(--amber-dim);}
+
+  /* Nuclear Operations taxonomy tab: an ATLAS-matrix-style board (columns = groups, cells =
+     root categories with their subgroups nested underneath) plus a tabulated alternative view. */
+  .taxonomy-toolbar{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:4px;}
+  .taxonomy-matrix{display:flex; gap:10px; overflow-x:auto; align-items:flex-start; padding-bottom:8px;}
+  .taxonomy-col{flex:0 0 230px; background:var(--panel); border:1px solid var(--line); border-radius:5px; padding:10px;}
+  .taxonomy-col-header{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--amber); margin-bottom:3px; font-weight:600;}
+  .taxonomy-col-sub{font-size:11px; color:var(--text-dim); margin-bottom:10px; line-height:1.4;}
+  .taxonomy-cat{
+    background:var(--panel-2); border:1px solid var(--line); border-radius:4px; padding:7px 9px;
+    margin-bottom:6px; cursor:pointer; font-size:12px; line-height:1.35; transition:border-color .12s;
+  }
+  .taxonomy-cat:hover, .taxonomy-cat.active{border-color:var(--amber-dim); color:var(--amber);}
+  .taxonomy-cat .id{font-family:var(--font-mono); font-size:10px; color:var(--text-dim); display:block;}
+  .taxonomy-sub{
+    margin:3px 0 8px 8px; padding:4px 8px; font-size:11px; color:var(--text-dim); cursor:pointer;
+    border-left:2px solid var(--line);
+  }
+  .taxonomy-sub:hover, .taxonomy-sub.active{color:var(--amber); border-left-color:var(--amber-dim);}
+  .taxonomy-sub .id{font-family:var(--font-mono); font-size:9.5px; display:block; opacity:.75;}
+  .taxonomy-detail{
+    margin-top:16px; padding:16px 18px; border:1px solid var(--line); border-radius:5px; background:var(--panel-2);
+  }
+  .taxonomy-detail .id{font-family:var(--font-mono); font-size:11px; color:var(--amber-dim); letter-spacing:.04em;}
+  .taxonomy-detail h3{margin:2px 0 8px; font-size:15px; color:var(--text);}
+  .taxonomy-detail .meta{font-family:var(--font-mono); font-size:10.5px; color:var(--text-dim); margin-bottom:10px; text-transform:uppercase; letter-spacing:.04em;}
+  .taxonomy-detail p{font-size:13px; line-height:1.55; margin:0 0 8px;}
+  .taxonomy-detail a{color:var(--amber-dim); font-size:11.5px;}
+  .taxonomy-table-wrap{overflow-x:auto;}
+  .taxonomy-table{width:100%; border-collapse:collapse; font-size:12px;}
+  .taxonomy-table th{
+    text-align:left; padding:9px 10px; border-bottom:1px solid var(--line); font-family:var(--font-mono);
+    text-transform:uppercase; font-size:10px; letter-spacing:.04em; color:var(--text-dim); cursor:pointer; white-space:nowrap;
+  }
+  .taxonomy-table th:hover{color:var(--amber);}
+  .taxonomy-table td{padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
+  .taxonomy-table tr:hover td{background:var(--panel);}
+  .taxonomy-table .id{font-family:var(--font-mono); font-size:11px; color:var(--amber-dim); white-space:nowrap;}
+  .taxonomy-search{
+    font-family:var(--font-mono); font-size:12px; background:var(--panel-2); color:var(--text);
+    border:1px solid var(--line); padding:7px 10px; border-radius:2px; width:260px;
+  }
 </style>
 </head>
 <body>
@@ -456,6 +543,7 @@
       <button class="tab-btn" id="tab-help" data-tab="help">Help</button>
       <button class="tab-btn active" id="tab-dashboard" data-tab="dashboard">Dashboard</button>
       <button class="tab-btn" id="tab-editor" data-tab="editor">Editor</button>
+      <button class="tab-btn" id="tab-taxonomy" data-tab="taxonomy">Taxonomy</button>
     </div>
   </div>
   <div class="load-row">
@@ -481,6 +569,20 @@
         <button class="link-btn" data-toggle="facility_domain">All / None</button>
       </div>
       <div id="facility-filters"></div>
+    </div>
+
+    <div class="filter-group">
+      <div class="label-row">
+        <span class="eyebrow">Evidence</span>
+      </div>
+      <label class="toggle-row" id="evidence-usecase-row">
+        <input type="checkbox" id="evidence-filter-usecase">
+        <span>Has use_case evidence</span>
+      </label>
+      <label class="toggle-row" id="evidence-vulnerability-row">
+        <input type="checkbox" id="evidence-filter-vulnerability">
+        <span>Has vulnerability evidence</span>
+      </label>
     </div>
 
     <div class="filter-group">
@@ -595,6 +697,57 @@
         </div>
       </div>
 
+      <div class="grid" style="margin-bottom:16px;">
+        <div class="panel">
+          <div class="label-row" style="margin-bottom:4px;">
+            <h2 style="margin:0;">Largest threats — by Facility Domain</h2>
+            <div class="panel-controls">
+              <select id="fd-threats-domain"></select>
+              <select id="fd-threats-framework">
+                <option value="atlas">MITRE ATLAS</option>
+                <option value="operational">Operational Taxonomy</option>
+                <option value="stride">STRIDE</option>
+                <option value="dread">DREAD</option>
+              </select>
+              <select id="fd-threats-view">
+                <option value="leaf">By technique</option>
+                <option value="group">By tactic</option>
+              </select>
+            </div>
+          </div>
+          <div class="sub" id="fd-threats-sub">Pick a facility domain and a framework to see its largest threats.</div>
+          <div class="panel-chart tall"><canvas id="chart-fd-threats"></canvas></div>
+          <label class="toggle-row" id="fd-threats-rollup-row" style="padding-left:0; margin-top:8px;">
+            <input type="checkbox" id="fd-threats-rollup">
+            <span id="fd-threats-rollup-label">Group sub-techniques into root technique</span>
+          </label>
+        </div>
+        <div class="panel">
+          <div class="label-row" style="margin-bottom:4px;">
+            <h2 style="margin:0;">Largest threats — by Use Area</h2>
+            <div class="panel-controls">
+              <select id="ua-threats-domain"></select>
+              <select id="ua-threats-framework">
+                <option value="atlas">MITRE ATLAS</option>
+                <option value="operational">Operational Taxonomy</option>
+                <option value="stride">STRIDE</option>
+                <option value="dread">DREAD</option>
+              </select>
+              <select id="ua-threats-view">
+                <option value="leaf">By technique</option>
+                <option value="group">By tactic</option>
+              </select>
+            </div>
+          </div>
+          <div class="sub" id="ua-threats-sub">Pick a use area and a framework to see its largest threats.</div>
+          <div class="panel-chart tall"><canvas id="chart-ua-threats"></canvas></div>
+          <label class="toggle-row" id="ua-threats-rollup-row" style="padding-left:0; margin-top:8px;">
+            <input type="checkbox" id="ua-threats-rollup">
+            <span id="ua-threats-rollup-label">Group sub-techniques into root technique</span>
+          </label>
+        </div>
+      </div>
+
       <div class="grid wide" style="margin-bottom:16px;">
         <div class="panel">
           <div class="label-row" style="margin-bottom:4px;">
@@ -625,7 +778,7 @@
     <div class="editor-list-header">
       <div class="label-row">
         <span class="eyebrow">Entries</span>
-        <button class="link-btn" id="add-entry-btn" type="button">+ New</button>
+        <button class="add-entry-btn" id="add-entry-btn" type="button">+ New entry</button>
       </div>
       <input type="text" class="editor-search" id="editor-search" placeholder="Filter by use_case...">
       <select class="editor-filter-select" id="editor-filter-use-area">
@@ -634,6 +787,24 @@
       <select class="editor-filter-select" id="editor-filter-facility-domain">
         <option value="all">All facility domains</option>
       </select>
+      <button class="adv-filter-toggle" id="editor-adv-filter-toggle" type="button">▸ Advanced filter options</button>
+      <div class="adv-filter-panel" id="editor-adv-filter-panel" style="display:none;">
+        <div class="adv-filter-mode" id="editor-adv-filter-mode">
+          <span class="adv-filter-mode-label">Combine active filters with</span>
+          <label><input type="radio" name="editor-adv-filter-mode" value="and" checked> AND</label>
+          <label><input type="radio" name="editor-adv-filter-mode" value="or"> OR</label>
+        </div>
+        <div class="adv-filter-hint">Tick any number of boxes. Ticking a tactic or group narrows the technique/category list below it; ticking a root technique/category also applies to everything nested under it.</div>
+        <label class="adv-filter-label">ATLAS tactic</label>
+        <div class="adv-checklist" id="editor-filter-atlas-tactic"></div>
+        <label class="adv-filter-label">ATLAS technique</label>
+        <div class="adv-checklist" id="editor-filter-atlas-technique"></div>
+        <label class="adv-filter-label">Operational group</label>
+        <div class="adv-checklist" id="editor-filter-op-group"></div>
+        <label class="adv-filter-label">Operational category</label>
+        <div class="adv-checklist" id="editor-filter-op-category"></div>
+        <button class="link-btn" id="editor-adv-filter-clear" type="button">Clear advanced filters</button>
+      </div>
     </div>
     <div id="editor-list-body"></div>
   </div>
@@ -645,6 +816,23 @@
 <div class="layout" id="view-help" style="display:none;">
   <main style="max-width:90vw; margin:0 auto;">
     <div id="help-content"></div>
+  </main>
+</div>
+
+<div class="layout" id="view-taxonomy" style="display:none;">
+  <main style="max-width:96vw; margin:0 auto;">
+    <div class="taxonomy-toolbar">
+      <div>
+        <h2 style="margin:0 0 4px;">Nuclear Operations Taxonomy</h2>
+        <div class="sub" style="margin:0;">This project's own taxonomy of non-adversarial AI effects in nuclear operations -- seven top-level groups, laid out matrix-style like MITRE ATLAS's tactic/technique board. Click a category or subgroup for its full description and source.</div>
+      </div>
+      <div class="entry-tab-bar" style="margin-top:0;">
+        <button class="entry-tab-btn active" id="taxonomy-view-matrix" type="button">Matrix</button>
+        <button class="entry-tab-btn" id="taxonomy-view-table" type="button">Table</button>
+      </div>
+    </div>
+    <div id="taxonomy-matrix-view" style="margin-top:16px;"></div>
+    <div id="taxonomy-table-view" style="display:none; margin-top:16px;"></div>
   </main>
 </div>
 
@@ -2056,6 +2244,25 @@ const ATLAS_CATALOG = {
   }
 };
 const ATLAS_KEYWORDS_JS = {"AML.T0000":[["technical",19.139],["search",10.456],["open",9.21],["databas",7.953],["organization",6.134],["research",6.113],["proxy",5.666],["reconnaissance",5.142],["realistic",5.136],["exist",4.855],["publication",4.443],["author",4.443],["employ",4.443],["architectur",4.037],["production",4.037],["pre-print",4.037],["documentation",3.75],["academic",3.75],["journal",3.75],["proceeding",3.75]],"AML.T0000.000":[["journal",18.748],["proceeding",11.249],["conference",10.579],["conferenc",10.272],["publication",8.885],["reconnaissance",5.142],["premier",5.136],["describe",4.443],["reproducibility",4.443],["implement",4.443],["commercial",4.037],["labs",4.037],["paying",4.037],["membership",4.037],["aspect",4.037],["accept",3.75],["artificial",3.75],["intelligence",3.75],["other",3.75],["come",3.526]],"AML.T0000.001":[["pre-print",24.223],["repositori",14.98],["journal",7.499],["paper",7.053],["research",6.113],["reconnaissance",5.142],["haven",5.136],["peer",5.136],["central",5.136],["relatively",5.136],["up-to-date",5.136],["view",5.136],["contain",4.726],["latest",4.443],["review",4.443],["note",4.443],["aren",4.443],["report",4.037],["serve",4.037],["share",4.037]],"AML.T0000.002":[["blog",10.283],["technical",9.57],["organization",6.134],["reconnaissance",5.142],["institution",5.136],["problem",5.136],["blogpost",5.136],["comparison",5.136],["practical",5.136],["internally",5.136],["division",4.443],["highlight",4.443],["unique",4.443],["post",4.443],["technologi",4.443],["possibly",4.443],["labs",4.037],["researcher",4.037],["made",4.037],["employe",4.037]],"AML.T0001":[["analysi",10.579],["open",9.21],["pre-exist",8.885],["vulnerability",8.816],["search",8.365],["implementation",7.053],["identify",6.42],["reconnaissance",5.142],["ample",5.136],["much",4.443],["try",4.443],["done",4.443],["read",4.443],["necessary",4.443],["attack",4.442],["adversarial",4.28],["identifi",4.037],["successful",4.037],["likely",3.75],["clas",3.75]],"AML.T0003":[["victim-own",22.497],["websit",19.832],["search",14.639],["detail",9.169],["reconnaissance",7.713],["technical",6.38],["information",5.889],["name",5.302],["department",5.136],["actionable",5.136],["contain",4.726],["open",4.605],["owned",4.443],["division",4.443],["key",4.443],["role",4.443],["info",4.443],["highlight",4.443],["busines",4.443],["relationship",4.443]],"AML.T0004":[["store",11.249],["search",10.456],["app",10.272],["application",10.224],["repositori",9.987],["reconnaissance",5.142],["play",5.136],["ios",5.136],["maco",4.443],["next",4.443],["step",4.037],["microsoft",3.75],["seek",3.75],["frequently",3.75],["google",3.056],["component",2.939],["exampl",2.833],["ai-enabl",2.833],["acquire",2.833],["queri",2.651]],"AML.T0006":[["active",17.771],["scann",17.771],["scan",13.328],["reconnaissance",10.283],["open",6.908],["gather",5.877],["probe",5.136],["involve",5.136],["port",5.136],["indicate",5.136],["hunter",5.136],["mbrg",5.136],["power-pwn",5.136],["modul",5.136],["copilot-studio-hunter-",5.136],["enum",5.136],["inspect",5.136],["repli",5.136],["indicator",5.136],["manag",5.136]],"AML.T0002":[["artifact",28.359],["public",8.982],["acquire",8.5],["production",8.074],["associat",7.499],["search",6.274],["organization",6.134],["host",6.113],["detail",6.113],["provid",5.666],["particularly",5.136],["piec",5.136],["actual",5.136],["registration",5.136],["written",5.136],["victim-controll",5.136],["repositori",4.993],["test",4.443],["interest",4.443],["techniqu",4.437]],"AML.T0002.000":[["dataset",21.269],["organization",6.134],["advance",5.136],["operation",4.383],["stage",4.037],["victim-own",3.75],["development",3.607],["representative",3.526],["valuable",3.344],["storage",3.344],["resource",3.279],["victim",3.226],["stor",3.056],["acquir",3.056],["account",2.939],["tailor",2.939],["collect",2.833],["websit",2.833],["establish",2.833],["cloud",2.738]],"AML.T0002.001":[["onnx",10.272],["model",10.037],["representative",7.053],["architecture",7.053],["format",7.053],["file",6.42],["common",5.476],["hdf",5.136],["pkl",5.136],["pth",5.136],["tflite",5.136],["public",4.491],["define",4.443],["yaml",4.443],["pytorch",4.443],["tensorflow",4.443],["advanc",4.443],["operation",4.383],["configuration",4.383],["organization",4.09]],"AML.T0016":[["capabiliti",12.854],["obtain",9.987],["software",6.42],["generic",5.136],["capability",5.136],["repurpos",4.443],["instanc",4.443],["customize",4.443],["ai-bas",3.75],["intent",3.75],["development",3.607],["implementation",3.526],["resource",3.279],["particular",3.19],["tool",2.996],["aid",2.939],["ai-enabl",2.833],["specific",2.571],["modify",2.303],["attack",2.221]],"AML.T0016.000":[["implementation",14.105],["adversarial",10.7],["research",9.169],["attack",6.663],["cleverhan",5.136],["robustnes",5.136],["toolbox",5.136],["foolbox",5.136],["weaponiz",5.136],["originally",5.136],["community",4.443],["reproducibility",4.443],["librari",4.037],["were",4.037],["intend",3.75],["development",3.607],["future",3.344],["resource",3.279],["purpos",3.19],["obtain",2.497]],"AML.T0016.001":[["software",14.98],["tool",8.989],["support",7.499],["repurpos",4.443],["customize",4.443],["purpose",4.443],["necessarily",4.443],["themselv",4.037],["intent",3.75],["ai-bas",3.75],["development",3.607],["resource",3.279],["achieve",2.939],["legitimate",2.651],["obtain",2.497],["design",2.497],["modify",2.303],["operation",2.191],["search",2.091],["maliciou",1.447]],"AML.T0017":[["capabiliti",15.425],["develop",10.952],["support",7.499],["encompass",5.136],["requirement",5.136],["solution",4.443],["necessarily",4.443],["jupyter",4.443],["build",4.037],["themselv",4.037],["notebook",4.037],["obfuscat",4.037],["ai-bas",3.75],["sett",3.75],["development",3.607],["creat",3.526],["deploy",3.344],["resource",3.279],["proces",3.056],["ai-enabl",2.833]],"AML.T0017.000":[["adversarial",10.7],["attack",6.663],["develop",5.476],["idea",5.136],["describ",5.136],["custom",5.136],["start",4.443],["implement",4.443],["librari",4.037],["made",4.037],["point",3.75],["development",3.607],["implementation",3.526],["paper",3.526],["resource",3.279],["leverage",3.19],["research",3.056],["exist",2.428],["public",2.245],["victim",1.075]],"AML.T0008":[["infrastructure",31.899],["solution",13.328],["operation",8.765],["acquire",8.5],["third-party",8.074],["physical",7.053],["web",7.053],["component",5.877],["buy",5.136],["lease",5.136],["orchestrat",5.136],["mobile",5.136],["wearabl",5.136],["seen",5.136],["physically",5.136],["tie",5.136],["shut",5.136],["rent",4.443],["countermeasur",4.443],["sensor",4.443]],"AML.T0008.000":[["workspac",20.543],["development",9.018],["resourc",7.831],["google",6.113],["develop",5.476],["cloud",5.476],["anonymously",5.136],["efficient",5.136],["temporary",5.136],["gpus",4.443],["try",4.443],["colaboratory",4.443],["azure",4.443],["stand",4.443],["free",4.037],["expensive",3.75],["compute",3.75],["way",3.75],["need",3.526],["one",3.526]],"AML.T0008.001":[["consumer",20.543],["hardware",20.186],["owning",5.136],["trace",5.136],["hard",4.037],["devic",3.75],["development",3.607],["complete",3.526],["conduct",3.344],["resource",3.279],["acquire",2.833],["provid",2.833],["control",2.363],["environment",1.958],["attack",1.11],["adversary",0.705],["adversari",0.159]],"AML.T0019":[["dataset",14.179],["poison",11.746],["publish",9.711],["novel",4.443],["development",3.607],["resource",3.279],["variant",3.056],["introduc",2.651],["location",2.571],["supply",2.497],["exist",2.428],["source",2.428],["chain",2.428],["open",2.303],["compromise",2.303],["public",2.245],["train",2.091],["data",1.892],["techniqu",1.775],["aml",1.718]],"AML.T0010":[["supply",12.484],["chain",12.139],["compromise",6.908],["initial",6.274],["annotation",5.136],["compromis",4.993],["unique",4.443],["instanc",4.443],["fully",4.443],["portion",4.037],["hardware",4.037],["secondary",4.037],["carry",3.75],["acces",3.549],["techniqu",3.549],["stack",3.526],["need",3.526],["aml",3.437],["attacker",3.056],["out",3.056]],"AML.T0010.000":[["hardware",20.186],["tpus",5.136],["cpus",5.136],["gpus",4.443],["optimiz",4.443],["initial",4.183],["disrupt",4.037],["specializ",4.037],["operate",4.037],["run",3.75],["devic",3.75],["manipulat",2.738],["embedd",2.651],["supply",2.497],["chain",2.428],["acces",1.775],["often",1.67],["also",1.286],["target",0.993],["model",0.717]],"AML.T0010.001":[["packag",17.632],["software",14.98],["security",11.333],["http",10.957],["december",10.272],["amazon",10.272],["publish",9.711],["pytorch",8.885],["dependency",8.074],["com",7.713],["devop",7.499],["hallucinat",7.499],["version",7.499],["chain",7.283],["package",7.053],["framework",6.38],["www",6.113],["legitimate",5.302],["blog",5.142],["deep",5.136]],"AML.T0010.002":[["label",14.998],["dataset",9.453],["data",7.569],["rely",6.113],["require",5.302],["every",5.136],["phase",5.136],["hiring",5.136],["private",4.726],["key",4.443],["creation",4.443],["initial",4.183],["vector",4.037],["outside",4.037],["poison",3.915],["project",3.75],["traditional",3.75],["publicly",3.526],["generat",3.19],["result",2.939]],"AML.T0010.003":[["saved",10.272],["model",6.453],["fine",5.136],["tuning",5.136],["tuned",5.136],["smaller",5.136],["initial",4.183],["base",4.037],["load",4.037],["download",3.75],["traditional",3.75],["commonly",3.344],["often",3.34],["requir",3.19],["rely",3.056],["ways",3.056],["external",3.056],["using",2.939],["execut",2.939],["ai-enabl",2.833]],"AML.T0040":[["inference",14.179],["api",12.002],["model",10.037],["acces",7.986],["vulnerabiliti",6.688],["techniqu",5.324],["aml",5.155],["true",5.136],["foundation",5.136],["prohibitively",5.136],["intensive",5.136],["mean",4.993],["ontology",4.037],["family",4.037],["share",4.037],["especially",4.037],["discover",4.001],["erode",3.75],["integrity",3.75],["jailbreak",3.75]],"AML.T0047":[["product",16.149],["ai-enabl",8.5],["service",8.179],["hood",5.136],["logs",4.037],["artificial",3.75],["intelligence",3.75],["model",3.585],["acces",3.549],["underly",3.526],["indirect",3.526],["inferenc",3.526],["metadata",3.526],["uses",3.344],["detail",3.056],["reveal",2.738],["type",2.651],["gain",1.878],["use",1.11],["adversari",0.159]],"AML.T0041":[["physical",14.105],["digital",10.272],["environment",7.831],["acces",6.211],["collect",5.666],["purely",5.136],["wherever",5.136],["addition",4.443],["world",4.443],["real",4.037],["modifi",4.037],["place",3.75],["domain",3.75],["way",3.75],["version",3.75],["influence",3.526],["attack",3.331],["collection",3.056],["proces",3.056],["model",2.868]],"AML.T0044":[["full",12.76],["model",5.736],["acces",5.324],["ontology",4.037],["hard",4.037],["clas",3.75],["complete",3.526],["architecture",3.526],["offline",3.526],["white-box",3.344],["parameter",3.344],["verify",3.344],["detect",3.19],["knowledge",2.939],["exfiltrate",2.738],["mean",2.497],["adversarial",2.14],["craft",2.091],["behavior",2.045],["gain",1.878]],"AML.T0013":[["ontology",28.26],["space",10.272],["discover",10.002],["discovery",6.736],["model",6.453],["output",5.666],["forc",5.136],["object",4.037],["enumerate",4.037],["useful",4.037],["repeat",3.75],["documentation",3.75],["creat",3.526],["detect",3.19],["understand",2.939],["help",2.738],["type",2.651],["queri",2.651],["example",2.363],["configuration",2.191]],"AML.T0014":[["family",20.186],["discover",8.001],["general",7.499],["model",5.736],["help",5.476],["construct",5.136],["analyze",5.136],["categorize",5.136],["discovery",4.491],["carefully",4.443],["documentation",3.75],["respons",3.75],["knowledge",2.939],["tailor",2.939],["exampl",2.833],["reveal",2.738],["mean",2.497],["attack",2.221],["identify",2.14],["information",1.472]],"AML.T0020":[["poison",13.704],["data",8.515],["train",8.365],["label",7.499],["detectable",5.136],["sampl",5.136],["persistence",4.726],["modify",4.605],["easily",4.443],["insert",4.443],["embed",4.037],["activat",4.037],["backdoor",3.75],["development",3.607],["underly",3.526],["vulnerabiliti",3.344],["later",3.344],["resource",3.279],["time",3.19],["trigger",3.19]],"AML.T0021":[["account",11.754],["establish",8.5],["development",3.607],["need",3.526],["impersonation",3.526],["resource",3.279],["create",2.651],["tactic",2.571],["variou",2.363],["stag",2.045],["resourc",1.958],["gain",1.878],["servic",1.67],["use",1.11],["attack",1.11],["victim",1.075],["target",0.993],["acces",0.887],["aml",0.859],["adversari",0.159]],"AML.T0005":[["proxy",11.333],["create",7.953],["model",7.17],["simulate",5.136],["proxi",4.443],["fully",4.443],["stag",4.09],["serve",4.037],["manner",4.037],["replicate",4.037],["pre-train",3.75],["complete",3.526],["offline",3.526],["representative",3.526],["apis",2.833],["obtain",2.497],["available",2.497],["dataset",2.363],["inference",2.363],["attack",2.221]],"AML.T0005.000":[["gather",11.754],["proxy",11.333],["artifact",9.453],["train",8.365],["higher",4.443],["validate",4.443],["pre-exist",4.443],["attack",4.442],["stag",4.09],["architectur",4.037],["pre-train",3.75],["via",3.732],["model",3.585],["representative",3.526],["level",3.526],["without",3.056],["develop",2.738],["require",2.651],["available",2.497],["mean",2.497]],"AML.T0005.001":[["replication",12.112],["replicat",10.272],["proxy",8.5],["train",8.365],["mimic",8.074],["inferenc",7.053],["model",6.453],["stag",6.134],["closely",5.136],["spamm",4.443],["chaff",4.443],["replicate",4.037],["repeat",3.75],["label",3.75],["via",3.732],["techniqu",3.549],["offline",3.526],["performance",3.526],["aml",3.437],["valuable",3.344]],"AML.T0005.002":[["pre-train",14.998],["stag",6.134],["off-the-shelf",5.136],["use",4.442],["model",3.585],["attack",3.331],["aid",2.939],["proxy",2.833],["victim",1.075],["adversari",0.159]],"AML.T0007":[["artifact",11.816],["discover",6.001],["zoos",5.136],["disruption",5.136],["improve",5.136],["discovery",4.491],["test",4.443],["identify",4.28],["software",4.28],["train",4.183],["management",4.037],["learn",3.526],["stack",3.526],["container",3.526],["deploy",3.344],["registri",3.19],["collection",3.056],["information",2.944],["gather",2.939],["tailor",2.939]],"AML.T0011":[["execution",14.179],["user",7.107],["execute",4.855],["upon",4.037],["inadvertently",4.037],["subject",4.037],["link",4.037],["code",3.834],["unsafe",3.75],["get",3.526],["rely",3.056],["engineer",3.056],["social",2.939],["maliciou",2.894],["order",2.651],["introduc",2.651],["specific",2.571],["supply",2.497],["chain",2.428],["document",2.428]],"AML.T0011.000":[["unsafe",14.998],["artifact",9.453],["execution",7.09],["technique",7.053],["popular",5.136],["proper",5.136],["deleteriou",4.443],["serialization",4.443],["however",4.443],["opportunity",4.443],["load",4.037],["persistent",3.75],["transfer",3.75],["check",3.75],["format",3.526],["storage",3.344],["effect",3.19],["without",3.056],["present",3.056],["execut",2.939]],"AML.T0012":[["account",14.693],["valid",12.112],["credential",8.982],["privilege",7.499],["escalation",7.499],["artifact",7.09],["initial",6.274],["acces",5.324],["provide",5.142],["compromis",4.993],["usernam",4.443],["password",4.037],["production",4.037],["privileg",3.75],["write",3.75],["grant",3.526],["increas",3.344],["individual",3.19],["abuse",3.056],["additional",3.056]],"AML.T0015":[["evade",15.282],["ai-bas",7.499],["evasion",7.09],["initial",6.274],["correctly",5.136],["fool",5.136],["viru",5.136],["defense",4.605],["scann",4.443],["biometric",4.443],["model",4.302],["impact",4.183],["expect",4.037],["authentic",4.037],["downstream",4.037],["toward",4.037],["deepfake",4.037],["traditional",3.75],["cyber",3.75],["prevent",3.526]],"AML.T0018":[["change",10.579],["manipulate",8.982],["model",5.736],["persistence",4.726],["stag",4.09],["behavior",4.09],["give",4.037],["load",4.037],["introduce",3.75],["persistent",3.75],["weight",3.75],["architecture",3.526],["chang",3.19],["execut",2.939],["manipulat",2.738],["malware",2.738],["embedd",2.651],["directly",2.363],["modify",2.303],["attack",2.221]],"AML.T0018.000":[["poison",13.704],["model",7.887],["weight",7.499],["change",7.053],["performance",7.053],["interfer",5.136],["categori",5.136],["concept",5.136],["fact",5.136],["aim",5.136],["persistence",4.726],["predictive",4.443],["train",4.183],["stag",4.09],["behavior",4.09],["fine-tun",4.037],["topic",4.037],["degradation",4.037],["general",3.75],["limit",3.19]],"AML.T0018.001":[["adding",15.407],["architecture",14.105],["computation",10.272],["modify",9.21],["remov",8.885],["re-define",5.136],["pre",5.136],["post-process",5.136],["predict",5.136],["erroneou",5.136],["adversary-defin",5.136],["persistence",4.726],["layer",4.443],["degrad",4.443],["additionally",4.443],["graph",4.443],["operation",4.383],["stag",4.09],["behavior",4.09],["certain",4.037]],"AML.T0024":[["exfiltration",14.179],["inference",9.453],["private",9.453],["train",8.365],["api",8.001],["information",5.889],["extract",5.877],["personally",5.136],["via",4.976],["data",4.731],["shown",4.443],["infer",4.443],["invert",4.443],["identifiable",4.443],["techniqu",4.437],["aml",4.296],["membership",4.037],["rais",4.037],["privacy",4.037],["concern",4.037]],"AML.T0024.000":[["infer",17.771],["membership",16.149],["train",12.548],["set",8.074],["sample",5.136],["global",5.136],["characteristic",5.136],["shadow",5.136],["statistic",5.136],["prediction",5.136],["pii",5.136],["data",4.731],["exfiltration",4.726],["rais",4.037],["privacy",4.037],["concern",4.037],["strategi",4.037],["replication",4.037],["scor",4.037],["protect",4.037]],"AML.T0024.001":[["invert",13.328],["reconstruct",10.272],["strategically",5.136],["violation",5.136],["exfiltration",4.726],["inference",4.726],["algorithm",4.443],["train",4.183],["scor",4.037],["back",4.037],["potentially",4.037],["privacy",4.037],["api",4.001],["confidence",3.75],["featur",3.526],["query",3.056],["out",3.056],["within",3.056],["attacker",3.056],["model",2.868]],"AML.T0024.002":[["extract",14.693],["model",7.17],["inferenc",7.053],["query",6.113],["functional",5.136],["per",5.136],["artificial-intelligence-as-a-service",5.136],["extraction",5.136],["exfiltration",4.726],["copy",4.037],["mimic",4.037],["paying",4.037],["repeat",3.75],["label",3.75],["aiaa",3.75],["sett",3.75],["theft",3.75],["offline",3.526],["performance",3.526],["avoid",3.526]],"AML.T0025":[["cyber",14.998],["exfiltration",14.179],["mean",9.987],["tactic",5.142],["via",4.976],["relevant",4.443],["att",4.037],["traditional",3.75],["mitre",3.344],["information",2.944],["goal",2.833],["exfiltrate",2.738],["see",2.428],["org",2.428],["artifact",2.363],["http",2.191],["attack",1.11],["adversari",0.159]],"AML.T0029":[["denial",15.407],["amount",10.272],["service",8.179],["compute",7.499],["require",5.302],["shutt",5.136],["bottleneck",5.136],["overload",5.136],["intentionally",5.136],["heavy",5.136],["useles",5.136],["flood",4.443],["purpose",4.443],["degrad",4.443],["since",4.443],["significant",4.443],["become",4.443],["impact",4.183],["specializ",4.037],["expensive",3.75]],"AML.T0046":[["chaff",17.771],["spamm",13.328],["spam",8.885],["review",8.885],["agentic",7.053],["time",6.38],["analyst",5.136],["incorrect",5.136],["low-severity",5.136],["auditable",5.136],["human-in-the-loop",4.443],["wast",4.443],["impact",4.183],["organization",4.09],["waste",4.037],["correct",4.037],["data",3.785],["caus",3.75],["number",3.75],["event",3.75]],"AML.T0031":[["erode",14.998],["integrity",11.249],["time",6.38],["money",5.136],["fix",5.136],["meant",5.136],["hand",5.136],["wast",4.443],["impact",4.183],["degrade",4.037],["was",4.037],["automate",4.037],["confidence",3.75],["performance",3.526],["over",3.344],["model",2.868],["task",2.833],["lead",2.738],["input",2.651],["adversarial",2.14]],"AML.T0034":[["cost",28.211],["harvest",17.632],["queri",10.604],["pipelin",8.885],["request",8.5],["agentic",7.053],["consumption",7.053],["storage",6.688],["generative",5.476],["cause",5.476],["deliberately",5.136],["low-volume",5.136],["high-complexity",5.136],["unlike",5.136],["hijack",5.136],["computational",5.136],["focus",5.136],["resource-centric",5.136],["cloud-host",5.136],["volume",5.136]],"AML.T0035":[["collection",15.282],["artifact",11.816],["tactic",5.142],["telemetry",5.136],["produc",5.136],["collect",2.833],["well",2.738],["exfiltration",2.363],["dataset",2.363],["interact",2.363],["stag",2.045],["aml",1.718],["model",1.434],["include",1.307],["use",1.11],["attack",1.11],["data",0.946],["adversari",0.159]],"AML.T0036":[["information",16.195],["repositori",14.98],["collection",6.113],["specific",5.142],["mine",5.136],["facilitate",5.136],["collaboration",5.136],["objectiv",5.136],["vary",5.136],["instance",5.136],["confluence",5.136],["repository",4.443],["enterprise",4.443],["sql",4.443],["based",4.037],["sharepoint",4.037],["data",3.785],["store",3.75],["shar",3.526],["wide",3.526]],"AML.T0037":[["local",17.632],["file",6.42],["collection",6.113],["sensitive",5.142],["fingerprint",5.136],["data",4.731],["interest",4.443],["basic",4.443],["ssh",4.443],["find",4.037],["prior",4.037],["system",3.525],["keys",2.939],["databas",2.651],["exfiltration",2.363],["configuration",2.191],["search",2.091],["sourc",2.091],["information",1.472],["include",1.307]],"AML.T0042":[["verify",23.408],["attack",11.104],["copy",8.074],["offline",7.053],["later",6.688],["time",6.38],["efficacy",5.136],["choos",5.136],["copi",5.136],["digitally",5.136],["minimal",5.136],["edge",4.443],["since",4.443],["stag",4.09],["give",4.037],["hard",4.037],["confidence",3.75],["carry",3.75],["devic",3.75],["number",3.75]],"AML.T0043":[["adversarial",14.98],["effect",9.57],["human",9.57],["still",8.074],["depend",8.074],["modification",7.499],["black-box",7.499],["image",7.053],["optimization",7.053],["white-box",6.688],["attack",6.663],["craft",6.274],["techniqu",6.211],["aml",6.014],["input",5.302],["misclassification",5.136],["miss",5.136],["maximiz",5.136],["magnitude",5.136],["unmodifi",5.136]],"AML.T0043.000":[["optimization",14.105],["white-box",13.376],["optimiz",4.443],["adversarial",4.28],["stag",4.09],["manner",4.037],["effective",3.526],["full",3.19],["exampl",2.833],["example",2.363],["directly",2.363],["attack",2.221],["train",2.091],["target",1.985],["model",1.434],["acces",0.887],["adversary",0.705]],"AML.T0043.001":[["black-box",22.497],["optimization",14.105],["less",8.885],["attack",6.663],["api",6.001],["require",5.302],["generally",4.443],["much",4.443],["stag",4.09],["monitor",3.75],["acces",3.549],["effective",3.526],["inferenc",3.526],["white-box",3.344],["using",2.939],["inference",2.363],["techniqu",1.775],["aml",1.718],["model",1.434],["adversary",1.41]],"AML.T0043.002":[["proxy",16.999],["black-box",14.998],["transfer",14.998],["work",8.816],["one",7.053],["uses",6.688],["attack",6.663],["model",6.453],["train",6.274],["close",5.136],["enough",5.136],["generalize",5.136],["confirm",5.136],["incorporate",5.136],["techniqu",4.437],["aml",4.296],["adversarial",4.28],["stag",4.09],["replication",4.037],["set",4.037]],"AML.T0043.003":[["manual",11.249],["modification",11.249],["input",5.302],["manually",5.136],["suspect",5.136],["trial",5.136],["modify",4.605],["adversarial",4.28],["stag",4.09],["error",3.75],["able",3.526],["verify",3.344],["knowledge",2.939],["work",2.939],["data",2.838],["task",2.833],["help",2.738],["part",2.497],["attack",2.221],["use",2.221]],"AML.T0043.004":[["trigger",15.949],["insert",13.328],["backdoor",11.249],["perceptual",5.136],["imperceptible",5.136],["non-obviou",5.136],["conjunction",5.136],["stag",4.09],["add",4.037],["desir",4.037],["produce",3.75],["technique",3.526],["human",3.19],["effect",3.19],["inference",2.363],["attack",2.221],["poison",1.958],["allow",1.702],["model",1.434],["adversary",1.41]],"AML.T0048":[["harm",28.709],["external",12.225],["societal",4.443],["impact",4.183],["reputational",4.037],["caus",3.75],["general",3.75],["financial",3.526],["affect",3.19],["abuse",3.056],["goal",2.833],["capabiliti",2.571],["user",2.369],["public",2.245],["organization",2.045],["resourc",1.958],["system",1.41],["use",1.11],["victim",1.075],["acces",0.887]],"AML.T0048.000":[["financial",17.632],["harm",12.76],["wealth",5.136],["monetary",5.136],["due",5.136],["forgery",5.136],["asset",4.443],["fraud",4.443],["pressure",4.443],["impact",4.183],["involv",4.037],["loss",4.037],["theft",3.75],["property",3.344],["provide",2.571],["resourc",1.958],["adversary",0.705]],"AML.T0048.001":[["reputational",16.149],["harm",12.76],["perception",5.136],["reputation-harm",5.136],["scandal",5.136],["incident",4.443],["impact",4.183],["involv",4.037],["degradation",4.037],["false",3.75],["impersonation",3.526],["trust",2.833],["exampl",2.833],["public",2.245],["organization",2.045],["include",1.307]],"AML.T0048.002":[["societal",17.771],["harm",12.76],["outcom",5.136],["children",5.136],["vulgar",5.136],["exposure",4.443],["impact",4.183],["vulnerable",4.037],["group",4.037],["reach",3.75],["either",3.75],["general",3.75],["harmful",3.526],["generate",2.571],["specific",2.571],["public",2.245],["content",2.245]],"AML.T0048.003":[["harm",15.949],["encompas",5.136],["felt",5.136],["user",4.738],["rather",4.443],["impact",4.183],["reputational",4.037],["financial",3.526],["level",3.526],["individual",3.19],["variety",2.833],["direct",2.833],["type",2.651],["includ",2.191],["organization",2.045],["attack",1.11],["victim",1.075]],"AML.T0048.004":[["intellectual",17.632],["property",16.72],["theft",14.998],["tactic",5.142],["economic",5.136],["costly",5.136],["annotate",5.136],["charge",5.136],["unlimit",5.136],["owner",5.136],["exfiltration",4.726],["stolen",4.443],["impact",4.183],["steal",4.037],["paying",4.037],["aiaa",3.75],["proprietary",3.526],["harm",3.19],["provider",3.19],["without",3.056]],"AML.T0049":[["public-fac",10.579],["like",10.579],["weaknes",10.272],["application",10.224],["exploit",7.49],["internet-fac",5.136],["unanticipat",5.136],["bug",5.136],["glitch",5.136],["standard",5.136],["smb",5.136],["device",5.136],["administration",5.136],["snmp",5.136],["smart",5.136],["socket",5.136],["computer",4.443],["sql",4.443],["ssh",4.443],["install",4.443]],"AML.T0050":[["script",24.685],["interpreter",22.213],["command",19.722],["shell",12.112],["payload",8.885],["window",8.074],["execution",7.09],["remote",6.688],["abuse",6.113],["ways",6.113],["well",5.476],["binari",5.136],["command-line",5.136],["distribution",5.136],["flavor",5.136],["unix",5.136],["installation",5.136],["cross-platform",5.136],["javascript",5.136],["lure",5.136]],"AML.T0051":[["llm",16.195],["prompt",14.868],["injection",14.002],["foothold",11.249],["effect",6.38],["maliciou",5.788],["inject",5.666],["cause",5.476],["original",5.136],["issue",5.136],["design",4.993],["execution",4.726],["act",4.443],["ignore",4.443],["interactive",4.443],["indirectly",4.443],["operation",4.383],["instruction",4.28],["adversary",4.23],["aspect",4.037]],"AML.T0051.000":[["direct",8.5],["misuse",5.136],["execution",4.726],["foothold",3.75],["harmful",3.526],["llm",2.944],["inject",2.833],["itself",2.738],["type",2.651],["generate",2.571],["directly",2.363],["example",2.363],["content",2.245],["injection",2.0],["gain",1.878],["adversary",1.41],["prompt",1.352],["user",1.185],["used",1.11],["system",0.705]],"AML.T0051.001":[["indirect",10.579],["multimedia",5.136],["execution",4.726],["indirectly",4.443],["unwitt",4.443],["obfuscat",4.037],["foothold",3.75],["channel",3.526],["ingest",3.344],["pull",3.344],["hidden",3.344],["separate",3.056],["text",2.939],["inject",2.833],["websit",2.833],["prompt",2.703],["databas",2.651],["type",2.651],["user",2.369],["injection",2.0]],"AML.T0052":[["phish",31.899],["deepfak",13.376],["spearphish",10.032],["campaign",7.499],["lateral",6.38],["movement",6.38],["engineer",6.113],["social",5.877],["text",5.877],["llms",5.302],["generate",5.142],["electronically",5.136],["industry",5.136],["non-target",5.136],["see",4.855],["generally",4.443],["mass",4.443],["spam",4.443],["speech",4.443],["initial",4.183]],"AML.T0052.000":[["engineer",15.282],["social",14.693],["spearphish",13.376],["lateral",6.38],["movement",6.38],["llms",5.302],["via",4.976],["turn",4.443],["act",4.443],["effort",4.443],["llm",4.417],["initial",4.183],["toward",4.037],["persona",4.037],["defin",4.037],["capable",3.75],["conversation",3.75],["seek",3.75],["scale",3.75],["privileg",3.75]],"AML.T0053":[["tool",11.986],["invocation",10.032],["integrat",8.885],["agent",8.533],["privilege",7.499],["escalation",7.499],["execute",7.283],["connect",5.877],["execution",4.726],["interpreter",4.443],["wouldn",4.443],["acces",4.437],["sourc",4.183],["application",4.09],["integration",3.75],["privileg",3.75],["advantage",3.526],["retrieve",3.526],["script",3.526],["arbitrary",3.526]],"AML.T0054":[["jailbreak",71.241],["abs",37.495],["arxiv",35.264],["http",28.488],["org",24.277],["safety",22.213],["llm",22.084],["jailbroken",20.543],["crescendo",20.543],["dan",20.543],["abliteration",20.543],["model",17.207],["language",15.662],["multi-turn",15.407],["autodan",15.407],["gptfuzzer",15.407],["universal",15.407],["applicable",15.407],["lora",15.407],["escalation",14.998]],"AML.T0055":[["credential",17.963],["unsecur",15.407],["stor",6.113],["insecurely",5.136],["misplac",5.136],["plaintext",5.136],["bash",5.136],["application-specific",5.136],["file",4.28],["find",4.037],["history",4.037],["variabl",4.037],["specializ",4.037],["registry",3.75],["operat",3.19],["keys",2.939],["location",2.571],["compromis",2.497],["obtain",2.497],["many",2.497]],"AML.T0056":[["extract",14.693],["prompt",9.461],["llm",5.889],["competitive",5.136],["thus",5.136],["exfiltration",4.726],["done",4.443],["system",4.23],["induce",4.037],["portion",4.037],["advantage",3.526],["intellectual",3.526],["valuable",3.344],["property",3.344],["provider",3.19],["reveal",2.738],["configuration",2.191],["attempt",2.14],["file",2.14],["injection",2.0]],"AML.T0057":[["leakage",12.112],["llm",8.833],["proprietary",7.053],["leak",6.688],["information",5.889],["data",5.677],["exfiltration",4.726],["induce",4.037],["come",3.526],["connect",2.939],["sensitive",2.571],["user",2.369],["private",2.363],["craft",2.091],["train",2.091],["sourc",2.091],["prompt",1.352],["include",1.307],["adversari",0.159]],"AML.T0058":[["poison",11.746],["publish",9.711],["model",6.453],["repository",4.443],["novel",4.443],["registry",3.75],["open-source",3.75],["development",3.607],["resource",3.279],["variant",3.056],["introduc",2.651],["location",2.571],["supply",2.497],["exist",2.428],["chain",2.428],["compromise",2.303],["public",2.245],["code",1.917],["via",1.244],["victim",1.075]],"AML.T0059":[["erode",11.249],["integrity",11.249],["dataset",9.453],["reduce",8.885],["usefulnes",5.136],["impact",4.183],["portion",4.037],["waste",4.037],["correct",4.037],["error",3.75],["trust",2.833],["cause",2.738],["manipulate",2.245],["poison",1.958],["resourc",1.958],["user",1.185],["adversari",0.159]],"AML.T0011.001":[["package",10.579],["maliciou",8.682],["packag",7.053],["import",5.136],["behave",5.136],["obviously",5.136],["execution",4.726],["deleteriou",4.443],["ai-relat",4.443],["expect",4.037],["useful",4.037],["user",3.554],["effect",3.19],["appear",3.19],["present",3.056],["task",2.833],["develop",2.738],["introduc",2.651],["supply",2.497],["chain",2.428]],"AML.T0060":[["entity",15.407],["hallucinat",14.998],["entiti",10.579],["publish",7.283],["package",7.053],["email",5.302],["name",5.302],["addres",5.136],["proce",5.136],["urls",4.037],["website",3.75],["hallucination",3.75],["company",3.75],["point",3.75],["controll",3.75],["adversary-controll",3.75],["development",3.607],["address",3.344],["resource",3.279],["create",2.651]],"AML.T0061":[["self-replication",15.407],["llm",10.306],["prompt",9.461],["propagate",5.136],["self-replicat",5.136],["pair",5.136],["persistence",4.726],["carefully",4.443],["replicate",4.037],["leakage",4.037],["jailbreak",3.75],["persist",3.19],["typically",3.056],["output",2.833],["cause",2.738],["techniqu",2.662],["llms",2.651],["aml",2.577],["design",2.497],["part",2.497]],"AML.T0062":[["hallucination",26.247],["discover",8.001],["hallucinat",7.499],["entiti",7.053],["llms",5.302],["e-mail",5.136],["real-world",5.136],["discovery",4.491],["potential",4.443],["shown",4.443],["llm",4.417],["identify",4.28],["urls",4.037],["produce",3.75],["packag",3.526],["address",3.344],["different",3.344],["affect",3.19],["connect",2.939],["request",2.833]],"AML.T0008.002":[["domain",26.247],["datapoint",10.272],["dataset",7.09],["individual",6.38],["acquir",6.113],["acquire",5.666],["name",5.302],["readable",5.136],["list",5.136],["expir",5.136],["replace",5.136],["purchas",4.443],["distribut",4.443],["represent",4.037],["free",4.037],["att",4.037],["urls",4.037],["poison",3.915],["development",3.607],["one",3.526]],"AML.T0008.003":[["countermeasur",17.771],["physical",14.105],["disrupt",8.074],["degrade",8.074],["manufacture",5.136],["sticker",5.136],["t-shirt",5.136],["decoy",5.136],["captur",5.136],["laser",5.136],["pointer",5.136],["light",5.136],["bulb",5.136],["pattern",4.443],["print",4.443],["disguis",4.443],["sensor",4.443],["support",3.75],["development",3.607],["used",3.331]],"AML.T0063":[["output",16.999],["discover",8.001],["whose",5.136],["end",5.136],["weakness",5.136],["model",5.019],["discovery",4.491],["presence",4.443],["found",4.443],["enable",4.443],["scor",4.037],["logs",4.037],["clas",3.75],["intend",3.75],["respons",3.75],["function",3.344],["requir",3.19],["develop",2.738],["includ",2.191],["identify",2.14]],"AML.T0016.002":[["uncensor",17.771],["http",17.531],["generative",16.427],["generate",12.854],["com",12.854],["ollama",10.272],["vllm",10.272],["restriction",10.272],["gbhacker",10.272],["content",8.982],["jailbreak",7.499],["guardrail",7.499],["model",7.17],["need",7.053],["using",5.877],["bypas",5.666],["assist",5.136],["docs",5.136],["put",5.136],["term",5.136]],"AML.T0064":[["rag-index",14.998],["gather",8.816],["sourc",6.274],["external",6.113],["reconnaissance",5.142],["focu",5.136],["reli",5.136],["indication",5.136],["referenc",5.136],["pinpoint",4.443],["observ",4.443],["identifi",4.037],["target",3.971],["data",3.785],["documentation",3.75],["augment",3.19],["purpos",3.19],["rag",3.056],["attacker",3.056],["otherwise",3.056]],"AML.T0065":[["craft",8.365],["prompt",6.758],["iterate",5.136],["as-intend",5.136],["consistently",5.136],["ensure",4.443],["llm",4.417],["development",3.607],["defens",3.526],["resource",3.279],["acquir",3.056],["knowledge",2.939],["execut",2.939],["work",2.939],["bypas",2.833],["generative",2.738],["instruction",2.14],["allow",1.702],["maliciou",1.447],["use",1.11]],"AML.T0066":[["content",15.718],["craft",12.548],["retrieval",11.754],["rag",9.169],["abus",6.688],["database",6.688],["alone",5.136],["ingestion",5.136],["assistant",5.136],["combin",4.443],["stand",4.443],["vector",4.037],["write",3.75],["way",3.75],["cyber",3.75],["mechanism",3.75],["development",3.607],["user",3.554],["influence",3.526],["get",3.526]],"AML.T0067":[["component",14.693],["manipulation",10.579],["trust",8.5],["output",8.5],["trustworthy",8.074],["response",7.499],["llm",7.361],["appear",6.38],["recommend",5.136],["follow-up",5.136],["user",4.738],["evasion",4.726],["defense",4.605],["manipulate",4.491],["citation",4.443],["action",4.383],["continue",4.037],["operate",4.037],["certain",4.037],["link",4.037]],"AML.T0068":[["obfuscation",13.328],["text",8.816],["input",7.953],["guardrail",7.499],["llm",7.361],["metadata",7.053],["hidden",6.688],["human",6.38],["detection",5.877],["prompt",5.406],["obfuscate",5.136],["small",5.136],["color",5.136],["background",5.136],["element",5.136],["multi-modal",5.136],["pixel",5.136],["exif",5.136],["obscur",5.136],["rot",5.136]],"AML.T0069":[["llm",11.778],["information",8.833],["discover",8.001],["trying",5.136],["someth",5.136],["significance",5.136],["indicat",5.136],["system",4.935],["discovery",4.491],["found",4.443],["character",4.443],["functionality",4.443],["desir",4.037],["special",4.037],["keyword",3.526],["interaction",3.344],["instruct",3.344],["full",3.19],["extract",2.939],["understand",2.939]],"AML.T0069.000":[["sets",20.543],["character",17.771],["special",16.149],["delimiter",10.272],["differentiate",5.136],["discovery",4.491],["confuse",4.443],["misbehav",4.443],["large",3.915],["language",3.915],["later",3.344],["augment",3.19],["context",3.056],["retrieval",2.939],["generation",2.833],["exploit",2.497],["example",2.363],["manipulate",2.245],["used",2.221],["application",2.045]],"AML.T0069.001":[["keyword",14.105],["instruction",6.42],["name",5.302],["plugin",5.136],["discovery",4.491],["confuse",4.443],["misbehav",4.443],["llm",4.417],["special",4.037],["object",4.037],["function",3.344],["later",3.344],["call",2.939],["mean",2.497],["exploit",2.497],["make",2.363],["manipulate",2.245],["system",2.115],["discover",2.0],["large",1.958]],"AML.T0069.002":[["builder",5.136],["discovery",4.491],["system",4.23],["prompt",4.055],["circumvent",4.037],["guardrail",3.75],["learn",3.526],["provid",2.833],["capabiliti",2.571],["instruction",2.14],["discover",2.0],["large",1.958],["language",1.958],["model",0.717],["adversari",0.159]],"AML.T0070":[["rag",18.338],["index",8.074],["false",7.499],["content",6.736],["result",5.877],["poison",5.873],["contaminate",5.136],["rag-bas",5.136],["surface",5.136],["persistence",4.726],["alway",4.443],["mislead",4.443],["entri",4.443],["search",4.183],["thread",3.75],["rag-index",3.75],["plac",3.526],["future",3.344],["augment",3.19],["accomplish",3.056]],"AML.T0071":[["entry",35.951],["rag",33.62],["false",26.247],["document",12.139],["treat",10.272],["includ",8.765],["content",6.736],["database",6.688],["retriev",6.38],["injection",6.001],["interpret",5.136],["inside",5.136],["bypass",5.136],["delet",5.136],["title",5.136],["date",5.136],["evasion",4.726],["defense",4.605],["entri",4.443],["regular",4.443]],"AML.T0067.000":[["citation",31.099],["provid",8.5],["citing",5.136],["wrong",5.136],["right",5.136],["adversary-provid",5.136],["evasion",4.726],["defense",4.605],["trustworthy",4.037],["response",3.75],["making",3.75],["appear",3.19],["new",3.19],["variant",3.056],["order",2.651],["make",2.363],["manipulate",2.245],["include",1.307],["data",0.946],["system",0.705]],"AML.T0018.002":[["embed",16.149],["malware",10.952],["unsafe",7.499],["deserialize",5.136],["persistence",4.726],["combination",4.443],["exec",4.443],["file",4.28],["stag",4.09],["pickle",4.037],["still",4.037],["operate",4.037],["expect",4.037],["weight",3.75],["packag",3.526],["format",3.526],["call",2.939],["achieve",2.939],["exfiltrate",2.738],["embedd",2.651]],"AML.T0010.004":[["container",31.737],["registry",18.748],["image",10.579],["manipulat",5.476],["overwrit",5.136],["tag",5.136],["compromis",4.993],["pipelin",4.443],["initial",4.183],["push",4.037],["automat",4.037],["deployment",4.037],["was",4.037],["pull",3.344],["imag",3.344],["affect",3.19],["well",2.738],["name",2.651],["supply",2.497],["exist",2.428]],"AML.T0072":[["reverse",25.679],["shell",20.186],["listen",10.272],["connection",7.499],["control",7.09],["initiat",5.136],["incom",4.443],["command",4.383],["communicate",4.037],["client",3.75],["machine",3.75],["uses",3.344],["remote",3.344],["typically",3.056],["connect",2.939],["utilize",2.651],["victim",2.151],["system",1.41],["user",1.185],["adversary",0.705]],"AML.T0073":[["impersonation",10.579],["registri",6.38],["trust",5.666],["persuade",5.136],["sender",5.136],["executive",5.136],["colleague",5.136],["vendor",5.136],["ultimate",5.136],["evasion",4.726],["defense",4.605],["person",4.443],["impersonat",4.443],["possibly",4.443],["impersonate",4.037],["trick",4.037],["communicate",4.037],["known",4.037],["third-party",4.037],["leverag",4.037]],"AML.T0074":[["masquerad",20.543],["legitimate",7.953],["manipulat",5.476],["name",5.302],["sake",5.136],["evad",5.136],["observation",5.136],["misidentify",5.136],["giving",5.136],["evasion",4.726],["defense",4.605],["file",4.28],["object",4.037],["trick",4.037],["benign",3.75],["featur",3.526],["defens",3.526],["metadata",3.526],["occur",3.344],["abus",3.344]],"AML.T0075":[["cloud",19.165],["azure",13.328],["enumerate",12.112],["discovery",11.227],["aws",10.579],["continuou",10.272],["servic",10.02],["throughout",8.074],["aiaa",7.499],["microsoft",7.499],["provider",6.38],["service",6.134],["differ",5.136],["platform-as-a-service",5.136],["paas",5.136],["infrastructure-as-a-service",5.136],["iaas",5.136],["delivery",5.136],["entra",5.136],["guardduty",5.136]],"AML.T0076":[["corrupt",25.679],["successfully",8.885],["purposefully",5.136],["cannot",5.136],["deserializ",5.136],["scanner",5.136],["deserialization",5.136],["evasion",4.726],["defense",4.605],["fail",4.443],["model",4.302],["still",4.037],["evade",3.056],["detection",2.939],["maliciou",2.894],["order",2.651],["execute",2.428],["file",2.14],["code",1.917],["adversary",0.705]],"AML.T0077":[["render",31.099],["image",21.158],["response",14.998],["atla",13.328],["secret",12.112],["request",11.333],["client",11.249],["markdown",10.272],["png",10.272],["private",9.453],["llm",7.361],["parameter",6.688],["mitre",6.688],["host",6.113],["user",5.923],["server",5.877],["automatically",5.136],["gets",5.136],["attacker-controll",5.136],["img",5.136]],"AML.T0008.004":[["serverles",30.815],["traffic",10.032],["infrastructure",9.57],["difficult",7.053],["function",6.688],["provider",6.38],["cloud",5.476],["purchase",5.136],["cloudflare",5.136],["worker",5.136],["apps",5.136],["attribute",5.136],["infect",5.136],["machin",5.136],["adversary-own",5.136],["subdomain",5.136],["distinguish",5.136],["ordinary",5.136],["content",4.491],["lambda",4.443]],"AML.T0078":[["drive-by",20.543],["compromise",9.21],["visit",5.136],["course",5.136],["brows",5.136],["don",5.136],["initial",4.183],["deliver",4.037],["att",4.037],["website",3.75],["behalf",3.75],["web",3.526],["change",3.526],["over",3.344],["mitre",3.344],["retriev",3.19],["approach",3.19],["execut",2.939],["normal",2.833],["websit",2.833]],"AML.T0079":[["capabiliti",23.138],["stage",20.186],["infrastructure",9.57],["was",8.074],["registri",6.38],["otherwise",6.113],["poison",5.873],["develop",5.476],["techniqu",5.324],["aml",5.155],["upload",5.136],["hugg",5.136],["compani",5.136],["engage",5.136],["typosquatt",5.136],["obtain",4.993],["publish",4.855],["dataset",4.726],["install",4.443],["previously",4.443]],"AML.T0080":[["context",18.338],["poison",7.831],["memory",7.499],["thread",7.499],["agent",7.111],["persistently",5.136],["preferenc",5.136],["see",4.855],["persistence",4.726],["simply",4.443],["llm",4.417],["add",4.037],["prior",4.037],["respons",3.75],["messag",3.75],["influence",3.526],["change",3.526],["uses",3.344],["generat",3.19],["accomplish",3.056]],"AML.T0080.000":[["memory",22.497],["remember",10.272],["memori",10.272],["session",8.074],["conversation",7.499],["chat",6.688],["user-specific",5.136],["preference",5.136],["promote",5.136],["agenda",5.136],["persistence",4.726],["feature",4.443],["acros",4.443],["instruction",4.28],["controll",3.75],["indirect",3.526],["future",3.344],["database",3.344],["leak",3.344],["hidden",3.344]],"AML.T0080.001":[["thread",37.495],["multiple",10.579],["chat",6.688],["instruction",6.42],["persist",6.38],["maliciou",5.788],["direct",5.666],["remainder",5.136],["rise",5.136],["larger",5.136],["longer",5.136],["participant",5.136],["persistence",4.726],["extend",4.443],["period",4.443],["active",4.443],["slack",4.443],["message",4.443],["llm",4.417],["behavior",4.09]],"AML.T0081":[["configuration",15.34],["agent",14.222],["modify",11.513],["chang",9.57],["security",8.5],["modification",7.499],["life",5.136],["tamper",5.136],["replac",5.136],["weaken",5.136],["normally",5.136],["oversight",5.136],["disabl",5.136],["corruption",5.136],["persistence",4.726],["evasion",4.726],["control",4.726],["defense",4.605],["beyond",4.443],["setting",4.443]],"AML.T0082":[["credential",15.718],["rag",12.225],["harvest",10.579],["inadvertently",4.037],["ultimately",4.037],["internal",3.526],["ingest",3.344],["database",3.344],["retriev",3.19],["stor",3.056],["collect",2.833],["acces",2.662],["document",2.428],["attempt",2.14],["large",1.958],["language",1.958],["llm",1.472],["agent",1.422],["use",1.11],["victim",1.075]],"AML.T0083":[["credential",20.209],["configuration",13.148],["agent",8.533],["secure",5.136],["dedicat",5.136],["encrypt",5.136],["vault",5.136],["practice",5.136],["convenience",5.136],["ease",5.136],["invok",4.443],["enable",4.443],["string",4.443],["manage",4.443],["less",4.443],["read",4.443],["secret",4.037],["manager",4.037],["protect",4.037],["deployment",4.037]],"AML.T0084":[["configuration",15.34],["agent",11.378],["discover",10.002],["dashboard",5.136],["question",5.136],["discovery",4.491],["configur",3.526],["present",3.056],["detail",3.056],["tool",2.996],["information",2.944],["help",2.738],["acces",2.662],["obtain",2.497],["directly",2.363],["attempt",2.14],["file",2.14],["servic",1.67],["prompt",1.352],["include",1.307]],"AML.T0084.000":[["knowledge",17.631],["embedd",10.604],["agent",5.689],["customer",5.136],["mapp",5.136],["confidential",5.136],["high-value",5.136],["discovery",4.491],["polici",4.443],["role",4.443],["pinpoint",4.443],["sourc",4.183],["even",4.037],["better",4.037],["potentially",4.037],["expose",4.037],["exploitation",3.75],["proprietary",3.526],["material",3.526],["intellectual",3.526]],"AML.T0084.001":[["definition",12.112],["tool",7.491],["greatest",5.136],["value",5.136],["discovery",4.491],["path",4.443],["opportunity",4.443],["identify",4.28],["agent",4.267],["onedrive",4.037],["sharepoint",4.037],["expose",4.037],["reach",3.75],["like",3.526],["send",3.526],["ability",3.344],["additional",3.056],["external",3.056],["understand",2.939],["execut",2.939]],"AML.T0084.002":[["trigger",19.139],["activation",13.328],["incom",8.885],["additional",6.113],["added",5.136],["activate",5.136],["discovery",4.491],["message",4.443],["path",4.443],["action",4.383],["agent",4.267],["workflow",4.037],["activat",4.037],["expose",4.037],["outside",4.037],["run",3.75],["controll",3.75],["keyword",3.526],["drive",3.526],["unintend",3.526]],"AML.T0085":[["servic",8.35],["data",6.623],["organization",6.134],["collection",6.113],["collect",5.666],["centraliz",5.136],["increasingly",5.136],["directly",4.726],["become",4.443],["regular",4.443],["wouldn",4.443],["sourc",4.183],["adopt",4.037],["access",3.75],["acces",3.549],["proprietary",3.526],["configur",3.526],["accessible",3.526],["able",3.526],["chat",3.344]],"AML.T0085.000":[["rag",12.225],["databas",7.953],["collection",6.113],["majority",5.136],["retrieve",3.526],["internal",3.526],["database",3.344],["document",2.428],["service",2.045],["organization",2.045],["prompt",1.352],["include",1.307],["data",0.946],["adversari",0.159]],"AML.T0085.001":[["tool",7.491],["collection",6.113],["agent",5.689],["retrieve",3.526],["different",3.344],["invoke",3.19],["apis",2.833],["variou",2.363],["service",2.045],["organization",2.045],["servic",1.67],["prompt",1.352],["data",0.946],["acces",0.887],["adversari",0.159]],"AML.T0086":[["invok",17.771],["tool",14.982],["exfiltration",11.816],["invocation",10.032],["agent",8.533],["legitimate",7.953],["input",5.302],["transmitt",5.136],["seemingly",5.136],["crm",5.136],["destination",5.136],["via",4.976],["document",4.855],["inbox",4.443],["updat",4.443],["record",4.443],["encod",4.037],["even",4.037],["video",4.037],["poison",3.915]],"AML.T0087":[["identity",17.632],["gather",17.631],["information",10.306],["convinc",8.885],["detail",6.113],["victim",5.377],["create",5.302],["reconnaissance",5.142],["identiti",5.136],["personal",5.136],["employee",5.136],["photo",5.136],["multi-factor",5.136],["mfa",5.136],["elicitation",5.136],["black",5.136],["market",5.136],["impersonat",4.443],["etc",4.037],["impersonate",4.037]],"AML.T0088":[["deepfak",20.064],["generate",10.283],["however",8.885],["genai",8.074],["media",7.499],["manipulation",7.053],["case",6.688],["evade",6.113],["use",5.552],["imagery",5.136],["wikipedia",5.136],["depict",5.136],["fictional",5.136],["verification",5.136],["possible",5.136],["real-time",5.136],["prokyc",5.136],["catonetwork",5.136],["prokyc-selling-deepfake-tool-for-account-fraud-attack",5.136],["wiki",4.443]],"AML.T0089":[["process",14.998],["proces",12.225],["discovery",11.227],["runn",10.579],["ai-relat",8.885],["software",6.42],["detail",6.113],["tactic",5.142],["administrator",5.136],["elevat",5.136],["pathway",5.136],["authenticate",5.136],["tasklist",5.136],["utility",5.136],["cmd",5.136],["get-proces",5.136],["native",5.136],["createtoolhelp",5.136],["snapshot",5.136],["opt",5.136]],"AML.T0090":[["credential",20.209],["dump",15.407],["cach",5.136],["hash",4.443],["clear",4.443],["usernam",4.443],["sourc",4.183],["application",4.09],["password",4.037],["give",4.037],["lifecycle",4.037],["memory",3.75],["devop",3.75],["acces",3.549],["authentication",3.344],["lateral",3.19],["movement",3.19],["token",3.056],["extract",2.939],["text",2.939]],"AML.T0091":[["alternate",25.679],["material",17.632],["authentication",16.72],["lateral",6.38],["movement",6.38],["use",5.552],["kerbero",5.136],["move",5.136],["laterally",5.136],["primary",5.136],["hash",4.443],["ticket",4.443],["password",4.037],["vulnerable",4.037],["making",3.75],["technique",3.526],["commonly",3.344],["token",3.056],["within",3.056],["bypas",2.833]],"AML.T0092":[["chat",26.752],["history",20.186],["manipulate",8.982],["interfac",8.885],["llm",8.833],["user",5.923],["cover",5.136],["track",5.136],["obscure",5.136],["delete",5.136],["coverup",5.136],["show",5.136],["ongo",5.136],["initially",5.136],["unnotic",5.136],["evasion",4.726],["defense",4.605],["hide",4.443],["edit",4.443],["feasible",4.443]],"AML.T0091.000":[["token",18.338],["application",12.269],["stolen",8.885],["commonly",6.688],["lateral",6.38],["movement",6.38],["acces",6.211],["typical",5.136],["lieu",5.136],["login",5.136],["authoriz",5.136],["container-bas",5.136],["chatbot",5.136],["servic",5.01],["restrict",4.443],["software-as-a-service",4.443],["saas",4.443],["ai-as-a-service",4.443],["predictive",4.443],["used",4.442]],"AML.T0093":[["public-fac",17.632],["infiltration",16.149],["application",12.269],["index",8.074],["likely",7.499],["like",7.053],["prompt",6.758],["ingest",6.688],["rag",6.113],["maliciou",5.788],["intention",5.136],["having",5.136],["rule",5.136],["desk",5.136],["jira",5.136],["ocr-mediat",5.136],["screenshot",5.136],["invoic",5.136],["facing",5.136],["refine",5.136]],"AML.T0094":[["delay",20.543],["instruction",12.84],["execution",9.453],["keyword",7.053],["future",6.688],["interaction",6.688],["follow",6.38],["bypas",5.666],["submit",5.136],["measur",5.136],["untrust",5.136],["evasion",4.726],["control",4.726],["defense",4.605],["next",4.443],["turn",4.443],["llm",4.417],["certain",4.037],["include",3.921],["response",3.75]],"AML.T0051.002":[["trigger",19.139],["injection",6.001],["prompt",5.406],["somewhere",5.136],["execution",4.726],["activation",4.443],["already",4.443],["unwitt",4.443],["activat",4.037],["identifi",4.037],["obfuscat",4.037],["infiltration",4.037],["environment",3.915],["event",3.75],["foothold",3.75],["user",3.554],["public-fac",3.526],["occur",3.344],["hidden",3.344],["within",3.056]],"AML.T0095":[["domain",18.748],["search",12.548],["websit",11.333],["site",8.074],["public-fac",7.053],["open",6.908],["reconnaissance",5.142],["online",5.136],["precise",5.136],["owned",4.443],["engin",4.443],["information",4.417],["victim",4.301],["application",4.09],["find",4.037],["infiltration",4.037],["media",3.75],["seek",3.75],["platform",3.344],["new",3.19]],"AML.T0096":[["service",14.313],["command",10.957],["api",10.002],["control",7.09],["channel",7.053],["using",5.877],["normal",5.666],["off",5.136],["land",5.136],["footprint",5.136],["want",5.136],["espionage",5.136],["activiti",5.136],["sesameop-novel-backdoor-uses-openai-assistants-api-for-command-and-control",5.136],["communication",4.443],["reduc",4.443],["stealthy",4.443],["en-u",4.443],["communicate",4.037],["covert",4.037]],"AML.T0097":[["virtualization",30.815],["sandbox",22.213],["vmware",20.543],["vme",15.407],["exe",15.407],["evasion",14.179],["substring",10.272],["match",10.272],["vbox",10.272],["check",7.499],["artifact",7.09],["analysi",7.053],["detect",6.38],["environment",5.873],["indicative",5.136],["virtual",5.136],["disengage",5.136],["conceal",5.136],["core",5.136],["implant",5.136]],"AML.T0098":[["credential",15.718],["harvest",10.579],["tool",10.487],["agent",8.533],["productivity",5.136],["notetak",5.136],["obsidian",5.136],["apple",5.136],["enterprise",4.443],["slack",4.443],["note",4.443],["sharepoint",4.037],["onedrive",4.037],["gitlab",4.037],["range",3.75],["retrieve",3.526],["wide",3.526],["drive",3.526],["local",3.526],["provider",3.19]],"AML.T0099":[["tool",7.491],["agent",7.111],["content",6.736],["retriev",6.38],["poison",5.873],["persistence",4.726],["mislead",4.443],["place",3.75],["associat",3.75],["false",3.75],["plac",3.526],["ingest",3.344],["accomplish",3.056],["maliciou",2.894],["data",2.838],["common",2.738],["queri",2.651],["include",2.614],["location",2.571],["document",2.428]],"AML.T0100":[["clickbait",15.407],["web",10.579],["agent",8.533],["copy",8.074],["deceptive",5.136],["bait",5.136],["computer-us",5.136],["button",5.136],["navigat",5.136],["page",5.136],["interpretation",5.136],["cues",5.136],["prompt-like",5.136],["execution",4.726],["content",4.491],["taking",4.443],["browser",4.037],["click",4.037],["site",4.037],["successful",4.037]],"AML.T0101":[["destruction",20.543],["invocation",10.032],["network",6.38],["tool",5.993],["agent",5.689],["mutative",5.136],["destroy",5.136],["interrupt",5.136],["availability",5.136],["data",4.731],["perform",4.28],["impact",4.183],["capable",3.75],["number",3.75],["via",3.732],["invoke",3.19],["specific",2.571],["operation",2.191],["file",2.14],["large",1.958]],"AML.T0102":[["command",13.148],["generate",12.854],["dynamically",10.272],["apt",10.272],["maliciou",7.235],["host",6.113],["llms",5.302],["natural",5.136],["harder",5.136],["signature",5.136],["constantly",5.136],["adapt",5.136],["adjust",5.136],["externally",5.136],["lamehug",5.136],["logpoint",5.136],["s-new-arsenal-lamehug-the-first-ai-powered-malware",5.136],["ai-generat",4.443],["attack",4.442],["http",4.383]],"AML.T0103":[["agent",15.644],["deploy",13.376],["launch",8.885],["permission",7.499],["achieve",5.877],["goal",5.666],["autonomou",5.136],["determine",5.136],["execution",4.726],["ensure",4.443],["aren",4.443],["action",4.383],["configure",4.037],["effectively",4.037],["defin",4.037],["block",4.037],["decision",4.037],["represent",4.037],["loss",4.037],["environment",3.915]],"AML.T0104":[["publish",14.566],["tool",13.484],["poison",11.746],["registri",6.38],["agent",5.689],["openclaw",5.136],["largely",5.136],["unregulat",5.136],["remotely",5.136],["opensourcemalware",5.136],["clawdbot-skills-ganked-your-crypto",5.136],["repositori",4.993],["contain",4.726],["npm",4.443],["hub",4.443],["mcpserver",4.443],["remote-mcp-server",4.443],["http",4.383],["gitlab",4.037],["specifically",4.037]],"AML.T0011.002":[["tool",11.986],["poison",11.746],["agent",9.956],["execution",4.726],["configure",4.037],["invocation",3.344],["remote",3.344],["invoke",3.19],["connect",2.939],["techniqu",2.662],["introduc",2.651],["aml",2.577],["execute",2.428],["interact",2.363],["victim",2.151],["perform",2.14],["software",2.14],["injection",2.0],["environment",1.958],["llm",1.472]],"AML.T0011.003":[["link",36.335],["execution",16.542],["click",12.112],["maliciou",8.682],["lead",8.214],["exploitation",7.499],["website",7.499],["get",7.053],["follow-on",5.136],["origin",5.136],["header",5.136],["around",5.136],["inaccessible",5.136],["user",4.738],["observ",4.443],["validate",4.443],["previously",4.443],["file",4.28],["upon",4.037],["subject",4.037]],"AML.T0105":[["host",24.451],["escape",20.543],["virtualiz",15.407],["containeriz",10.272],["sandbox",8.885],["environment",7.831],["privilege",7.499],["escalation",7.499],["container",7.053],["principle",5.136],["separation",5.136],["isolat",5.136],["confirmation",5.136],["break",4.443],["clear",4.443],["functionality",4.443],["safety",4.443],["rather",4.443],["resourc",3.915],["disable",3.75]],"AML.T0106":[["exploitation",14.998],["credential",13.473],["software",6.42],["kernel",4.443],["acces",4.437],["programm",4.037],["program",4.037],["error",3.75],["adversary-controll",3.75],["advantage",3.526],["vulnerabiliti",3.344],["occur",3.344],["operat",3.19],["within",3.056],["vulnerability",2.939],["collect",2.833],["itself",2.738],["take",2.571],["exploit",2.497],["execute",2.428]],"AML.T0107":[["exploitation",14.998],["evasion",11.816],["defense",11.513],["vulnerability",5.877],["security",5.666],["kernel",4.443],["defensive",4.443],["software",4.28],["programm",4.037],["program",4.037],["circumvent",4.037],["error",3.75],["adversary-controll",3.75],["disable",3.75],["featur",3.526],["advantage",3.526],["occur",3.344],["vulnerabiliti",3.344],["operat",3.19],["within",3.056]],"AML.T0108":[["agent",17.067],["command",10.957],["control",9.453],["remain",5.136],["execute",4.855],["modify",4.605],["shell",4.037],["report",4.037],["covert",4.037],["reach",3.75],["internet",3.75],["making",3.75],["capable",3.75],["maintain",3.75],["persistent",3.75],["grant",3.526],["retrieve",3.526],["ability",3.344],["instruct",3.344],["invoke",3.19]],"AML.T0109":[["rug",20.186],["pull",16.72],["supply",14.98],["chain",14.566],["publish",12.139],["adoption",8.885],["component",5.877],["poison",5.873],["techniqu",5.324],["aml",5.155],["consider",5.136],["evasion",4.726],["defense",4.605],["scrutiny",4.443],["inclusion",4.443],["reputation",4.443],["inflation",4.443],["perform",4.28],["push",4.037],["dependency",4.037]],"AML.T0110":[["tool",13.484],["agent",9.956],["poison",9.789],["persistence",7.09],["description",5.136],["silently",5.136],["suspicion",5.136],["built-in",4.443],["already",4.443],["integrat",4.443],["alter",4.443],["logic",4.443],["redirect",4.443],["unauthoriz",4.443],["protocol",4.037],["involv",4.037],["long-term",4.037],["decision",4.037],["downstream",4.037],["rais",4.037]],"AML.T0010.005":[["mcp",29.996],["glama",20.543],["tool",19.477],["server",17.631],["agent",17.067],["koi",15.407],["http",10.957],["mcp-hub",10.272],["mcp-server-hub",10.272],["remote-mcp",10.272],["hub",8.885],["www",6.113],["connect",5.877],["poison",5.873],["attractive",5.136],["explod",5.136],["popularity",5.136],["thousand",5.136],["hubs",5.136],["remotely-host",5.136]],"AML.T0034.000":[["excessive",13.376],["queri",10.604],["increas",6.688],["request",5.666],["overwhelm",5.136],["rate",5.136],["bill",5.136],["sustain",5.136],["specially",5.136],["struggl",5.136],["inflat",5.136],["low-complexity",4.443],["capacity",4.443],["high-volume",4.443],["autoscal",4.443],["polici",4.443],["pay-per-use",4.443],["computationally",4.443],["queu",4.443],["unavailability",4.443]],"AML.T0034.001":[["resource-intensive",17.771],["queri",13.254],["long",8.885],["compute",7.499],["input",5.302],["sequenc",5.136],["extremely",5.136],["complex",5.136],["reason",5.136],["vision",5.136],["sponge",5.136],["maximize",5.136],["fewer",5.136],["owasp",5.136],["owasp-top-",5.136],["for-llm-applications-",5.136],["org",4.855],["energy",4.443],["simply",4.443],["flood",4.443]],"AML.T0034.002":[["agentic",17.632],["directiv",15.407],["consumption",14.105],["loop",13.328],["coerce",10.272],["self-delegation",10.272],["recursive",10.272],["agent",8.533],["resource",8.196],["waste",8.074],["excessive",6.688],["call",5.877],["lead",5.476],["consume",5.136],["budget",5.136],["unnecessary",5.136],["fan-out",5.136],["fetch",5.136],["look",5.136],["current",5.136]],"AML.T0084.003":[["call",20.57],["chain",16.994],["potentially",8.074],["vulnerable",8.074],["vulnerabiliti",6.688],["rce",5.136],["sink",5.136],["eval",5.136],["popen",5.136],["systematically",5.136],["execution",4.726],["discovery",4.491],["exec",4.443],["scan",4.443],["llm",4.417],["abs",3.75],["configur",3.526],["arxiv",3.526],["remote",3.344],["later",3.344]],"AML.T0111":[["reputation",22.213],["inflation",17.771],["chain",16.994],["supply",14.98],["signal",10.272],["adoption",8.885],["build",8.074],["history",8.074],["component",5.877],["trust",5.666],["genuinely",5.136],["credible-look",5.136],["legitimacy",5.136],["driv",5.136],["contribution",5.136],["star",5.136],["fork",5.136],["pass",5.136],["likelihood",5.136],["evasion",4.726]],"AML.T0112":[["machine",14.998],["compromise",9.21],["compromis",4.993],["impact",4.183],["steal",4.037],["continue",4.037],["permission",3.75],["arbitrary",3.526],["local",3.526],["grant",3.526],["persist",3.19],["component",2.939],["agent",2.844],["ai-enabl",2.833],["manipulat",2.738],["exfiltrate",2.738],["malware",2.738],["embedd",2.651],["capabiliti",2.571],["exploit",2.497]],"AML.T0008.005":[["proxi",17.771],["resell",10.272],["service",8.179],["commercial",8.074],["conduct",6.688],["traffic",6.688],["http",6.574],["infrastructure",6.38],["account",5.877],["proxy",5.666],["generate",5.142],["com",5.142],["frontier",5.136],["distillation",5.136],["distribute",5.136],["mix",5.136],["activity",5.136],["actor",5.136],["jack",5.136],["studi",5.136]],"AML.T0112.000":[["agent",11.378],["local",10.579],["control",7.09],["computer-use",5.136],["autonomously",5.136],["locally",4.443],["ai-driven",4.443],["broad",4.443],["manage",4.443],["exfiltrat",4.443],["impact",4.183],["browser",4.037],["workflow",4.037],["effectively",4.037],["permission",3.75],["machine",3.75],["access",3.75],["runn",3.526],["able",3.526],["level",3.526]],"AML.T0112.001":[["artifact",14.179],["stor",9.169],["bundl",5.136],["serialization",4.443],["maliciou",4.341],["impact",4.183],["python",4.037],["pickle",4.037],["notebook",4.037],["unsafe",3.75],["format",3.526],["script",3.526],["pull",3.344],["full",3.19],["registri",3.19],["affect",3.19],["achieve",2.939],["execut",2.939],["result",2.939],["malware",2.738]],"AML.T0052.001":[["aiid",118.123],["voice",87.309],["incidentdatabase",51.358],["cite",51.358],["scam",41.086],["vish",35.951],["http",35.062],["video",32.297],["deepfake",32.297],["phish",31.899],["deepfak",26.752],["campaign",26.247],["oecd",25.679],["ai-generat",22.213],["deepfake-assist",20.543],["fbi",20.543],["call",17.631],["report",16.149],["voic",15.407],["purport",15.407]],"AML.T0002.002":[["config",25.679],["configuration",24.105],["agent",22.756],["file",19.261],["json",17.771],["setting",13.328],["deployment",12.112],["behavioral",10.272],["claude",10.272],["framework-specific",10.272],["define",8.885],["defin",8.074],["workflow",8.074],["mcp",7.499],["tool",7.491],["credential",6.736],["external",6.113],["capabiliti",5.142],["insight",5.136],["ide-specific",5.136]],"AML.T0095.000":[["repositori",17.477],["code",13.418],["aml",7.732],["reconnaissance",7.713],["tactic",7.713],["public",6.736],["framework",6.38],["agent",5.689],["victim",5.377],["techniqu",5.324],["sourceforge",5.136],["bitbucket",5.136],["used--but",5.136],["owned--by",5.136],["accidentally",5.136],["artifact",4.726],["variou",4.726],["credential",4.491],["operational",4.443],["information",4.417]]};
+const ATLAS_TACTIC_DESCRIPTIONS_JS = {
+  "Reconnaissance": "Gathering information about the target AI-enabled system to plan an operation.",
+  "Resource Development": "Establishing resources -- including AI-specific ones like models, datasets, and compute -- to support an operation.",
+  "Initial Access": "Gaining an initial foothold within the AI system.",
+  "AI Model Access": "Gaining some level of access to the AI model itself, from a public API through to full white-box access.",
+  "Execution": "Running malicious code or malicious AI artifacts within the system.",
+  "Persistence": "Maintaining a foothold within the AI system across restarts, credential changes, or other interruptions.",
+  "Privilege Escalation": "Gaining higher-level permissions within the AI system or its supporting infrastructure.",
+  "Defense Evasion": "Avoiding detection while operating against the AI system.",
+  "Credential Access": "Stealing account names, passwords, or other credentials that grant access to the system.",
+  "Discovery": "Learning about the AI environment -- the model, its capabilities, and surrounding infrastructure.",
+  "Collection": "Gathering data and artifacts relevant to the operation's goal from the AI system.",
+  "AI Attack Staging": "Using access to and knowledge of the target system to tailor an attack, e.g. crafting adversarial data or training a proxy model.",
+  "Exfiltration": "Stealing data, models, or other artifacts from the AI system.",
+  "Command and Control": "Communicating with and directing compromised systems, agents, or infrastructure.",
+  "Lateral Movement": "Moving through the environment, pivoting from the AI system to other parts of the network.",
+  "Impact": "Manipulating, interrupting, eroding trust in, or destroying the AI system and its data."
+};
+const ATLAS_TACTIC_SOURCE_URL_JS = "https://atlas.mitre.org/tactics";
 const OPERATIONAL_CATALOG = {
   "OP.C0101": {
     "op_name": "Automation trust failure",
@@ -2238,33 +2445,43 @@ const OPERATIONAL_CATALOG = {
     "url": "https://www-pub.iaea.org/MTCD/Publications/PDF/p15866-PUB2119_web.pdf"
   },
   "OP.C0302": {
-    "op_name": "Drift",
+    "op_name": "Drift / Out-of-distribution / generalization failure",
     "op_group": "OP.G03",
     "op_group_name": "Model Lifecycle & Drift",
     "level": "Category",
     "nature": "Operational",
-    "desc": "Umbrella for non-adversarial performance decay over time.",
-    "source": "IAEA NR-T-1.26 \u00a73.2.5",
+    "desc": "Umbrella -- model encounters conditions outside its trained scope (component states, designs, materials, operations).",
+    "source": "IAEA NR-T-1.26 \u00a72.1.3",
     "url": "https://www-pub.iaea.org/MTCD/Publications/PDF/p15866-PUB2119_web.pdf"
   },
   "OP.C0302.01": {
-    "op_name": "Data drift",
+    "op_name": "Data / Operational drift",
     "op_group": "OP.G03",
     "op_group_name": "Model Lifecycle & Drift",
     "level": "Subgroup",
     "nature": "Operational",
-    "desc": "Input distribution shifts from the training distribution.",
-    "source": "AVID P0101 (cross-reference)",
+    "desc": "Input distribution shifts from the training distribution. This may be due to the operations of the system changing or expanding without model re-qualification. Examples include power uprates, load following, inter-reactor shuffling, new fuels, etc.",
+    "source": "IAEA NR-T-1.26 \u00a72.1.3. AVID P0101",
     "url": "https://www-pub.iaea.org/MTCD/Publications/PDF/p15866-PUB2119_web.pdf"
   },
   "OP.C0302.02": {
-    "op_name": "Concept drift",
+    "op_name": "Concept Drift",
     "op_group": "OP.G03",
     "op_group_name": "Model Lifecycle & Drift",
     "level": "Subgroup",
     "nature": "Operational",
-    "desc": "The learned relationship itself becomes stale (e.g. equipment ageing).",
-    "source": "AVID P0102 (cross-reference); IAEA NR-T-1.26 \u00a73.2.5",
+    "desc": "The learned relationship itself becomes stale due to, e.g., equipment ageing.",
+    "source": "AVID P0102; IAEA NR-T-1.26 \u00a73.2.5",
+    "url": "https://www-pub.iaea.org/MTCD/Publications/PDF/p15866-PUB2119_web.pdf"
+  },
+  "OP.C0302.03": {
+    "op_name": "Operational heterogeneity",
+    "op_group": "OP.G03",
+    "op_group_name": "Model Lifecycle & Drift",
+    "level": "Subgroup",
+    "nature": "Operational",
+    "desc": "The model is generalized across a range of operating scenarios for which the data quality and hence model efficiency or alignment is heterogeneous.",
+    "source": "IAEA NR-T-1.26 \u00a72.1.3",
     "url": "https://www-pub.iaea.org/MTCD/Publications/PDF/p15866-PUB2119_web.pdf"
   },
   "OP.C0303": {
@@ -2278,43 +2495,43 @@ const OPERATIONAL_CATALOG = {
     "url": "https://www-pub.iaea.org/MTCD/Publications/PDF/p15866-PUB2119_web.pdf"
   },
   "OP.C0304": {
-    "op_name": "Out-of-distribution / generalization failure",
+    "op_name": "Content fidelity failure",
     "op_group": "OP.G03",
     "op_group_name": "Model Lifecycle & Drift",
     "level": "Category",
     "nature": "Operational",
-    "desc": "Umbrella -- model encounters conditions outside its trained scope (component states, designs, materials, operations).",
-    "source": "IAEA NR-T-1.26 \u00a72.1.3",
+    "desc": "Umbrella for non-adversarial failures in the fidelity of AI-generated or AI-processed content -- distinct from OP.C0301 (training-objective misalignment) and OP.C0304 (out-of-distribution/generalization failure). Added Aug 2026 to close a gap left when AVID (this project's former third framework, which covered content-quality issues via E0402/P0204) was retired without replacement.",
+    "source": "Ji, Lee, Frieske, et al. (2023), \"Survey of Hallucination in Natural Language Generation,\" ACM Computing Surveys 55(12) Art. 248",
     "url": "https://www-pub.iaea.org/MTCD/Publications/PDF/p15866-PUB2119_web.pdf"
   },
   "OP.C0304.01": {
-    "op_name": "Operational drift",
+    "op_name": "Hallucination or misattribution",
     "op_group": "OP.G03",
     "op_group_name": "Model Lifecycle & Drift",
     "level": "Subgroup",
     "nature": "Operational",
-    "desc": "The operations of the system change or expand without model re-qualification (e.g. post-operation addition of power uprates, load following, inter-reactor shuffling).",
-    "source": "IAEA NR-T-1.26 \u00a72.1.3",
+    "desc": "AI-generated content that is factually wrong, fabricated, or attributed to the wrong source/component -- consolidates four near-duplicate seed-taxonomy phrasings (misaligned/hallucinatory documentation or information; misinterpretation, hallucination, and misalignment; model misalignment, hallucination, and misattribution) into one canonical category.",
+    "source": "Ji, Lee, Frieske, et al. (2023), ACM Computing Surveys 55(12) Art. 248",
     "url": "https://www-pub.iaea.org/MTCD/Publications/PDF/p15866-PUB2119_web.pdf"
   },
   "OP.C0304.02": {
-    "op_name": "Operational misapplication",
+    "op_name": "Mistranslation",
     "op_group": "OP.G03",
     "op_group_name": "Model Lifecycle & Drift",
     "level": "Subgroup",
     "nature": "Operational",
-    "desc": "The model is applied/generalized to an out-of-distribution operation (e.g. post-operation addition of power uprates, load following, inter-reactor shuffling).",
-    "source": "IAEA NR-T-1.26 \u00a72.1.3",
+    "desc": "AI-generated or AI-assisted translation introduces an error, including mistranslation or misattribution of multi-use acronyms and terminology carrying elevated consequence in a safeguards or dual-use context.",
+    "source": "Ji, Lee, Frieske, et al. (2023), ACM Computing Surveys 55(12) Art. 248, Sec. 11 (machine translation)",
     "url": "https://www-pub.iaea.org/MTCD/Publications/PDF/p15866-PUB2119_web.pdf"
   },
   "OP.C0304.03": {
-    "op_name": "Operational heterogeneity",
+    "op_name": "Oversimplification or omission",
     "op_group": "OP.G03",
     "op_group_name": "Model Lifecycle & Drift",
     "level": "Subgroup",
     "nature": "Operational",
-    "desc": "The model is generalized across a range of operating scenarios for which the data quality is heterogeneous.",
-    "source": "IAEA NR-T-1.26 \u00a72.1.3",
+    "desc": "AI-generated summarization or distillation omits material detail needed for safe or correct downstream action, even without any factual error present in what remains.",
+    "source": "Ji, Lee, Frieske, et al. (2023), ACM Computing Surveys 55(12) Art. 248, Sec. 7 (abstractive summarization / omission)",
     "url": "https://www-pub.iaea.org/MTCD/Publications/PDF/p15866-PUB2119_web.pdf"
   },
   "OP.C0401": {
@@ -2527,31 +2744,6 @@ const OPERATIONAL_GROUPS_JS = {
   "OP.G06": "Infrastructure & Cross-System Propagation",
   "OP.G07": "Nuclear-Domain Specific"
 };
-// Short blurbs for the co-occurrence heatmap's "Tactic band x Group" view, where the axes are
-// roll-up labels rather than individual catalog entries (see renderAtlasOpHeatmap) and so have no
-// per-entry desc field to draw on. ATLAS_TACTIC_DESCRIPTIONS_JS is paraphrased from MITRE ATLAS's
-// own one-line tactic definitions (atlas.mitre.org/tactics); OPERATIONAL_GROUP_DESCRIPTIONS_JS is
-// this project's own summary of what each group's categories (seen in OPERATIONAL_CATALOG) cover,
-// since the Operational taxonomy has no external source for group-level text.
-const ATLAS_TACTIC_DESCRIPTIONS_JS = {
-  "Reconnaissance": "Gathering information about the target AI-enabled system to plan an operation.",
-  "Resource Development": "Establishing resources -- including AI-specific ones like models, datasets, and compute -- to support an operation.",
-  "Initial Access": "Gaining an initial foothold within the AI system.",
-  "AI Model Access": "Gaining some level of access to the AI model itself, from a public API through to full white-box access.",
-  "Execution": "Running malicious code or malicious AI artifacts within the system.",
-  "Persistence": "Maintaining a foothold within the AI system across restarts, credential changes, or other interruptions.",
-  "Privilege Escalation": "Gaining higher-level permissions within the AI system or its supporting infrastructure.",
-  "Defense Evasion": "Avoiding detection while operating against the AI system.",
-  "Credential Access": "Stealing account names, passwords, or other credentials that grant access to the system.",
-  "Discovery": "Learning about the AI environment -- the model, its capabilities, and surrounding infrastructure.",
-  "Collection": "Gathering data and artifacts relevant to the operation's goal from the AI system.",
-  "AI Attack Staging": "Using access to and knowledge of the target system to tailor an attack, e.g. crafting adversarial data or training a proxy model.",
-  "Exfiltration": "Stealing data, models, or other artifacts from the AI system.",
-  "Command and Control": "Communicating with and directing compromised systems, agents, or infrastructure.",
-  "Lateral Movement": "Moving through the environment, pivoting from the AI system to other parts of the network.",
-  "Impact": "Manipulating, interrupting, eroding trust in, or destroying the AI system and its data."
-};
-const ATLAS_TACTIC_SOURCE_URL_JS = "https://atlas.mitre.org/tactics";
 const OPERATIONAL_GROUP_DESCRIPTIONS_JS = {
   "OP.G01": "Failures arising from how operators trust, rely on, or interact with AI-assisted systems -- over-trust, under-trust, skill fade, and alarm/monitoring fatigue.",
   "OP.G02": "Risks tied to where training and validation data came from, and how representative, complete, or trustworthy it actually is.",
@@ -2561,7 +2753,7 @@ const OPERATIONAL_GROUP_DESCRIPTIONS_JS = {
   "OP.G06": "Risks from shared infrastructure, cloud dependencies, or fleet-wide deployment that let a single model failure propagate across systems or sites.",
   "OP.G07": "Concerns specific to nuclear safeguards and security applications of AI, such as training-data scarcity for safeguards models and AI-manipulated verification imagery."
 };
-const OPERATIONAL_KEYWORDS_JS = {"OP.C0101":[["trust",12.542],["failure",7.327],["automation",6.111],["miscalibration",3.829],["toward",3.829],["category",3.135],["operator",2.037],["umbrella",1.749],["system",1.631]],"OP.C0101.01":[["out-of-the-loop",11.486],["unfamiliarity",11.486],["reduc",3.829],["ability",3.829],["detect",3.829],["resume",3.829],["manual",3.135],["control",3.135],["failure",2.442],["operator",2.037],["automation",2.037]],"OP.C0101.02":[["clumsy",11.486],["automation",8.148],["task",6.271],["easy",3.829],["easier",3.829],["harder",3.829],["concentrat",3.829],["burden",3.829],["worst",3.829],["moment",3.829],["make",3.135],["hard",3.135],["operator",2.037]],"OP.C0101.03":[["mode",15.315],["error",11.486],["acts",3.829],["incorrect",3.829],["belief",3.829],["active",3.829],["operator",2.037],["automation",2.037]],"OP.C0101.04":[["misuse",11.486],["over-trust",11.486],["over-reli",3.829],["fail",3.829],["notice",3.829],["intervene",3.829],["failure",2.442],["operator",2.037],["automation",2.037]],"OP.C0101.05":[["disuse",11.486],["under-trust",11.486],["distrust",3.829],["reliable",3.829],["abandon",3.829],["use",3.135],["operator",2.037],["system",1.631]],"OP.C0101.06":[["skill",11.486],["fade",11.486],["remov",3.829],["practice",3.829],["opportuniti",3.829],["maintain",3.829],["proficiency",3.829],["manual",3.135],["need",2.73],["automation",2.037]],"OP.C0102":[["alarm",15.315],["monitor",11.486],["complacency",11.486],["desensitization",3.829],["false",3.829],["positiv",3.829],["ai-driven",3.829],["degrad",3.829],["response",3.829],["surveillance",3.135],["readines",3.135],["system",1.631]],"OP.C0201":[["category",9.406],["provenance",8.19],["data",4.758],["fidelity",3.829],["tied",3.829],["came",3.829],["representativenes",3.135],["risk",3.135],["umbrella",1.749],["train",1.749]],"OP.C0201.01":[["simulat",9.406],["data",4.758],["physics-code-generat",3.829],["signal",3.829],["stand",3.135],["measur",2.73]],"OP.C0201.02":[["synthetic",11.486],["surrogate",11.486],["generative-model",3.829],["gan",3.829],["mimick",3.829],["data",3.569],["output",3.135],["distribution",3.135],["real",2.73]],"OP.C0201.03":[["transferr",11.486],["virtual",11.486],["data",4.758],["different",3.829],["similar",3.829],["asset",3.829],["transform",3.829],["stand",3.135],["target",3.135],["real",2.73],["system",1.631]],"OP.C0201.04":[["lab",11.486],["bench-measur",11.486],["controlled-environment",3.829],["measurement",3.829],["validat",3.829],["data",3.569],["yet",3.135],["field",3.135],["condition",2.73]],"OP.C0201.05":[["field",9.406],["operational",6.111],["data",4.758],["genuine",3.829],["in-service",3.829],["plant",3.829]],"OP.C0202":[["small-data",11.486],["low",11.486],["base-rate",11.486],["problem",11.486],["low-frequency",3.829],["event",3.829],["base",3.829],["structurally",3.829],["nuclear",3.135],["representativenes",3.135],["independent",3.135],["limit",2.73],["provenance",2.73]],"OP.C0203":[["new-build",11.486],["scarcity",7.327],["advanc",3.829],["reactor",3.829],["new",3.829],["lack",3.829],["history",3.829],["validate",3.829],["data",3.569],["design",3.135],["need",2.73],["operational",2.037],["train",1.749],["model",1.19]],"OP.C0204":[["continuity",15.315],["availability",9.406],["data",4.758],["unavailable",3.829],["corrupt",3.829],["undermin",3.829],["non-adversarial",3.135],["reason",3.135],["input",2.73],["model",1.19]],"OP.C0301":[["objective",15.315],["goal",11.486],["misalignment",11.486],["match",3.829],["actual",3.829],["doesn",3.135],["task",3.135],["independent",3.135],["attack",2.442],["operational",2.037],["train",1.749],["data",1.19]],"OP.C0302":[["drift",6.111],["performance",3.829],["decay",3.829],["over",3.829],["time",3.829],["non-adversarial",3.135],["umbrella",1.749]],"OP.C0302.01":[["distribution",6.271],["drift",6.111],["data",3.569],["shift",3.135],["input",2.73],["train",1.749]],"OP.C0302.02":[["concept",9.406],["drift",6.111],["learn",3.829],["relationship",3.829],["itself",3.829],["becom",3.829],["equipment",3.829],["ageing",3.829],["stale",3.135]],"OP.C0303":[["static",11.486],["dynamic",11.486],["mismatch",11.486],["qualification",9.406],["legitimately",3.829],["retrain",3.829],["proces",3.829],["keep",3.829],["pace",3.829],["re-qualify",3.829],["moving",3.829],["target",3.135],["need",2.73],["model",1.19]],"OP.C0304":[["generalization",11.486],["out-of-distribution",9.406],["failure",7.327],["encounter",3.829],["outside",3.829],["scope",3.829],["component",3.135],["stat",3.135],["design",3.135],["material",3.135],["condition",2.73],["operation",2.73],["umbrella",1.749],["train",1.749],["model",1.19]],"OP.C0304.01":[["operational",6.111],["drift",6.111],["change",3.829],["expand",3.829],["without",3.829],["re-qualification",3.829],["post-operation",3.135],["addition",3.135],["power",3.135],["uprat",3.135],["load",3.135],["follow",3.135],["inter-reactor",3.135],["shuffl",3.135],["operation",2.73],["system",1.631],["model",1.19]],"OP.C0304.02":[["misapplication",11.486],["operational",6.111],["appli",3.135],["generaliz",3.135],["out-of-distribution",3.135],["post-operation",3.135],["addition",3.135],["power",3.135],["uprat",3.135],["load",3.135],["follow",3.135],["inter-reactor",3.135],["shuffl",3.135],["operation",2.73],["model",1.19]],"OP.C0304.03":[["heterogeneity",11.486],["operational",6.111],["acros",3.829],["range",3.829],["operat",3.829],["quality",3.829],["heterogeneou",3.829],["generaliz",3.135],["scenario",3.135],["model",1.19],["data",1.19]],"OP.C0401":[["explainability",11.486],["opacity",11.486],["limit",10.92],["complexity",3.829],["obfuscat",3.829],["internal",3.829],["logic",3.829],["validation",3.829],["indirect",3.829],["performance-bas",3.829],["method",3.829],["formal",3.829],["otherwise",3.829],["requir",3.829],["verification",3.135],["model",1.19]],"OP.C0402":[["repeatability",11.486],["non-determinism",9.406],["gap",7.327],["reproducibility",3.829],["stochastic",3.829],["risk",3.135],["umbrella",1.749],["train",1.749]],"OP.C0402.01":[["training-time",11.486],["non-determinism",9.406],["random",7.657],["weight",3.829],["initialization",3.829],["test",3.829],["result",3.829],["reproduce",3.829],["split",3.135],["make",3.135],["hard",3.135],["train",1.749]],"OP.C0402.02":[["inference-time",11.486],["non-repeatability",11.486],["reliably",3.829],["yield",3.829],["deployment",3.829],["doesn",3.135],["output",3.135],["input",2.73]],"OP.C0403":[["ml-theoretic",15.315],["limitation",15.315],["statistical",3.829],["curse",3.829],["dimensionality",3.829]],"OP.C0501":[["ai-specific",9.406],["qualification",9.406],["gap",7.327],["traditional",3.829],["software",3.829],["standard",3.829],["insufficient",3.829],["application-specific",3.829],["static-vs-dynamic",3.829],["system",1.631]],"OP.C0502":[["software-engineer",11.486],["hygiene",11.486],["version",3.829],["ambiguity",3.829],["library",3.829],["uncertainty",3.829],["open",3.829],["source",3.829],["proprietary",3.829],["trade-off",3.829],["control",3.135],["dependency",3.135],["provenance",2.73]],"OP.C0503":[["threat-landscape",11.486],["regulatory-scope",11.486],["drift",6.111],["requirement",3.829],["nation-state",3.829],["threat",3.829],["assumption",3.829],["become",3.829],["relative",3.829],["deploy",3.829],["security",3.135],["stale",3.135],["model",1.19]],"OP.C0504":[["regulatory",11.486],["readines",9.406],["gap",7.327],["graded-approach",3.829],["safety-case",3.829],["framework",3.829],["mapp",3.829],["vulnerabiliti",3.829],["yet",3.135],["ai-specific",3.135]],"OP.C0505":[["acces",15.315],["governance",15.315],["data",4.758],["rather",3.829],["genuinely",3.829],["over-permissive",3.829],["technical",3.829],["interface",3.829],["pathway",3.135],["gap",2.442],["umbrella",1.749]],"OP.C0505.01":[["inappropriate",11.486],["misappli",11.486],["security",9.406],["data",4.758],["integrity",3.829],["protection",3.829],["biba",3.829],["clark-wilson",3.829],["bell-lapadula",3.829],["inappropriately",3.829],["inadequately",3.829],["model",3.569],["appli",3.135],["measur",2.73]],"OP.C0601":[["cloud",11.486],["off-premis",11.486],["dependency",9.406],["isolat",3.829],["local",3.829],["network",3.829],["third-party-maintain",3.829],["infrastructure",3.829],["chang",3.829],["boundary",3.829],["even",3.829],["absent",3.829],["shift",3.135],["availability",3.135],["trust",3.135],["attack",2.442]],"OP.C0602":[["cross-site",11.486],["fleet",11.486],["propagation",9.406],["shar",3.829],["checkpoint",3.829],["federat",3.829],["architectur",3.829],["turn",3.829],["site",3.829],["blind",3.829],["spot",3.829],["fleet-wide",3.829],["common-mode",3.829],["vulnerability",3.829],["model",3.569],["one",3.135],["condition",2.73],["drift",2.037]],"OP.C0603":[["fault",15.315],["bias",15.315],["intra-system",11.486],["propagation",9.406],["component",6.271],["spread",3.829],["coupl",3.829],["within",3.829],["single",3.829],["architecture",3.829],["one",3.135],["system",1.631]],"OP.C0701":[["safeguards-model",15.315],["training-data",15.315],["scarcity",9.769],["modality",3.829],["split",3.135],["detection",2.73],["umbrella",1.749]],"OP.C0701.01":[["nda",15.315],["destructive-assay",15.315],["signature",11.486],["scarcity",7.327],["non-destructive-assay",3.829],["signatur",3.829],["neutron",3.829],["resonance",3.829],["densitometry",3.829],["cherenkov",3.829],["light",3.829],["untest",3.829],["simulat",3.135],["diversion",3.135],["scenario",3.135],["real",2.73],["train",1.749],["model",1.19]],"OP.C0701.02":[["imagery-bas",15.315],["detection",10.92],["scarcity",7.327],["nonproliferation-specific",3.829],["sensitivity",3.829],["concern",3.829],["historical",3.829],["exampl",3.829],["narrow",3.829],["coverage",3.829],["possible",3.829],["data",3.569],["imagery",3.135],["diversion",3.135],["pathway",3.135],["limit",2.73]],"OP.C0702":[["general",15.315],["analogue",15.315],["domain-specific",11.486],["term",11.486],["nuclear-domain",3.829],["ml-security",3.829],["concept",3.135],["umbrella",1.749]],"OP.C0702.01":[["material",15.677],["substitution",11.486],["covertly",3.829],["divert",3.829],["substitut",3.829],["supplement",3.829],["stock",3.829],["close",3.829],["copy",3.829],["subvert",3.829],["probabilistic",3.829],["taxonomy",3.829],["despite",3.829],["deliberate",3.829],["act",3.829],["physical-domain",3.829],["home",3.829],["atla",3.829],["avid",3.829],["cia",3.829]],"OP.C0706":[["imagery",12.542],["ai-generat",11.486],["manipulat",11.486],["verification",9.406],["stat",6.271],["actor",3.829],["generative",3.829],["gans",3.829],["diffusion",3.829],["forge",3.829],["spoof",3.829],["satellite",3.829],["either",3.829],["falsely",3.829],["implicate",3.829],["conceal",3.829],["illicit",3.829],["activity",3.829],["physical",3.829],["information-domain",3.829]]};
+const OPERATIONAL_KEYWORDS_JS = {"OP.C0101":[["trust",12.628],["failure",6.722],["automation",6.175],["miscalibration",3.85],["toward",3.85],["category",2.752],["operator",2.058],["umbrella",1.771],["system",1.653]],"OP.C0101.01":[["out-of-the-loop",11.55],["unfamiliarity",11.55],["reduc",3.85],["ability",3.85],["detect",3.85],["resume",3.85],["manual",3.157],["control",3.157],["failure",2.241],["operator",2.058],["automation",2.058]],"OP.C0101.02":[["clumsy",11.55],["automation",8.234],["task",6.314],["easy",3.85],["easier",3.85],["harder",3.85],["concentrat",3.85],["burden",3.85],["worst",3.85],["moment",3.85],["make",3.157],["hard",3.157],["operator",2.058]],"OP.C0101.03":[["mode",15.401],["error",8.255],["acts",3.85],["incorrect",3.85],["belief",3.85],["active",3.85],["operator",2.058],["automation",2.058]],"OP.C0101.04":[["misuse",11.55],["over-trust",11.55],["over-reli",3.85],["fail",3.85],["notice",3.85],["intervene",3.85],["failure",2.241],["operator",2.058],["automation",2.058]],"OP.C0101.05":[["disuse",11.55],["under-trust",11.55],["distrust",3.85],["reliable",3.85],["abandon",3.85],["use",3.157],["operator",2.058],["system",1.653]],"OP.C0101.06":[["skill",11.55],["fade",11.55],["remov",3.85],["practice",3.85],["opportuniti",3.85],["maintain",3.85],["proficiency",3.85],["manual",3.157],["need",2.464],["automation",2.058]],"OP.C0102":[["alarm",15.401],["monitor",11.55],["complacency",11.55],["desensitization",3.85],["false",3.85],["positiv",3.85],["ai-driven",3.85],["degrad",3.85],["response",3.85],["surveillance",3.157],["readines",3.157],["system",1.653]],"OP.C0201":[["provenance",8.255],["category",8.255],["data",4.844],["tied",3.85],["came",3.85],["fidelity",3.157],["representativenes",3.157],["risk",3.157],["umbrella",1.771],["train",1.771]],"OP.C0201.01":[["simulat",9.471],["data",4.844],["physics-code-generat",3.85],["signal",3.85],["stand",3.157],["measur",2.752]],"OP.C0201.02":[["synthetic",11.55],["surrogate",11.55],["generative-model",3.85],["gan",3.85],["mimick",3.85],["data",3.633],["output",3.157],["distribution",3.157],["real",2.752]],"OP.C0201.03":[["transferr",11.55],["virtual",11.55],["data",4.844],["different",3.85],["similar",3.85],["asset",3.85],["transform",3.85],["stand",3.157],["target",3.157],["real",2.752],["system",1.653]],"OP.C0201.04":[["lab",11.55],["bench-measur",11.55],["controlled-environment",3.85],["measurement",3.85],["validat",3.85],["data",3.633],["yet",3.157],["field",3.157],["condition",2.752]],"OP.C0201.05":[["field",9.471],["operational",6.722],["data",4.844],["genuine",3.85],["in-service",3.85],["plant",3.85]],"OP.C0202":[["small-data",11.55],["low",11.55],["base-rate",11.55],["problem",11.55],["low-frequency",3.85],["event",3.85],["base",3.85],["structurally",3.85],["nuclear",3.157],["representativenes",3.157],["independent",3.157],["limit",2.752],["provenance",2.752]],"OP.C0203":[["new-build",11.55],["scarcity",7.392],["advanc",3.85],["reactor",3.85],["lack",3.85],["history",3.85],["validate",3.85],["data",3.633],["new",3.157],["design",3.157],["need",2.464],["operational",2.241],["train",1.771],["model",1.211]],"OP.C0204":[["continuity",15.401],["availability",9.471],["data",4.844],["unavailable",3.85],["corrupt",3.85],["undermin",3.85],["non-adversarial",3.157],["reason",3.157],["input",2.752],["model",1.211]],"OP.C0301":[["objective",15.401],["goal",11.55],["misalignment",8.255],["match",3.85],["actual",3.85],["doesn",3.157],["task",3.157],["independent",3.157],["attack",2.464],["operational",2.241],["train",1.771],["data",1.211]],"OP.C0302":[["out-of-distribution",9.471],["generalization",9.471],["drift",6.722],["failure",6.722],["encounter",3.85],["outside",3.85],["scope",3.85],["stat",3.157],["design",3.157],["operation",3.157],["condition",2.752],["component",2.752],["material",2.752],["umbrella",1.771],["train",1.771],["model",1.211]],"OP.C0302.01":[["operational",6.722],["drift",6.722],["distribution",6.314],["expand",3.85],["re-qualification",3.85],["include",3.85],["power",3.85],["uprat",3.85],["load",3.85],["follow",3.85],["inter-reactor",3.85],["shuffl",3.85],["fuel",3.85],["etc",3.85],["data",3.633],["shift",3.157],["due",3.157],["operation",3.157],["chang",3.157],["exampl",3.157]],"OP.C0302.02":[["concept",9.471],["drift",6.722],["learn",3.85],["relationship",3.85],["itself",3.85],["becom",3.85],["equipment",3.85],["ageing",3.85],["stale",3.157],["due",3.157]],"OP.C0302.03":[["heterogeneity",11.55],["operational",6.722],["generaliz",3.85],["acros",3.85],["range",3.85],["operat",3.85],["quality",3.85],["hence",3.85],["efficiency",3.85],["alignment",3.85],["heterogeneou",3.85],["scenario",3.157],["model",2.422],["data",1.211]],"OP.C0303":[["static",11.55],["dynamic",11.55],["mismatch",11.55],["qualification",9.471],["legitimately",3.85],["retrain",3.85],["proces",3.85],["keep",3.85],["pace",3.85],["re-qualify",3.85],["moving",3.85],["target",3.157],["need",2.464],["model",1.211]],"OP.C0304":[["content",12.628],["fidelity",12.628],["failure",8.963],["failur",3.85],["ai-process",3.85],["distinct",3.85],["training-objective",3.85],["added",3.85],["aug",3.85],["left",3.85],["project",3.85],["former",3.85],["third",3.85],["cover",3.85],["content-quality",3.85],["issu",3.85],["via",3.85],["was",3.85],["retir",3.85],["replacement",3.85]],"OP.C0304.01":[["hallucination",19.251],["misattribution",12.628],["wrong",7.7],["misalignment",5.503],["factually",3.85],["fabricat",3.85],["attribut",3.85],["consolidat",3.85],["four",3.85],["near-duplicate",3.85],["seed-taxonomy",3.85],["phrasing",3.85],["misalign",3.85],["hallucinatory",3.85],["documentation",3.85],["information",3.85],["misinterpretation",3.85],["canonical",3.85],["content",3.157],["source",3.157]],"OP.C0304.02":[["mistranslation",15.401],["ai-assist",3.85],["translation",3.85],["introduc",3.85],["includ",3.85],["multi-use",3.85],["acronym",3.85],["terminology",3.85],["carry",3.85],["elevat",3.85],["consequence",3.85],["safeguard",3.85],["dual-use",3.85],["context",3.85],["misattribution",3.157],["error",2.752],["ai-generat",2.241]],"OP.C0304.03":[["oversimplification",11.55],["omission",11.55],["summarization",3.85],["distillation",3.85],["omit",3.85],["detail",3.85],["safe",3.85],["correct",3.85],["downstream",3.85],["action",3.85],["factual",3.85],["present",3.85],["remain",3.85],["even",3.157],["material",2.752],["without",2.752],["error",2.752],["need",2.464],["ai-generat",2.241]],"OP.C0401":[["explainability",11.55],["opacity",11.55],["limit",11.006],["complexity",3.85],["obfuscat",3.85],["internal",3.85],["logic",3.85],["validation",3.85],["indirect",3.85],["performance-bas",3.85],["method",3.85],["formal",3.85],["otherwise",3.85],["requir",3.85],["verification",3.157],["model",1.211]],"OP.C0402":[["repeatability",11.55],["non-determinism",9.471],["gap",6.722],["reproducibility",3.85],["stochastic",3.85],["risk",3.157],["umbrella",1.771],["train",1.771]],"OP.C0402.01":[["training-time",11.55],["non-determinism",9.471],["random",7.7],["weight",3.85],["initialization",3.85],["test",3.85],["result",3.85],["reproduce",3.85],["split",3.157],["make",3.157],["hard",3.157],["train",1.771]],"OP.C0402.02":[["inference-time",11.55],["non-repeatability",11.55],["reliably",3.85],["yield",3.85],["deployment",3.85],["doesn",3.157],["output",3.157],["input",2.752]],"OP.C0403":[["ml-theoretic",15.401],["limitation",15.401],["statistical",3.85],["curse",3.85],["dimensionality",3.85]],"OP.C0501":[["ai-specific",9.471],["qualification",9.471],["gap",6.722],["traditional",3.85],["software",3.85],["standard",3.85],["insufficient",3.85],["application-specific",3.85],["static-vs-dynamic",3.85],["system",1.653]],"OP.C0502":[["software-engineer",11.55],["hygiene",11.55],["version",3.85],["ambiguity",3.85],["library",3.85],["uncertainty",3.85],["open",3.85],["proprietary",3.85],["trade-off",3.85],["control",3.157],["dependency",3.157],["source",3.157],["provenance",2.752]],"OP.C0503":[["threat-landscape",11.55],["regulatory-scope",11.55],["drift",6.722],["requirement",3.85],["nation-state",3.85],["threat",3.85],["assumption",3.85],["become",3.85],["relative",3.85],["deploy",3.85],["security",3.157],["stale",3.157],["model",1.211]],"OP.C0504":[["regulatory",11.55],["readines",9.471],["gap",6.722],["graded-approach",3.85],["safety-case",3.85],["mapp",3.85],["vulnerabiliti",3.85],["framework",3.157],["yet",3.157],["ai-specific",3.157]],"OP.C0505":[["acces",15.401],["governance",15.401],["data",4.844],["rather",3.85],["genuinely",3.85],["over-permissive",3.85],["technical",3.85],["interface",3.85],["pathway",3.157],["gap",2.241],["umbrella",1.771]],"OP.C0505.01":[["inappropriate",11.55],["misappli",11.55],["security",9.471],["data",4.844],["integrity",3.85],["protection",3.85],["biba",3.85],["clark-wilson",3.85],["bell-lapadula",3.85],["inappropriately",3.85],["inadequately",3.85],["appli",3.85],["model",3.633],["measur",2.752]],"OP.C0601":[["cloud",11.55],["off-premis",11.55],["dependency",9.471],["isolat",3.85],["local",3.85],["network",3.85],["third-party-maintain",3.85],["infrastructure",3.85],["boundary",3.85],["absent",3.85],["shift",3.157],["chang",3.157],["availability",3.157],["trust",3.157],["even",3.157],["attack",2.464]],"OP.C0602":[["cross-site",11.55],["fleet",11.55],["propagation",9.471],["shar",3.85],["checkpoint",3.85],["federat",3.85],["architectur",3.85],["turn",3.85],["site",3.85],["blind",3.85],["spot",3.85],["fleet-wide",3.85],["common-mode",3.85],["vulnerability",3.85],["model",3.633],["one",2.752],["condition",2.752],["drift",2.241]],"OP.C0603":[["fault",15.401],["bias",15.401],["intra-system",11.55],["propagation",9.471],["component",5.503],["spread",3.85],["coupl",3.85],["within",3.85],["single",3.85],["architecture",3.85],["one",2.752],["system",1.653]],"OP.C0701":[["safeguards-model",15.401],["training-data",15.401],["scarcity",9.855],["modality",3.85],["split",3.157],["detection",2.752],["umbrella",1.771]],"OP.C0701.01":[["nda",15.401],["destructive-assay",15.401],["signature",11.55],["scarcity",7.392],["non-destructive-assay",3.85],["signatur",3.85],["neutron",3.85],["resonance",3.85],["densitometry",3.85],["cherenkov",3.85],["light",3.85],["untest",3.85],["simulat",3.157],["diversion",3.157],["scenario",3.157],["real",2.752],["train",1.771],["model",1.211]],"OP.C0701.02":[["imagery-bas",15.401],["detection",11.006],["scarcity",7.392],["nonproliferation-specific",3.85],["sensitivity",3.85],["concern",3.85],["historical",3.85],["narrow",3.85],["coverage",3.85],["possible",3.85],["data",3.633],["imagery",3.157],["exampl",3.157],["diversion",3.157],["pathway",3.157],["limit",2.752]],"OP.C0702":[["general",15.401],["analogue",15.401],["domain-specific",11.55],["term",11.55],["nuclear-domain",3.85],["ml-security",3.85],["concept",3.157],["umbrella",1.771]],"OP.C0702.01":[["material",13.758],["substitution",11.55],["covertly",3.85],["divert",3.85],["substitut",3.85],["supplement",3.85],["stock",3.85],["copy",3.85],["subvert",3.85],["probabilistic",3.85],["taxonomy",3.85],["despite",3.85],["deliberate",3.85],["act",3.85],["physical-domain",3.85],["home",3.85],["atla",3.85],["cia",3.85],["currently",3.85],["scop",3.85]],"OP.C0706":[["imagery",12.628],["manipulat",11.55],["verification",9.471],["ai-generat",6.722],["stat",6.314],["actor",3.85],["generative",3.85],["gans",3.85],["diffusion",3.85],["forge",3.85],["spoof",3.85],["satellite",3.85],["either",3.85],["falsely",3.85],["implicate",3.85],["conceal",3.85],["illicit",3.85],["activity",3.85],["physical",3.85],["information-domain",3.85]]};
 const VOCAB_TO_ATLAS_JS = {
   "data poisoning": [
     {
@@ -2825,7 +3017,7 @@ const VOCAB_TO_OPERATIONAL_JS = {
       "op_id": "OP.C0505",
       "op_name": "Data access governance",
       "op_group": "OP.G05",
-      "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface (that case is AVID S0300 instead)",
+      "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface",
       "source_term": "data access"
     }
   ],
@@ -2842,7 +3034,7 @@ const VOCAB_TO_OPERATIONAL_JS = {
       "op_id": "OP.C0204",
       "op_name": "Data availability/continuity",
       "op_group": "OP.G02",
-      "condition": "for the availability component only -- confidentiality is AVID S0301",
+      "condition": "for the availability component only",
       "source_term": "data confidentiality and availability"
     }
   ],
@@ -2851,7 +3043,7 @@ const VOCAB_TO_OPERATIONAL_JS = {
       "op_id": "OP.C0204",
       "op_name": "Data availability/continuity",
       "op_group": "OP.G02",
-      "condition": "for the availability component only -- integrity is AVID P0104",
+      "condition": "for the availability component only",
       "source_term": "data integrity and availability"
     }
   ],
@@ -2866,7 +3058,7 @@ const VOCAB_TO_OPERATIONAL_JS = {
   "data drift": [
     {
       "op_id": "OP.C0302.01",
-      "op_name": "Data drift",
+      "op_name": "Data / Operational drift",
       "op_group": "OP.G03",
       "source_term": "data drift"
     }
@@ -2874,39 +3066,39 @@ const VOCAB_TO_OPERATIONAL_JS = {
   "model drift": [
     {
       "op_id": "OP.C0302.02",
-      "op_name": "Concept drift",
+      "op_name": "Concept Drift",
       "op_group": "OP.G03",
       "source_term": "model drift"
     }
   ],
   "operational drift": [
     {
-      "op_id": "OP.C0302",
-      "op_name": "Drift",
+      "op_id": "OP.C0302.01",
+      "op_name": "Data / Operational drift",
       "op_group": "OP.G03",
       "source_term": "operational drift"
     }
   ],
   "susceptibility to operational drift": [
     {
-      "op_id": "OP.C0302",
-      "op_name": "Drift",
+      "op_id": "OP.C0302.01",
+      "op_name": "Data / Operational drift",
       "op_group": "OP.G03",
       "source_term": "susceptibility to operational drift"
     }
   ],
   "model and operational drift": [
     {
-      "op_id": "OP.C0302",
-      "op_name": "Drift",
+      "op_id": "OP.C0302.01",
+      "op_name": "Data / Operational drift",
       "op_group": "OP.G03",
       "source_term": "model and operational drift"
     }
   ],
   "operational and model drift": [
     {
-      "op_id": "OP.C0302",
-      "op_name": "Drift",
+      "op_id": "OP.C0302.01",
+      "op_name": "Data / Operational drift",
       "op_group": "OP.G03",
       "source_term": "operational and model drift"
     }
@@ -2924,8 +3116,73 @@ const VOCAB_TO_OPERATIONAL_JS = {
       "op_id": "OP.C0301",
       "op_name": "Goal/objective misalignment",
       "op_group": "OP.G03",
-      "condition": "when the root cause is a training-objective/task mismatch rather than output quality (the latter is AVID P0204)",
+      "condition": "when the root cause is a training-objective/task mismatch rather than output quality (the latter is OP.C0304.01 instead)",
       "source_term": "misaligned models"
+    }
+  ],
+  "misaligned, hallucinatory, or misattributed AI output": [
+    {
+      "op_id": "OP.C0304.01",
+      "op_name": "Hallucination or misattribution",
+      "op_group": "OP.G03",
+      "source_term": "misaligned, hallucinatory, or misattributed AI output"
+    }
+  ],
+  "misaligned or hallucinatory documentation": [
+    {
+      "op_id": "OP.C0304.01",
+      "op_name": "Hallucination or misattribution",
+      "op_group": "OP.G03",
+      "source_term": "misaligned or hallucinatory documentation"
+    }
+  ],
+  "misaligned or hallucinatory information": [
+    {
+      "op_id": "OP.C0304.01",
+      "op_name": "Hallucination or misattribution",
+      "op_group": "OP.G03",
+      "source_term": "misaligned or hallucinatory information"
+    }
+  ],
+  "misinterpretation, hallucination, and misalignment": [
+    {
+      "op_id": "OP.C0304.01",
+      "op_name": "Hallucination or misattribution",
+      "op_group": "OP.G03",
+      "source_term": "misinterpretation, hallucination, and misalignment"
+    }
+  ],
+  "model misalignment, hallucination, and misattribution": [
+    {
+      "op_id": "OP.C0304.01",
+      "op_name": "Hallucination or misattribution",
+      "op_group": "OP.G03",
+      "source_term": "model misalignment, hallucination, and misattribution"
+    }
+  ],
+  "mistranslation": [
+    {
+      "op_id": "OP.C0304.02",
+      "op_name": "Mistranslation",
+      "op_group": "OP.G03",
+      "source_term": "mistranslation"
+    }
+  ],
+  "mistranslation or misattribution of multi-use acronyms": [
+    {
+      "op_id": "OP.C0304.02",
+      "op_name": "Mistranslation",
+      "op_group": "OP.G03",
+      "condition": "nuclear-domain-specific case -- multi-use acronyms (e.g. LEU/HEU-adjacent terms) carry elevated consequence if mistranslated or misattributed across a safeguards-relevant boundary",
+      "source_term": "mistranslation or misattribution of multi-use acronyms"
+    }
+  ],
+  "oversimplification": [
+    {
+      "op_id": "OP.C0304.03",
+      "op_name": "Oversimplification or omission",
+      "op_group": "OP.G03",
+      "source_term": "oversimplification"
     }
   ],
   "material substitution": [
@@ -2933,69 +3190,63 @@ const VOCAB_TO_OPERATIONAL_JS = {
       "op_id": "OP.C0702.01",
       "op_name": "Material substitution",
       "op_group": "OP.G07",
-      "condition": "ADVERSARIAL entry kept in this taxonomy because it is a physical-domain technique (exploiting a known detection threshold) with no home in ATLAS (attacks on AI models) or AVID (AI system confidentiality/integrity/availability) -- see OPERATIONAL_NATURE",
+      "condition": "ADVERSARIAL entry kept in this taxonomy because it is a physical-domain technique (exploiting a known detection threshold) with no home in ATLAS (attacks on AI models) -- see the workbook's Nature column",
       "source_term": "material substitution"
     }
   ],
   "materials outside trained scope (operational drift)": [
     {
-      "op_id": "OP.C0304",
-      "op_name": "Out-of-distribution / generalization failure",
-      "op_group": "OP.G03",
-      "source_term": "materials outside trained scope (operational drift)"
-    },
-    {
       "op_id": "OP.C0302",
-      "op_name": "Drift",
+      "op_name": "Drift / Out-of-distribution / generalization failure",
       "op_group": "OP.G03",
       "source_term": "materials outside trained scope (operational drift)"
     }
   ],
   "inability to detect unique or contrived component modifications": [
     {
-      "op_id": "OP.C0304",
-      "op_name": "Out-of-distribution / generalization failure",
+      "op_id": "OP.C0302",
+      "op_name": "Drift / Out-of-distribution / generalization failure",
       "op_group": "OP.G03",
-      "condition": "for the naturally-occurring, non-adversarial OOD case -- an adversarially introduced component is AVID S0200 instead",
+      "condition": "for the naturally-occurring, non-adversarial OOD case -- an adversarially introduced component is an ATLAS technique instead",
       "source_term": "inability to detect unique or contrived component modifications"
     }
   ],
   "sensitivity to designs outside trained scope": [
     {
-      "op_id": "OP.C0304",
-      "op_name": "Out-of-distribution / generalization failure",
+      "op_id": "OP.C0302",
+      "op_name": "Drift / Out-of-distribution / generalization failure",
       "op_group": "OP.G03",
       "source_term": "sensitivity to designs outside trained scope"
     }
   ],
   "unique component failure modes": [
     {
-      "op_id": "OP.C0304",
-      "op_name": "Out-of-distribution / generalization failure",
+      "op_id": "OP.C0302",
+      "op_name": "Drift / Out-of-distribution / generalization failure",
       "op_group": "OP.G03",
       "source_term": "unique component failure modes"
     }
   ],
   "unique environments outside of training data": [
     {
-      "op_id": "OP.C0304",
-      "op_name": "Out-of-distribution / generalization failure",
+      "op_id": "OP.C0302",
+      "op_name": "Drift / Out-of-distribution / generalization failure",
       "op_group": "OP.G03",
       "source_term": "unique environments outside of training data"
     }
   ],
   "unique failure modes outside trained scope": [
     {
-      "op_id": "OP.C0304",
-      "op_name": "Out-of-distribution / generalization failure",
+      "op_id": "OP.C0302",
+      "op_name": "Drift / Out-of-distribution / generalization failure",
       "op_group": "OP.G03",
       "source_term": "unique failure modes outside trained scope"
     }
   ],
   "unique failure or operational modes": [
     {
-      "op_id": "OP.C0304",
-      "op_name": "Out-of-distribution / generalization failure",
+      "op_id": "OP.C0302",
+      "op_name": "Drift / Out-of-distribution / generalization failure",
       "op_group": "OP.G03",
       "source_term": "unique failure or operational modes"
     }
@@ -3005,7 +3256,7 @@ const VOCAB_TO_OPERATIONAL_JS = {
       "op_id": "OP.C0201",
       "op_name": "Data provenance category",
       "op_group": "OP.G02",
-      "condition": "supplementary to AVID P0104 -- tag with the specific OP.C0201.0x data-provenance subgroup where the source pedigree is known",
+      "condition": "tag with the specific OP.C0201.0x data-provenance subgroup where the source pedigree is known",
       "source_term": "negative bias in training data"
     }
   ],
@@ -3291,7 +3542,8 @@ function buildFilterUI(){
   [...FACILITY_DOMAINS, "untagged"].forEach(fd => {
     const row = document.createElement("label");
     row.className = "toggle-row";
-    row.innerHTML = `<input type="checkbox" checked data-group="facility_domain" value="${fd}"><span>${fd}</span>`;
+    const label = fd === "untagged" ? "Untagged" : (FACILITY_DOMAIN_LABELS[fd] || fd);
+    row.innerHTML = `<input type="checkbox" checked data-group="facility_domain" value="${fd}"><span>${label}</span>`;
     fdBox.appendChild(row);
   });
 
@@ -3320,11 +3572,25 @@ function buildFilterUI(){
   });
 }
 
+// Evidence filters -- when on, an entry must carry at least one evidence[] item whose
+// evidence_for matches ("use_case" / "vulnerability") to stay in view. Both can be on at once
+// (an entry then needs evidence for each independently), mirroring how the use-area/facility
+// checkboxes each narrow the set further rather than substitute for one another.
+let requireEvidenceUseCase = false;
+let requireEvidenceVulnerability = false;
+
+function hasEvidenceFor(entry, evidenceFor){
+  return (entry.evidence || []).some(ev => ev && ev.evidence_for === evidenceFor);
+}
+
 function filteredEntries(){
   return allEntries.filter(e => {
     if (!activeUseAreas.has(e.use_area)) return false;
     const doms = domainsOf(e);
-    return doms.some(d => activeFacilities.has(d));
+    if (!doms.some(d => activeFacilities.has(d))) return false;
+    if (requireEvidenceUseCase && !hasEvidenceFor(e, "use_case")) return false;
+    if (requireEvidenceVulnerability && !hasEvidenceFor(e, "vulnerability")) return false;
+    return true;
   });
 }
 
@@ -3718,6 +3984,144 @@ function renderDread(entries){
   }
 }
 
+// "Largest threats" panels (Facility Domain / Use Area) -- unlike the ATLAS/Operational/STRIDE
+// panels above (which split entries INTO groups within one chart), these two fix a single
+// facility domain or use area via a select and let you flip through which framework
+// (ATLAS/Operational/STRIDE/DREAD) is used to size the bars, so "what's the biggest threat here"
+// can be answered per-group without cross-referencing a legend.
+function populateThreatDomainSelects(){
+  const fdSel = document.getElementById("fd-threats-domain");
+  fdSel.innerHTML = "";
+  [...FACILITY_DOMAINS, "untagged"].forEach(fd => {
+    const opt = document.createElement("option");
+    opt.value = fd;
+    opt.textContent = fd === "untagged" ? "Untagged" : (FACILITY_DOMAIN_LABELS[fd] || fd);
+    fdSel.appendChild(opt);
+  });
+
+  const uaSel = document.getElementById("ua-threats-domain");
+  uaSel.innerHTML = "";
+  USE_AREAS.forEach(ua => {
+    const opt = document.createElement("option");
+    opt.value = ua;
+    opt.textContent = ua;
+    uaSel.appendChild(opt);
+  });
+}
+
+// Shows/hides the "By technique/tactic" (or "By category/group") view select and the rollup
+// checkbox for a given threats panel, and relabels both for the currently-chosen framework -- the
+// view select and rollup only make sense for ATLAS/Operational, and the rollup itself only makes
+// sense in the leaf ("By technique"/"By category") view, mirroring atlas-rollup-row/
+// operational-rollup-row on the main ATLAS/Operational charts above.
+function updateThreatsControlsVisibility(prefix){
+  const framework = document.getElementById(`${prefix}-threats-framework`).value;
+  const viewSelect = document.getElementById(`${prefix}-threats-view`);
+  const rollupRow = document.getElementById(`${prefix}-threats-rollup-row`);
+  const rollupLabel = document.getElementById(`${prefix}-threats-rollup-label`);
+  const isAtlas = framework === "atlas";
+  const isOperational = framework === "operational";
+
+  viewSelect.style.display = (isAtlas || isOperational) ? "" : "none";
+  viewSelect.options[0].textContent = isOperational ? "By category" : "By technique";
+  viewSelect.options[1].textContent = isOperational ? "By group" : "By tactic";
+
+  const showRollup = (isAtlas || isOperational) && viewSelect.value === "leaf";
+  rollupRow.style.display = showRollup ? "" : "none";
+  if (rollupLabel) rollupLabel.textContent = isOperational ? "Group subgroups into root category" : "Group sub-techniques into root technique";
+}
+
+function renderTopThreatsChart(canvasId, subElId, entries, { framework, view, rollup }){
+  destroyChart(canvasId);
+  const subEl = document.getElementById(subElId);
+
+  if (framework === "dread"){
+    const withScore = entries.filter(e => e.dread_score).length;
+    if (!withScore){
+      subEl.textContent = "No entries in this group have a dread_score yet.";
+      return;
+    }
+    subEl.textContent = `Average DREAD score per dimension across ${withScore} scored entr${withScore === 1 ? "y" : "ies"} in this group.`;
+    const avg = avgDreadFor(entries);
+    const dreadLabels = DREAD_DIMS.map(d => DREAD_DIM_LABELS[d] || d);
+    const ctx = document.getElementById(canvasId).getContext("2d");
+    charts[canvasId] = new Chart(ctx, {
+      type: "bar",
+      data: { labels: dreadLabels, datasets: [{ data: avg, backgroundColor: "#c9604f", borderRadius: 2 }] },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          y: { min: 0, max: 5, grid: { color: "#2a3541" }, ticks: { color: "#7c8a97", font: { family: "IBM Plex Mono", size: 10 } } },
+          x: { grid: { display: false }, ticks: { color: "#d7dde3", font: { family: "IBM Plex Sans", size: 10 } } }
+        }
+      }
+    });
+    return;
+  }
+
+  let getCategories, color, maxLabels, emptyMsg, frameworkLabel;
+  if (framework === "atlas"){
+    color = "#7fa8c9";
+    if (view === "group"){
+      getCategories = e => [...new Set((e.ai_vulnerability_atlas || []).flatMap(m => m.atlas_tactics || []))];
+      maxLabels = undefined; frameworkLabel = "ATLAS tactic";
+    } else {
+      getCategories = e => (e.ai_vulnerability_atlas || []).map(m => rollup ? atlasRootLabel(m.atlas_id) : `${m.atlas_id} ${m.atlas_name}`);
+      maxLabels = 12; frameworkLabel = rollup ? "root MITRE ATLAS technique" : "MITRE ATLAS technique";
+    }
+    emptyMsg = "No entries in this group carry an ai_vulnerability_atlas mapping.";
+  } else if (framework === "operational"){
+    color = "#8fb996";
+    if (view === "group"){
+      getCategories = e => [...new Set((e.ai_vulnerability_operational || []).map(m => {
+        const g = m.op_group;
+        return g && OPERATIONAL_GROUPS_JS[g] ? `${g} ${OPERATIONAL_GROUPS_JS[g]}` : g;
+      }).filter(Boolean))];
+      maxLabels = undefined; frameworkLabel = "Operational group";
+    } else {
+      getCategories = e => (e.ai_vulnerability_operational || []).map(m => rollup ? operationalRootLabel(m.op_id) : `${m.op_id} ${m.op_name}`);
+      maxLabels = 12; frameworkLabel = rollup ? "root Operational Taxonomy category" : "Operational Taxonomy category";
+    }
+    emptyMsg = "No entries in this group carry an ai_vulnerability_operational mapping.";
+  } else { // stride
+    getCategories = e => e.stride || [];
+    color = "#e8a33d"; maxLabels = undefined; frameworkLabel = "STRIDE category";
+    emptyMsg = "No entries in this group carry a STRIDE tag.";
+  }
+
+  const counts = {};
+  entries.forEach(e => new Set(getCategories(e)).forEach(c => { if (c) counts[c] = (counts[c] || 0) + 1; }));
+  let labels = Object.keys(counts).sort((a, b) => counts[b] - counts[a]);
+  if (!labels.length){
+    subEl.textContent = emptyMsg;
+    return;
+  }
+  if (maxLabels) labels = labels.slice(0, maxLabels);
+  subEl.textContent = `Entries in this group touching each ${frameworkLabel}${maxLabels ? " (top " + maxLabels + ")" : ""} -- one entry can touch several.`;
+  barChart(canvasId, labels, labels.map(l => counts[l]), labels.map(() => color), true);
+}
+
+function renderFdThreats(entries){
+  updateThreatsControlsVisibility("fd");
+  const domain = document.getElementById("fd-threats-domain").value;
+  const framework = document.getElementById("fd-threats-framework").value;
+  const view = document.getElementById("fd-threats-view").value;
+  const rollup = document.getElementById("fd-threats-rollup").checked;
+  const subset = entries.filter(e => domainsOf(e).includes(domain));
+  renderTopThreatsChart("chart-fd-threats", "fd-threats-sub", subset, { framework, view, rollup });
+}
+
+function renderUaThreats(entries){
+  updateThreatsControlsVisibility("ua");
+  const ua = document.getElementById("ua-threats-domain").value;
+  const framework = document.getElementById("ua-threats-framework").value;
+  const view = document.getElementById("ua-threats-view").value;
+  const rollup = document.getElementById("ua-threats-rollup").checked;
+  const subset = entries.filter(e => e.use_area === ua);
+  renderTopThreatsChart("chart-ua-threats", "ua-threats-sub", subset, { framework, view, rollup });
+}
+
 function clearEditorSelection(){
   // Called whenever the filtered set of entries could have changed out from under whatever was
   // open -- a heatmap click, a filter dropdown change, or a search edit. Without this, the editor
@@ -3734,6 +4138,51 @@ function goToEditorFilteredBy(useArea, facilityDomain){
   document.getElementById("editor-search").value = ""; // a fresh navigation -- don't also apply a stale text filter
   document.getElementById("editor-filter-use-area").value = useArea;
   document.getElementById("editor-filter-facility-domain").value = facilityDomain;
+  clearAdvancedFilters(); // a coverage-matrix cell isn't tied to any particular ATLAS/Operational tag
+  clearEditorSelection();
+}
+
+// Navigate to the Editor from a cell in the ATLAS x Nuclear Operations heatmap, landing on entries
+// carrying both the clicked ATLAS tag and the clicked Operational tag via the Advanced filter
+// options panel (opened automatically so the applied filter is visible, not just active). This
+// always combines the ATLAS-side and Operational-side ticks with AND -- a heatmap cell IS the
+// intersection of its row and column, so anything else would misrepresent what was clicked.
+// `view` mirrors #atlas-op-view ("tactic-group" | "root" | "technique-category") and determines how
+// the clicked keys map onto the (now tickbox) advanced filters:
+//  - "tactic-group": the keys ARE a tactic name and an OP.G0# group -- tick those directly.
+//  - "root": the keys are root ids, but the heatmap's own count for this cell aggregates every
+//    sub-technique/subgroup under that root (see renderAtlasOpHeatmap's "root" branch) -- so the
+//    root id plus all of its children are ticked together, reproducing that same aggregation
+//    (this also happens automatically now if a person ticks a root by hand -- see
+//    buildHierarchicalCheckList -- but is done explicitly here since clearAdvancedFilters just ran).
+//  - "technique-category": the keys are the exact (possibly leaf) ids the heatmap counted, so only
+//    those are ticked -- no rollup -- so a specific sub-technique/subcategory cell filters to that
+//    sub-technique/subcategory alone, not its whole family.
+function goToEditorFilteredByThreat(view, atlasKey, opKey){
+  document.getElementById("tab-editor").click();
+  document.getElementById("editor-search").value = "";
+  document.getElementById("editor-filter-use-area").value = "all";
+  document.getElementById("editor-filter-facility-domain").value = "all";
+  clearAdvancedFilters(); // also resets the combine mode to AND, which is what a heatmap cell needs
+  setAdvFilterMode("and"); // explicit, so this stays correct even if clearAdvancedFilters changes later
+
+  if (view === "tactic-group"){
+    setCheckedValues("editor-filter-atlas-tactic", [atlasKey]);
+    setCheckedValues("editor-filter-op-group", [opKey]);
+    refreshTechniqueOptions();
+    refreshCategoryOptions();
+  } else if (view === "root"){
+    const atlasIds = [atlasKey, ...Object.keys(ATLAS_CATALOG).filter(id => id !== atlasKey && atlasRootId(id) === atlasKey)];
+    const opIds = [opKey, ...Object.keys(OPERATIONAL_CATALOG).filter(id => id !== opKey && operationalRootId(id) === opKey)];
+    setCheckedValues("editor-filter-atlas-technique", atlasIds);
+    setCheckedValues("editor-filter-op-category", opIds);
+  } else {
+    setCheckedValues("editor-filter-atlas-technique", [atlasKey]);
+    setCheckedValues("editor-filter-op-category", [opKey]);
+  }
+
+  document.getElementById("editor-adv-filter-panel").style.display = "flex";
+  updateAdvFilterToggleLabel();
   clearEditorSelection();
 }
 
@@ -3904,13 +4353,15 @@ function renderAtlasOpHeatmap(entries){
       const c = pairCounts[`${a}|${o}`] || 0;
       const td = document.createElement("td");
       td.textContent = c;
-      td.title = `${atlasLabel(a)} × ${opLabel(o)}: ${c} entries`;
+      td.title = `${atlasLabel(a)} × ${opLabel(o)}: ${c} entries -- click to view in Editor`;
       if (c === 0){
         td.className = "zero";
       } else {
         const alpha = 0.25 + 0.75 * (c / max);
         td.style.background = `rgba(127,168,201,${alpha.toFixed(2)})`;
       }
+      td.classList.add("heat-cell-clickable");
+      td.addEventListener("click", () => goToEditorFilteredByThreat(view, a, o));
       row.appendChild(td);
     });
     table.appendChild(row);
@@ -3928,11 +4379,37 @@ function render(){
   renderAtlas(entries);
   renderOperational(entries);
   renderDread(entries);
+  renderFdThreats(entries);
+  renderUaThreats(entries);
   renderAtlasOpHeatmap(entries);
 }
 
+document.getElementById("evidence-filter-usecase").addEventListener("change", (evt) => {
+  requireEvidenceUseCase = evt.target.checked;
+  evt.target.closest(".toggle-row").classList.toggle("off", !evt.target.checked);
+  clearEditorSelection();
+  render();
+});
+document.getElementById("evidence-filter-vulnerability").addEventListener("change", (evt) => {
+  requireEvidenceVulnerability = evt.target.checked;
+  evt.target.closest(".toggle-row").classList.toggle("off", !evt.target.checked);
+  clearEditorSelection();
+  render();
+});
+
 document.getElementById("dread-group-by").addEventListener("change", render);
 document.getElementById("dread-show-stddev").addEventListener("change", render);
+document.getElementById("fd-threats-domain").addEventListener("change", render);
+document.getElementById("fd-threats-framework").addEventListener("change", render);
+document.getElementById("fd-threats-view").addEventListener("change", render);
+document.getElementById("fd-threats-rollup").addEventListener("change", render);
+document.getElementById("ua-threats-domain").addEventListener("change", render);
+document.getElementById("ua-threats-framework").addEventListener("change", render);
+document.getElementById("ua-threats-view").addEventListener("change", render);
+document.getElementById("ua-threats-rollup").addEventListener("change", render);
+populateThreatDomainSelects();
+updateThreatsControlsVisibility("fd");
+updateThreatsControlsVisibility("ua");
 document.getElementById("atlas-view").addEventListener("change", render);
 document.getElementById("atlas-rollup").addEventListener("change", render);
 document.getElementById("operational-view").addEventListener("change", render);
@@ -4141,6 +4618,174 @@ function buildGlossaryBody(){
   return wrap;
 }
 
+/* =========================== TAXONOMY TAB (Nuclear Operations catalog) =========================== */
+/* Entirely driven by OPERATIONAL_CATALOG / OPERATIONAL_GROUPS_JS / OPERATIONAL_GROUP_DESCRIPTIONS_JS,
+   all baked into the page -- unlike the Dashboard/Editor tabs this needs no taxonomy JSON loaded, so
+   it (like Help) is built once at page load. */
+function taxonomyRootEntries(){
+  return Object.entries(OPERATIONAL_CATALOG)
+    .filter(([id]) => operationalRootId(id) === id)
+    .sort((a, b) => a[0].localeCompare(b[0]));
+}
+function taxonomySubEntries(rootId){
+  return Object.entries(OPERATIONAL_CATALOG)
+    .filter(([id]) => id !== rootId && operationalRootId(id) === rootId)
+    .sort((a, b) => a[0].localeCompare(b[0]));
+}
+
+function renderTaxonomyDetail(id){
+  const detail = document.getElementById("taxonomy-detail");
+  if (!detail) return;
+  document.querySelectorAll(".taxonomy-cat, .taxonomy-sub").forEach(el => el.classList.toggle("active", el.dataset.id === id));
+  const entry = OPERATIONAL_CATALOG[id];
+  if (!entry){ detail.innerHTML = ""; return; }
+  detail.innerHTML = `
+    <div class="id">${id}</div>
+    <h3>${entry.op_name || ""}</h3>
+    <div class="meta">${entry.level || ""} — ${entry.op_group} ${entry.op_group_name || ""}${entry.nature ? " — " + entry.nature : ""}</div>
+    <p>${entry.desc || ""}</p>
+    ${entry.source ? `<div class="meta" style="margin-bottom:4px; text-transform:none;">Source: ${entry.source}</div>` : ""}
+    ${entry.url ? `<a href="${entry.url}" target="_blank" rel="noopener">${entry.url} ↗</a>` : ""}
+  `;
+}
+
+function buildTaxonomyMatrix(){
+  const root = document.getElementById("taxonomy-matrix-view");
+  const groupIds = Object.keys(OPERATIONAL_GROUPS_JS).sort();
+  const matrix = document.createElement("div");
+  matrix.className = "taxonomy-matrix";
+
+  groupIds.forEach(gid => {
+    const col = document.createElement("div");
+    col.className = "taxonomy-col";
+    col.innerHTML = `<div class="taxonomy-col-header">${gid} — ${OPERATIONAL_GROUPS_JS[gid]}</div>
+      <div class="taxonomy-col-sub">${OPERATIONAL_GROUP_DESCRIPTIONS_JS[gid] || ""}</div>`;
+
+    taxonomyRootEntries().filter(([, e]) => e.op_group === gid).forEach(([id, entry]) => {
+      const catEl = document.createElement("div");
+      catEl.className = "taxonomy-cat";
+      catEl.dataset.id = id;
+      catEl.innerHTML = `<span class="id">${id}</span>${entry.op_name || ""}`;
+      catEl.addEventListener("click", () => renderTaxonomyDetail(id));
+      col.appendChild(catEl);
+
+      taxonomySubEntries(id).forEach(([subId, subEntry]) => {
+        const subEl = document.createElement("div");
+        subEl.className = "taxonomy-sub";
+        subEl.dataset.id = subId;
+        subEl.innerHTML = `<span class="id">${subId}</span>${subEntry.op_name || ""}`;
+        subEl.addEventListener("click", (evt) => { evt.stopPropagation(); renderTaxonomyDetail(subId); });
+        col.appendChild(subEl);
+      });
+    });
+
+    matrix.appendChild(col);
+  });
+
+  root.appendChild(matrix);
+  const detail = document.createElement("div");
+  detail.className = "taxonomy-detail";
+  detail.id = "taxonomy-detail";
+  detail.innerHTML = `<p style="color:var(--text-dim);">Click a category or subgroup above for its full description.</p>`;
+  root.appendChild(detail);
+}
+
+const TAXONOMY_TABLE_COLS = [
+  { key: "id", label: "ID" },
+  { key: "op_name", label: "Name" },
+  { key: "op_group", label: "Group" },
+  { key: "level", label: "Level" },
+  { key: "nature", label: "Nature" },
+  { key: "desc", label: "Description" },
+];
+let taxonomySortState = { key: "id", dir: 1 };
+
+function taxonomyTableRows(filterText){
+  const q = (filterText || "").toLowerCase();
+  let rows = Object.entries(OPERATIONAL_CATALOG).map(([id, e]) => ({ id, ...e }));
+  if (q){
+    rows = rows.filter(r =>
+      r.id.toLowerCase().includes(q) ||
+      (r.op_name || "").toLowerCase().includes(q) ||
+      (r.desc || "").toLowerCase().includes(q) ||
+      (r.op_group_name || "").toLowerCase().includes(q));
+  }
+  const { key, dir } = taxonomySortState;
+  rows.sort((a, b) => (String(a[key] ?? "")).localeCompare(String(b[key] ?? "")) * dir);
+  return rows;
+}
+
+function renderTaxonomyTableBody(){
+  const tbody = document.getElementById("taxonomy-table-body");
+  const filterText = document.getElementById("taxonomy-search")?.value || "";
+  const rows = taxonomyTableRows(filterText);
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td class="id">${r.id}</td>
+      <td>${r.op_name || ""}</td>
+      <td>${r.op_group} ${r.op_group_name || ""}</td>
+      <td>${r.level || ""}</td>
+      <td>${r.nature || ""}</td>
+      <td>${r.desc || ""}</td>
+    </tr>`).join("") || `<tr><td colspan="${TAXONOMY_TABLE_COLS.length}" style="color:var(--text-dim);">No entries match that search.</td></tr>`;
+  const count = document.getElementById("taxonomy-table-count");
+  if (count) count.textContent = `${rows.length} of ${Object.keys(OPERATIONAL_CATALOG).length} entries`;
+}
+
+function buildTaxonomyTable(){
+  const root = document.getElementById("taxonomy-table-view");
+  const toolbar = document.createElement("div");
+  toolbar.className = "taxonomy-toolbar";
+  toolbar.style.marginBottom = "12px";
+  toolbar.innerHTML = `
+    <input type="text" class="taxonomy-search" id="taxonomy-search" placeholder="Filter by ID, name, group, or description...">
+    <span class="sub" id="taxonomy-table-count" style="margin:0;"></span>
+  `;
+  root.appendChild(toolbar);
+
+  const wrap = document.createElement("div");
+  wrap.className = "taxonomy-table-wrap";
+  const table = document.createElement("table");
+  table.className = "taxonomy-table";
+  table.innerHTML = `
+    <thead><tr>${TAXONOMY_TABLE_COLS.map(c => `<th data-key="${c.key}">${c.label}</th>`).join("")}</tr></thead>
+    <tbody id="taxonomy-table-body"></tbody>
+  `;
+  wrap.appendChild(table);
+  root.appendChild(wrap);
+
+  table.querySelectorAll("th[data-key]").forEach(th => {
+    th.addEventListener("click", () => {
+      const key = th.dataset.key;
+      taxonomySortState = { key, dir: taxonomySortState.key === key ? -taxonomySortState.dir : 1 };
+      renderTaxonomyTableBody();
+    });
+  });
+  document.getElementById("taxonomy-search").addEventListener("input", renderTaxonomyTableBody);
+  renderTaxonomyTableBody();
+}
+
+function renderTaxonomyTab(){
+  const matrixRoot = document.getElementById("taxonomy-matrix-view");
+  if (!matrixRoot || matrixRoot.dataset.built) return; // static content -- build once
+  matrixRoot.dataset.built = "1";
+  buildTaxonomyMatrix();
+  buildTaxonomyTable();
+
+  document.getElementById("taxonomy-view-matrix").addEventListener("click", () => {
+    document.getElementById("taxonomy-view-matrix").classList.add("active");
+    document.getElementById("taxonomy-view-table").classList.remove("active");
+    document.getElementById("taxonomy-matrix-view").style.display = "";
+    document.getElementById("taxonomy-table-view").style.display = "none";
+  });
+  document.getElementById("taxonomy-view-table").addEventListener("click", () => {
+    document.getElementById("taxonomy-view-table").classList.add("active");
+    document.getElementById("taxonomy-view-matrix").classList.remove("active");
+    document.getElementById("taxonomy-table-view").style.display = "";
+    document.getElementById("taxonomy-matrix-view").style.display = "none";
+  });
+}
+
 function renderHelpContent(){
   const root = document.getElementById("help-content");
   if (!root || root.dataset.built) return; // static content -- build once, not on every tab click
@@ -4203,6 +4848,7 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     document.getElementById("view-dashboard").style.display = tab === "dashboard" ? "grid" : "none";
     document.getElementById("view-editor").style.display = tab === "editor" ? "grid" : "none";
     document.getElementById("view-help").style.display = tab === "help" ? "block" : "none";
+    document.getElementById("view-taxonomy").style.display = tab === "taxonomy" ? "block" : "none";
   });
 });
 
@@ -4212,6 +4858,183 @@ function isDirty(idx){
 
 function dirtyCount(){
   return workingEntries.reduce((n, _, i) => n + (isDirty(i) ? 1 : 0), 0);
+}
+
+// Advanced filter options -- lets the Editor list be narrowed to entries carrying any of several
+// ticked ATLAS tactics/techniques and/or Operational groups/categories, independent of (and in
+// addition to) the use_area/facility_domain selects above. Each of the four filters is a tickbox
+// list: nothing ticked means "no constraint" for that dimension, several ticks mean "any entry
+// matching at least one of these" (OR within a dimension, AND across dimensions). Technique/
+// category matching is exact (leaf-level, not rolled up to root) -- a specific sub-technique/
+// subgroup can be filtered for on its own -- but ticking a ROOT technique/category also ticks
+// every child nested under it (see buildHierarchicalCheckList), so filtering by "the whole family"
+// is still one click, and un-ticking that root un-ticks its children along with it.
+function getCheckedValues(containerId){
+  return Array.from(document.querySelectorAll(`#${containerId} input[type=checkbox]`))
+    .filter(cb => cb.checked).map(cb => cb.value);
+}
+
+function setCheckedValues(containerId, values){
+  const set = new Set(values);
+  document.querySelectorAll(`#${containerId} input[type=checkbox]`).forEach(cb => { cb.checked = set.has(cb.value); });
+}
+
+// Builds a flat (non-hierarchical) tickbox list, e.g. for ATLAS tactics or Operational groups.
+// `items` is [{ value, label, title? }]. Previously-ticked values that still appear stay ticked.
+function buildFlatCheckList(containerId, items){
+  const container = document.getElementById(containerId);
+  const previouslyChecked = new Set(getCheckedValues(containerId));
+  container.innerHTML = "";
+  items.forEach(({ value, label, title }) => {
+    const row = document.createElement("label");
+    row.className = "adv-check-row";
+    if (title) row.title = title;
+    row.innerHTML = `<input type="checkbox" value="${value}"><span>${label}</span>`;
+    row.querySelector("input").checked = previouslyChecked.has(value);
+    container.appendChild(row);
+  });
+}
+
+// Builds a two-level tickbox list (root technique/category rows, each followed by its own visible
+// children indented beneath it), e.g. for ATLAS techniques or Operational categories. `roots` is
+// the list of root ids to show; `childrenOf(rootId)` returns the child ids to show under it.
+// Ticking a root ticks all of its (currently visible) children with it; un-ticking it un-ticks them.
+// Always resets the list's own scroll position to the top, since it's rebuilt whenever the
+// tactic/group cascade above it changes -- otherwise a scrolled-down list can look empty after a
+// rebuild that happens to be shorter than before.
+function buildHierarchicalCheckList(containerId, roots, childrenOf, labelOf, titleOf){
+  const container = document.getElementById(containerId);
+  const previouslyChecked = new Set(getCheckedValues(containerId));
+  container.innerHTML = "";
+
+  roots.forEach(rootId => {
+    const rootRow = document.createElement("label");
+    rootRow.className = "adv-check-row root";
+    rootRow.title = titleOf(rootId);
+    rootRow.innerHTML = `<input type="checkbox" value="${rootId}"><span>${labelOf(rootId)}</span>`;
+    const rootCb = rootRow.querySelector("input");
+    rootCb.checked = previouslyChecked.has(rootId);
+    container.appendChild(rootRow);
+
+    const childIds = childrenOf(rootId);
+    const childCbs = [];
+    childIds.forEach(childId => {
+      const childRow = document.createElement("label");
+      childRow.className = "adv-check-row child";
+      childRow.title = titleOf(childId);
+      childRow.innerHTML = `<input type="checkbox" value="${childId}"><span>${labelOf(childId)}</span>`;
+      const childCb = childRow.querySelector("input");
+      childCb.checked = previouslyChecked.has(childId);
+      childCbs.push(childCb);
+      container.appendChild(childRow);
+    });
+
+    // Ticking/un-ticking the root propagates (silently -- no synthetic change events) to its
+    // currently-visible children; the root's own native change event still bubbles to whatever
+    // listener is on the container, so the list/filter still updates once per click.
+    rootCb.addEventListener("change", () => {
+      childCbs.forEach(cb => { cb.checked = rootCb.checked; });
+    });
+  });
+
+  container.scrollTop = 0;
+}
+
+// Whether ticked dimensions (tactic/technique/group/category) must ALL match ("and", the default)
+// or ANY may match ("or"). Only matters once two or more dimensions are ticked -- with zero or one
+// active, AND and OR are equivalent.
+function getAdvFilterMode(){
+  const checked = document.querySelector('input[name="editor-adv-filter-mode"]:checked');
+  return checked ? checked.value : "and";
+}
+
+function setAdvFilterMode(mode){
+  document.querySelectorAll('input[name="editor-adv-filter-mode"]').forEach(r => { r.checked = r.value === mode; });
+}
+
+function entryMatchesAdvancedFilters(e){
+  const tactics = getCheckedValues("editor-filter-atlas-tactic");
+  const techniques = getCheckedValues("editor-filter-atlas-technique");
+  const groups = getCheckedValues("editor-filter-op-group");
+  const categories = getCheckedValues("editor-filter-op-category");
+
+  const dimensionChecks = [];
+  if (tactics.length) dimensionChecks.push((e.ai_vulnerability_atlas || []).some(m => (m.atlas_tactics || []).some(t => tactics.includes(t))));
+  if (techniques.length) dimensionChecks.push((e.ai_vulnerability_atlas || []).some(m => techniques.includes(m.atlas_id)));
+  if (groups.length) dimensionChecks.push((e.ai_vulnerability_operational || []).some(m => groups.includes(m.op_group)));
+  if (categories.length) dimensionChecks.push((e.ai_vulnerability_operational || []).some(m => categories.includes(m.op_id)));
+
+  if (!dimensionChecks.length) return true; // nothing ticked anywhere -- unconstrained
+  return getAdvFilterMode() === "or" ? dimensionChecks.some(Boolean) : dimensionChecks.every(Boolean);
+}
+
+const ADV_FILTER_IDS = ["editor-filter-atlas-tactic", "editor-filter-atlas-technique", "editor-filter-op-group", "editor-filter-op-category"];
+
+function advancedFilterActiveCount(){
+  return ADV_FILTER_IDS.filter(id => getCheckedValues(id).length > 0).length;
+}
+
+function updateAdvFilterToggleLabel(){
+  const toggle = document.getElementById("editor-adv-filter-toggle");
+  const open = document.getElementById("editor-adv-filter-panel").style.display !== "none";
+  const count = advancedFilterActiveCount();
+  const modeSuffix = count > 1 ? `, ${getAdvFilterMode().toUpperCase()}` : "";
+  toggle.textContent = (open ? "▾" : "▸") + " Advanced filter options" + (count ? ` (${count} active${modeSuffix})` : "");
+  toggle.classList.toggle("open", open || count > 0);
+}
+
+// Rebuilds the ATLAS technique list to only the root techniques (and, under each, only the child
+// sub-techniques) whose OWN atlas_tactics include a currently-ticked tactic -- no tactic ticked
+// means no narrowing, i.e. every technique. A root is shown if it matches, or if any of its
+// children match (so a matching child is never orphaned without its parent as context).
+function refreshTechniqueOptions(){
+  const selectedTactics = getCheckedValues("editor-filter-atlas-tactic");
+  const matchesTactic = id => !selectedTactics.length || (ATLAS_CATALOG[id].atlas_tactics || []).some(t => selectedTactics.includes(t));
+  const childrenOfRoot = rootId => Object.keys(ATLAS_CATALOG).filter(id => id !== rootId && atlasRootId(id) === rootId).sort();
+
+  const roots = Object.keys(ATLAS_CATALOG).filter(atlasIsRoot).sort()
+    .filter(rootId => matchesTactic(rootId) || childrenOfRoot(rootId).some(matchesTactic));
+
+  buildHierarchicalCheckList(
+    "editor-filter-atlas-technique",
+    roots,
+    rootId => childrenOfRoot(rootId).filter(matchesTactic),
+    id => `${id} — ${ATLAS_CATALOG[id].atlas_name || ""}`,
+    id => (ATLAS_CATALOG[id].desc ? `${id} — ${ATLAS_CATALOG[id].atlas_name || ""}\n\n${ATLAS_CATALOG[id].desc}` : `${id} — ${ATLAS_CATALOG[id].atlas_name || ""}`)
+  );
+}
+
+// Mirrors refreshTechniqueOptions for the Operational category list, narrowed by ticked groups.
+function refreshCategoryOptions(){
+  const selectedGroups = getCheckedValues("editor-filter-op-group");
+  const matchesGroup = id => !selectedGroups.length || selectedGroups.includes(OPERATIONAL_CATALOG[id].op_group);
+  const childrenOfRoot = rootId => Object.keys(OPERATIONAL_CATALOG).filter(id => id !== rootId && operationalRootId(id) === rootId).sort();
+
+  const roots = Object.keys(OPERATIONAL_CATALOG).filter(id => operationalRootId(id) === id).sort()
+    .filter(rootId => matchesGroup(rootId) || childrenOfRoot(rootId).some(matchesGroup));
+
+  buildHierarchicalCheckList(
+    "editor-filter-op-category",
+    roots,
+    rootId => childrenOfRoot(rootId).filter(matchesGroup),
+    id => `${id} — ${OPERATIONAL_CATALOG[id].op_name || ""}`,
+    id => (OPERATIONAL_CATALOG[id].desc ? `${id} — ${OPERATIONAL_CATALOG[id].op_name || ""}\n\n${OPERATIONAL_CATALOG[id].desc}` : `${id} — ${OPERATIONAL_CATALOG[id].op_name || ""}`)
+  );
+}
+
+function clearAdvancedFilters(){
+  // Bug fix: this used to only clear the tactic/group tickboxes and then rebuild the technique/
+  // category lists, which *preserves* previously-ticked techniques/categories that are still in
+  // scope -- so a technique or category tick could survive "Clear advanced filters" entirely.
+  // Clear all four explicitly, in this order, before rebuilding the cascaded lists.
+  setCheckedValues("editor-filter-atlas-tactic", []);
+  setCheckedValues("editor-filter-atlas-technique", []);
+  setCheckedValues("editor-filter-op-group", []);
+  setCheckedValues("editor-filter-op-category", []);
+  setAdvFilterMode("and"); // back to the default combine mode too
+  refreshTechniqueOptions(); // tactic just cleared -- re-widen the cascaded list back to everything
+  refreshCategoryOptions();
+  updateAdvFilterToggleLabel();
 }
 
 function buildEditorList(){
@@ -4224,6 +5047,7 @@ function buildEditorList(){
     if (filter && !(e.use_case || "").toLowerCase().includes(filter)) return;
     if (uaFilter !== "all" && e.use_area !== uaFilter) return;
     if (fdFilter !== "all" && !domainsOf(e).includes(fdFilter)) return;
+    if (!entryMatchesAdvancedFilters(e)) return;
     const row = document.createElement("div");
     row.className = "editor-row" + (i === selectedEditIndex ? " selected" : "") + (isDirty(i) ? " dirty" : "");
     row.innerHTML = `<span class="dirty-dot"></span><span class="row-text">${e.use_case || "(untitled)"}<span class="ua">${e.use_area || ""}</span></span>`;
@@ -4247,9 +5071,64 @@ function populateEditorFilterOptions(){
     const opt = document.createElement("option"); opt.value = fd; opt.textContent = FACILITY_DOMAIN_LABELS[fd] || fd;
     fdSelect.appendChild(opt);
   });
+
+  buildFlatCheckList("editor-filter-atlas-tactic", Object.keys(ATLAS_TACTIC_DESCRIPTIONS_JS).map(t => ({
+    value: t, label: t, title: ATLAS_TACTIC_DESCRIPTIONS_JS[t] || t,
+  })));
+
+  buildFlatCheckList("editor-filter-op-group", Object.keys(OPERATIONAL_GROUPS_JS).map(g => ({
+    value: g, label: `${g} — ${OPERATIONAL_GROUPS_JS[g]}`, title: OPERATIONAL_GROUP_DESCRIPTIONS_JS[g] || `${g} — ${OPERATIONAL_GROUPS_JS[g]}`,
+  })));
+
+  // Technique/category lists are built by the cascade helpers themselves (they read the tactic/
+  // group lists above, which are empty at this point, so this is just "show everything").
+  refreshTechniqueOptions();
+  refreshCategoryOptions();
 }
 populateEditorFilterOptions();
+updateAdvFilterToggleLabel();
+
+document.getElementById("editor-adv-filter-toggle").addEventListener("click", () => {
+  const panel = document.getElementById("editor-adv-filter-panel");
+  panel.style.display = panel.style.display === "none" ? "flex" : "none";
+  updateAdvFilterToggleLabel();
+});
+document.getElementById("editor-adv-filter-clear").addEventListener("click", () => {
+  clearAdvancedFilters();
+  clearEditorSelection();
+});
+// One delegated listener per tickbox list -- checkbox "change" events bubble natively, so this
+// still fires whether the person ticks a row directly or a root's own listener (in
+// buildHierarchicalCheckList) ticks/unticks a child on its behalf.
+document.getElementById("editor-filter-atlas-tactic").addEventListener("change", (evt) => {
+  if (evt.target.tagName !== "INPUT") return;
+  refreshTechniqueOptions(); // narrow (or re-widen) the technique list to the ticked tactic(s)
+  updateAdvFilterToggleLabel();
+  clearEditorSelection();
+});
+document.getElementById("editor-filter-op-group").addEventListener("change", (evt) => {
+  if (evt.target.tagName !== "INPUT") return;
+  refreshCategoryOptions(); // narrow (or re-widen) the category list to the ticked group(s)
+  updateAdvFilterToggleLabel();
+  clearEditorSelection();
+});
+document.getElementById("editor-filter-atlas-technique").addEventListener("change", (evt) => {
+  if (evt.target.tagName !== "INPUT") return;
+  updateAdvFilterToggleLabel();
+  clearEditorSelection();
+});
+document.getElementById("editor-filter-op-category").addEventListener("change", (evt) => {
+  if (evt.target.tagName !== "INPUT") return;
+  updateAdvFilterToggleLabel();
+  clearEditorSelection();
+});
+document.getElementById("editor-adv-filter-mode").addEventListener("change", (evt) => {
+  if (evt.target.name !== "editor-adv-filter-mode") return;
+  updateAdvFilterToggleLabel();
+  clearEditorSelection();
+});
 renderHelpContent(); // static content, built once STRIDE_CATEGORIES etc. are defined below
+renderTaxonomyTab(); // static content (OPERATIONAL_CATALOG etc.), built once
 
 // Source-type options offered on each evidence row -- kept to categories of literature this
 // project treats as citable: peer-reviewed journals, primary regulatory/agency documentation,
@@ -4293,6 +5172,7 @@ document.getElementById("add-entry-btn").addEventListener("click", () => {
   document.getElementById("editor-search").value = "";
   document.getElementById("editor-filter-use-area").value = "all";
   document.getElementById("editor-filter-facility-domain").value = "all";
+  clearAdvancedFilters();
   selectEntryForEdit(workingEntries.length - 1);
 });
 
