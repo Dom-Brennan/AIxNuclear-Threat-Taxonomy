@@ -92,20 +92,20 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
       {
         "op_id": "OP.C0302.01",
-        "op_name": "Data drift",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "data drift"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       }
@@ -244,32 +244,26 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
       {
         "op_id": "OP.C0302.01",
-        "op_name": "Data drift",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "data drift"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
-      },
-      {
         "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "materials outside trained scope (operational drift)"
       },
@@ -283,7 +277,7 @@
         "op_id": "OP.C0505",
         "op_name": "Data access governance",
         "op_group": "OP.G05",
-        "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface (that case is AVID S0300 instead)",
+        "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface",
         "source_term": "data access"
       }
     ],
@@ -414,8 +408,8 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -423,7 +417,7 @@
         "op_id": "OP.C0204",
         "op_name": "Data availability/continuity",
         "op_group": "OP.G02",
-        "condition": "for the availability component only -- integrity is AVID P0104",
+        "condition": "for the availability component only",
         "source_term": "data integrity and availability"
       },
       {
@@ -445,7 +439,7 @@
         "source_term": "reliance on operator data"
       },
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -588,8 +582,8 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -745,19 +739,19 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -900,24 +894,24 @@
       },
       {
         "op_id": "OP.C0302.01",
-        "op_name": "Data drift",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "data drift"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       },
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -1045,13 +1039,13 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -1204,8 +1198,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       }
@@ -1345,20 +1339,20 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
       {
         "op_id": "OP.C0302.02",
-        "op_name": "Concept drift",
+        "op_name": "Concept Drift",
         "op_group": "OP.G03",
         "source_term": "model drift"
       },
@@ -1369,8 +1363,8 @@
         "source_term": "transfer-learning mismatch between sites"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       }
@@ -1517,19 +1511,19 @@
       },
       {
         "op_id": "OP.C0302.01",
-        "op_name": "Data drift",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "data drift"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       }
@@ -1683,14 +1677,14 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational and model drift"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       }
@@ -1828,8 +1822,8 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational and model drift"
       },
@@ -1961,7 +1955,7 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -1979,13 +1973,13 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
       {
-        "op_id": "OP.C0305.02",
+        "op_id": "OP.C0304.02",
         "op_name": "Mistranslation",
         "op_group": "OP.G03",
         "condition": "nuclear-domain-specific case -- multi-use acronyms (e.g. LEU/HEU-adjacent terms) carry elevated consequence if mistranslated or misattributed across a safeguards-relevant boundary",
@@ -1995,7 +1989,7 @@
         "op_id": "OP.C0505",
         "op_name": "Data access governance",
         "op_group": "OP.G05",
-        "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface (that case is AVID S0300 instead)",
+        "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface",
         "source_term": "data access"
       }
     ],
@@ -2120,14 +2114,14 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       },
       {
         "op_id": "OP.C0302.01",
-        "op_name": "Data drift",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "data drift"
       },
@@ -2263,7 +2257,7 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -2281,8 +2275,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique environments outside of training data"
       }
@@ -2398,7 +2392,7 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -2410,15 +2404,15 @@
         "source_term": "transfer-learning mismatch between sites"
       },
       {
-        "op_id": "OP.C0305.02",
+        "op_id": "OP.C0304.02",
         "op_name": "Mistranslation",
         "op_group": "OP.G03",
         "condition": "nuclear-domain-specific case -- multi-use acronyms (e.g. LEU/HEU-adjacent terms) carry elevated consequence if mistranslated or misattributed across a safeguards-relevant boundary",
         "source_term": "mistranslation or misattribution of multi-use acronyms"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -2432,7 +2426,7 @@
         "op_id": "OP.C0505",
         "op_name": "Data access governance",
         "op_group": "OP.G05",
-        "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface (that case is AVID S0300 instead)",
+        "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface",
         "source_term": "data access"
       }
     ],
@@ -2565,13 +2559,13 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
       },
       {
-        "op_id": "OP.C0305.02",
+        "op_id": "OP.C0304.02",
         "op_name": "Mistranslation",
         "op_group": "OP.G03",
         "condition": "nuclear-domain-specific case -- multi-use acronyms (e.g. LEU/HEU-adjacent terms) carry elevated consequence if mistranslated or misattributed across a safeguards-relevant boundary",
@@ -2596,14 +2590,8 @@
         "source_term": "transfer-learning mismatch between sites"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
-      },
-      {
         "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "materials outside trained scope (operational drift)"
       },
@@ -2611,7 +2599,7 @@
         "op_id": "OP.C0204",
         "op_name": "Data availability/continuity",
         "op_group": "OP.G02",
-        "condition": "for the availability component only -- confidentiality is AVID S0301",
+        "condition": "for the availability component only",
         "source_term": "data confidentiality and availability"
       }
     ],
@@ -2733,7 +2721,7 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -2752,24 +2740,18 @@
       },
       {
         "op_id": "OP.C0302.01",
-        "op_name": "Data drift",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "data drift"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
-      },
-      {
         "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "materials outside trained scope (operational drift)"
       },
       {
-        "op_id": "OP.C0305.02",
+        "op_id": "OP.C0304.02",
         "op_name": "Mistranslation",
         "op_group": "OP.G03",
         "condition": "nuclear-domain-specific case -- multi-use acronyms (e.g. LEU/HEU-adjacent terms) carry elevated consequence if mistranslated or misattributed across a safeguards-relevant boundary",
@@ -2931,8 +2913,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       }
@@ -3075,7 +3057,7 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -3093,14 +3075,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
-      },
-      {
         "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "materials outside trained scope (operational drift)"
       },
@@ -3108,7 +3084,7 @@
         "op_id": "OP.C0204",
         "op_name": "Data availability/continuity",
         "op_group": "OP.G02",
-        "condition": "for the availability component only -- confidentiality is AVID S0301",
+        "condition": "for the availability component only",
         "source_term": "data confidentiality and availability"
       }
     ],
@@ -3239,14 +3215,14 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       }
@@ -3386,19 +3362,19 @@
       },
       {
         "op_id": "OP.C0302.01",
-        "op_name": "Data drift",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "data drift"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "sensitivity to designs outside trained scope"
       }
@@ -3510,7 +3486,7 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -3528,8 +3504,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -3668,26 +3644,20 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "materials outside trained scope (operational drift)"
       },
       {
         "op_id": "OP.C0302",
-        "op_name": "Drift",
-        "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
-      },
-      {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       },
@@ -3698,7 +3668,7 @@
         "source_term": "unique nation state security needs outside trained scope"
       },
       {
-        "op_id": "OP.C0305.02",
+        "op_id": "OP.C0304.02",
         "op_name": "Mistranslation",
         "op_group": "OP.G03",
         "condition": "nuclear-domain-specific case -- multi-use acronyms (e.g. LEU/HEU-adjacent terms) carry elevated consequence if mistranslated or misattributed across a safeguards-relevant boundary",
@@ -3838,13 +3808,13 @@
     "ai_vulnerability_operational": [
       {
         "op_id": "OP.C0302.02",
-        "op_name": "Concept drift",
+        "op_name": "Concept Drift",
         "op_group": "OP.G03",
         "source_term": "model drift"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -3916,12 +3886,44 @@
     "facility_domain": [
       "waste_storage_transport"
     ],
-    "incurred_insecurity": "Trainees may internalize procedurally incorrect or incomplete responses from AI tutors, reducing preparedness for off-normal scenarios in actual waste handling operations. Automation complacency can suppress critical questioning of AI-generated guidance during simulation exercises.",
+    "incurred_insecurity": "Operators trained on simulations that inadequately represent facility-specific handling configurations, edge-case failures, or adversarial scenarios may internalize procedural shortcuts or develop false confidence in responses that fail during actual waste package operations. This erosion of procedural discipline and vigilance increases the probability of containment breaches, radiological exposures, or exploitation by insider threats when real-world conditions diverge from the training envelope.",
+    "red_team_panel": {
+      "nuclear_engineer": {
+        "argument": "AI-assisted training simulations for waste package handling could instill incorrect procedural knowledge or false confidence if the simulation does not accurately reflect actual facility-specific configurations, cask types, rigging constraints, or emergency response protocols. Trainees may develop automation bias, trusting simulated scenarios that diverge from real operations due to operational drift\u2014updated handling equipment, revised radiation exposure limits, or site-specific thermal/criticality constraints not reflected in the training model. If the simulation presents plausible but erroneous handling sequences or inadequate alarm response drills, operators may apply those flawed mental models during actual cask loading, transport preparation, or accident scenarios, bypassing physical interlocks or misinterpreting dosimetry readings. Existing procedural safeguards (independent verification, procedure checklists, health physics oversight) would need to also degrade for trained incompetence to cause a radiological release or criticality event, but reliance on outdated or generalized training content erodes the defense-in-depth culture essential to safe waste operations.",
+        "proposed_vulnerability_terms": [
+          "automation bias and complacency",
+          "operational drift",
+          "misaligned, hallucinatory, or misattributed AI output",
+          "unique failure modes outside trained scope"
+        ],
+        "proposed_incurred_insecurity": "Operators trained on simulations misaligned with facility-specific waste handling procedures, thermal constraints, or emergency protocols may execute incorrect rigging, shielding, or accident response actions during actual cask operations, requiring simultaneous failure of independent verification and health physics oversight to produce a radiological exposure or containment breach."
+      },
+      "ai_engineer": {
+        "argument": "Training simulations for waste package handling rely on accurate representation of physical interactions, equipment behavior, and procedural branching\u2014all of which require high-fidelity models trained on diverse operational scenarios. If the simulation model is trained predominantly on nominal handling cases or synthetic data rather than empirical observations of edge-case failures (dropped casks, crane malfunctions, contamination events), trainees develop false confidence in procedures that may not generalize to actual facility conditions. Operational drift becomes acute when trainees later encounter waste packages with different geometries, shielding configurations, or thermal profiles not represented in the training dataset, leading to procedural errors when reality diverges from simulation. The reliance on synthetic data is particularly problematic here: simulated physics may omit subtle material interactions (corrosion, differential thermal expansion, seal degradation) that dominate real-world transport incidents, embedding a systematic gap between training and operational reality.",
+        "proposed_vulnerability_terms": [
+          "reliance on synthetic data",
+          "operational drift",
+          "unique failure modes outside trained scope"
+        ],
+        "proposed_incurred_insecurity": "Trainees conditioned on simulation-driven procedures may fail to recognize or respond appropriately to waste package handling anomalies outside the training scenario envelope, increasing the probability of containment breaches or exposure events during actual transport operations when edge-case conditions arise."
+      },
+      "security_specialist": {
+        "argument": "A training simulator for waste package handling creates a pathway for an insider to normalize procedural shortcuts or 'safe enough' deviations that would never trigger alarms in the simulation but constitute critical vulnerabilities in the real environment\u2014particularly if the AI reinforces or fails to penalize behavior that bypasses verification steps or undermines defense-in-depth. An adversary (insider or external with insider assistance) could deliberately exploit the simulator's feedback loops to condition operators into complacency around specific procedural elements (e.g., radiation monitoring timing, seal integrity checks) that the attacker plans to exploit during an actual package diversion or sabotage event. The simulation becomes a rehearsal space where 'good enough' becomes normalized, and the adversary times their action for when operators trained on the AI's permissive model are on shift, knowing their vigilance has been systematically eroded in precisely the areas the attack exploits.",
+        "proposed_vulnerability_terms": [
+          "automation bias and complacency",
+          "operational drift",
+          "misaligned, hallucinatory, or misattributed AI output"
+        ],
+        "proposed_incurred_insecurity": "Training simulations that inadequately penalize procedural deviations or fail to model adversarial scenarios create a workforce conditioned to accept 'close enough' performance in precisely the verification and defense-in-depth steps that an insider threat or coordinated diversion attempt would target, with the simulation itself serving as an adversary's tool to pre-condition the human layer of security."
+      },
+      "synthesis_notes": "All three panelists converged on automation bias/complacency, operational drift, and the core risk of training content misalignment with reality. The AI engineer's emphasis on synthetic data and the nuclear engineer's identification of unique failure modes were retained as distinct contributing factors. The security specialist's adversarial framing reinforced the misalignment concern but did not introduce separate vulnerability terms beyond those already captured."
+    },
     "ai_vulnerability_legacy": [
-      "misaligned or hallucinatory information",
+      "automation bias and complacency",
+      "operational drift",
+      "misaligned, hallucinatory, or misattributed AI output",
       "reliance on synthetic data",
-      "unique failure modes outside trained scope",
-      "automation bias and complacency"
+      "unique failure modes outside trained scope"
     ],
     "ai_vulnerability_atlas": [
       {
@@ -3934,80 +3936,107 @@
         "source_term": "unique failure modes outside trained scope"
       }
     ],
-    "ai_vulnerability_non_atlas": [
+    "ai_vulnerability_operational": [
       {
-        "term": "misaligned or hallucinatory information",
-        "category": "reliability_ood"
+        "op_id": "OP.C0101.04",
+        "op_name": "Misuse (over-trust)",
+        "op_group": "OP.G01",
+        "source_term": "automation bias and complacency"
       },
       {
-        "term": "reliance on synthetic data",
-        "category": "data_quality"
+        "op_id": "OP.C0101.05",
+        "op_name": "Disuse (under-trust)",
+        "op_group": "OP.G01",
+        "source_term": "automation bias and complacency"
       },
       {
-        "term": "unique failure modes outside trained scope",
-        "category": "reliability_ood"
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
+        "op_group": "OP.G03",
+        "source_term": "operational drift"
       },
       {
-        "term": "automation bias and complacency",
-        "category": "human_factors"
-      }
-    ],
-    "ai_vulnerability_unmapped": [],
-    "ai_vulnerability_avid": [
-      {
-        "sep_id": "E0402",
-        "sep_name": "Generative Misinformation",
-        "sep_domain": "ethics",
-        "source_term": "misaligned or hallucinatory information"
+        "op_id": "OP.C0304.01",
+        "op_name": "Hallucination or misattribution",
+        "op_group": "OP.G03",
+        "source_term": "misaligned, hallucinatory, or misattributed AI output"
       },
       {
-        "sep_id": "P0104",
-        "sep_name": "Data quality issues",
-        "sep_domain": "performance",
+        "op_id": "OP.C0201.02",
+        "op_name": "Synthetic/surrogate data",
+        "op_group": "OP.G02",
         "source_term": "reliance on synthetic data"
       },
       {
-        "sep_id": "P0202",
-        "sep_name": "OOD generalization",
-        "sep_domain": "performance",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
+        "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       }
     ],
-    "ai_vulnerability_avid_unmapped": [
-      "automation bias and complacency"
-    ],
+    "ai_vulnerability_category_unmapped": [],
     "stride": [
       "Tampering"
     ],
-    "red_team_critique": {
-      "assumption_failure": "The AI tutor's designer assumes that **synthetic training data and simulated scenarios adequately represent the full spectrum of real-world waste package handling anomalies and edge cases**\u2014including equipment degradation, regulatory changes, novel waste forms, or rare failure modes. If this assumption is violated (e.g., trainees encounter genuinely novel off-normal events absent from training corpus), the AI may hallucinate plausible but incorrect procedures or fail silently, while **automation-complacent operators apply the flawed guidance without critical verification**. The system also assumes operators will recognize when scenarios exceed the AI's trained scope, yet the training context itself erodes this metacognitive skill. Consequently, facilities may deploy personnel with procedural blind spots precisely in the high-consequence, low-frequency situations where human judgment is most critical.",
-      "data_integrity": "In this training-simulation pipeline, synthetic waste-handling scenarios, procedural checklists, and edge-case data feed the AI tutor at training time, while trainee queries and simulation state data arrive at inference. The most plausible undetected failure is **gradual training-data drift** or **subtle poisoning of synthetic edge-case libraries**\u2014because simulations rarely surface ground-truth validation (real incidents are sparse), instructors may not notice when the AI begins recommending outdated containment protocols or subtly incorrect sequence steps until trainees encounter the actual scenario in the field. Missing coverage of newly identified waste-stream chemistries or updated regulatory procedures would similarly persist undetected if the simulation curriculum is not continuously reconciled with operational updates.",
-      "human_ai_handoff": "In AI-assisted training simulations, human review typically occurs **post-simulation** during instructor debriefs rather than in real-time, creating a delayed feedback loop that fails to correct procedural errors as trainees internalize them. The interface property most likely to erode this check is **high AI confidence presentation** combined with **low alert salience for out-of-scope or hallucinated guidance**\u2014if the AI tutor presents incorrect waste-handling procedures with authoritative tone and without uncertainty flags, instructors may not recognize the need to intervene, and trainees develop false confidence in flawed procedures. Over time, **alert fatigue** from frequent minor AI corrections during training can further suppress critical instructor oversight, normalizing acceptance of AI outputs even when they deviate from established safety protocols for off-normal waste transport scenarios.",
-      "out_of_distribution": "When trainees present edge-case or compound failure scenarios during waste-handling simulations\u2014such as concurrent equipment malfunctions, environmental anomalies, or rare material configurations not well-represented in synthetic training corpora\u2014the AI tutor may silently generate plausible-sounding but procedurally incorrect guidance without flagging epistemic uncertainty. This out-of-distribution failure is especially hazardous because trainees cannot easily distinguish confident hallucinations from legitimate expert guidance, leading them to internalize unsafe responses as correct procedure for precisely the off-normal conditions they are least prepared to handle. The system's inability to detect and communicate its own confusion in these low-data regimes means trainees receive no warning that they are being misinformed during critical learning moments for rare-but-consequential scenarios.",
-      "supply_chain": "# Supply-Chain Analysis\n\nThe **synthetic training data** (e.g., simulated waste package scenarios, handling procedures) likely originates from third-party simulation vendors or open-source repositories, while **pretrained foundation models** for the AI tutor may come from commercial AI providers with opaque training provenance. A compromise would manifest as **systematically biased or procedurally incorrect guidance** that appears plausible within normal simulation exercises\u2014for example, teaching trainees to skip radiation survey steps or misidentify package classification codes\u2014but only reveals itself as deficient during real operations or regulatory audits. \n\nBecause the operator lacks visibility into upstream data curation and model fine-tuning processes, **poisoned synthetic datasets** or **backdoored model weights** could embed persistent procedural errors that evade routine validation checks, creating a training pipeline that confidently teaches dangerous shortcuts across entire cohorts of waste handlers."
-    },
+    "evidence": [
+      {
+        "evidence_for": "use_case",
+        "source_type": "IAEA Publication",
+        "citation": "IAEA (2017), \"Virtual Reality Applications for the Nuclear Industry,\" IAEA-TECDOC-1817",
+        "url": "https://www-pub.iaea.org/MTCD/Publications/PDF/TE-1817_web.pdf",
+        "note": "Documents IAEA member states' use of virtual reality and simulation-based training for nuclear operations including radioactive waste handling, demonstrating industry adoption of simulation technologies for procedural training."
+      },
+      {
+        "evidence_for": "use_case",
+        "source_type": "Peer-reviewed Journal",
+        "citation": "Nazir et al. (2013), \"Training transfer in virtual environments: A review and new directions,\" Virtual Reality, 17(4)",
+        "url": "https://link.springer.com/article/10.1007/s10055-013-0234-5",
+        "note": "Analyzes training transfer challenges in virtual reality simulations across safety-critical industries including nuclear, noting gaps between simulated and real operational conditions that affect skill acquisition."
+      },
+      {
+        "evidence_for": "vulnerability",
+        "source_type": "Peer-reviewed Journal",
+        "citation": "Parasuraman & Manzey (2010), \"Complacency and Bias in Human Use of Automation: An Attentional Integration,\" Human Factors, 52(3)",
+        "url": "https://journals.sagepub.com/doi/10.1177/0018720810376055",
+        "note": "Establishes automation bias and complacency as documented psychological phenomena where operators over-rely on automated systems and develop reduced vigilance, directly relevant to the training simulation vulnerability mechanism."
+      },
+      {
+        "evidence_for": "vulnerability",
+        "source_type": "IAEA Publication",
+        "citation": "IAEA (2016), \"Simulation for Training and Decision Making in Nuclear Power Plants,\" IAEA Nuclear Energy Series No. NG-T-6.5",
+        "url": "https://www-pub.iaea.org/MTCD/Publications/PDF/Pub1726_web.pdf",
+        "note": "Discusses fidelity requirements for nuclear training simulators and warns that inadequate representation of plant-specific configurations and edge cases can lead to negative training transfer and procedural errors during actual operations."
+      },
+      {
+        "evidence_for": "vulnerability",
+        "source_type": "Peer-reviewed Journal",
+        "citation": "Endsley (2017), \"From Here to Autonomy: Lessons Learned From Human\u2013Automation Research,\" Human Factors, 59(1)",
+        "url": "https://journals.sagepub.com/doi/10.1177/0018720816681350",
+        "note": "Reviews automation-induced complacency and operational drift in safety-critical systems, documenting how training on limited-scope simulations creates false confidence that degrades real-world performance when conditions exceed the training envelope."
+      }
+    ],
     "dread_score": {
       "damage": {
         "score": 4,
-        "why": "Trainees internalizing incorrect waste-handling procedures for off-normal scenarios could lead to operational errors during actual waste transport (radiological containment breach, misclassification of packages, or regulatory non-compliance), eroding multiple safety margins though not necessarily causing immediate release."
+        "why": "Internalized procedural errors during waste package handling could lead to containment breaches or radiological exposures, though requires simultaneous degradation of independent verification and health physics oversight to reach severity 5."
       },
       "reproducibility": {
         "score": 4,
-        "why": "Once the AI tutor is trained on incomplete or poisoned synthetic data covering off-normal scenarios, it will reliably produce flawed guidance whenever trainees query those edge cases, as the underlying model deficiency persists across all training cohorts."
+        "why": "Once operators are trained on misaligned simulations and encounter real-world conditions outside the training envelope, procedural errors become reliably reproducible given the documented automation bias and complacency mechanisms."
       },
       "exploitability": {
         "score": 3,
-        "why": "Requires access to upstream synthetic training data pipelines or model fine-tuning processes (moderate insider position or vendor compromise), but does not demand deep facility-operational access since the vulnerability is injected during the AI development phase before deployment."
+        "why": "Requires influence over training content development or simulation parameters, which typically involves organizational access but not deep insider position or nation-state resources; natural drift from routine simulation use also plausible."
       },
       "affected_users": {
         "score": 4,
-        "why": "Affects entire cohorts of trainees across potentially multiple facilities using the same AI tutor platform, propagating procedural blind spots throughout the trained workforce who later handle actual waste packages in diverse operational contexts."
+        "why": "Affects entire cohorts of trained operators across waste handling operations facility-wide, though impact remains within the waste handling domain rather than propagating to coupled reactor or safeguards systems."
       },
       "discoverability": {
-        "score": 4,
-        "why": "Post-simulation instructor debriefs create delayed feedback loops, and high-confidence AI presentation suppresses real-time questioning; procedural errors in rare off-normal scenarios may only surface during actual field operations or regulatory audits, well after trainees have completed certification."
+        "score": 3,
+        "why": "Procedural erosion develops gradually through training and may be caught by independent verification, health physics oversight, or incident near-misses, but systematic gaps between simulation and reality could persist undetected until an actual edge-case failure occurs."
       },
-      "total": 19
+      "total": 18
     }
   },
   {
@@ -4016,126 +4045,130 @@
     "facility_domain": [
       "fuel_fabrication"
     ],
-    "incurred_insecurity": "Hallucinated acceptance criteria or misattributed tolerances could approve non-compliant fuel designs, while automation complacency may suppress expert review of edge-case geometries or novel cladding materials, eroding manufacturing quality assurance and potentially introducing unanalyzed conditions into reactor cores.",
+    "incurred_insecurity": "Approval of fuel pellets with dimensional, material, or enrichment characteristics outside safe operating limits due to AI misinterpretation of technical specifications, potentially leading to pellet-cladding mechanical interaction, fission gas release anomalies, or cladding breach during reactor operation. This risk is compounded by the system's reproducible blind spots, which adversaries could systematically exploit to pre-authorize non-compliant fuel designs across multiple facilities before fabrication or loading.",
+    "red_team_panel": {
+      "nuclear_engineer": {
+        "argument": "An AI reviewing fuel pellet dimensional tolerances during licensing must correctly interpret technical specifications that include precise tolerances (e.g., diameter \u00b10.01 mm, density thresholds) against fabrication data. If the model hallucinates acceptable values, misattributes specifications across different fuel designs, or fails to flag deviations due to training on a narrow set of pellet geometries, the regulator could approve fuel outside safe operating envelopes. Existing procedural safeguards\u2014independent human expert review, comparison against validated fuel qualification databases, and downstream core physics verification\u2014would need to fail concurrently for defective fuel to actually enter a reactor. However, automation bias may reduce scrutiny if regulators over-rely on the AI's 'approval,' particularly for novel fuel designs (e.g., accident-tolerant fuels) that fall outside the model's training scope.",
+        "proposed_vulnerability_terms": [
+          "misaligned, hallucinatory, or misattributed AI output",
+          "automation bias and complacency",
+          "sensitivity to designs outside trained scope"
+        ],
+        "proposed_incurred_insecurity": "Approval of fuel pellets with dimensional or material characteristics outside safe operating limits, bypassing qualification requirements, potentially leading to pellet-cladding mechanical interaction, fission gas release anomalies, or reactivity insertion events if defective fuel reaches reactor loading."
+      },
+      "ai_engineer": {
+        "argument": "This use case relies on parsing technical specifications and dimensional tolerance documents that likely exist in heterogeneous formats (PDFs, CAD drawings, scanned historical documents) with highly domain-specific terminology and strict numerical precision requirements. The training data provenance is critical: if the model was trained on a corpus that underrepresents certain fuel pellet geometries, cladding materials, or vendor-specific tolerance notation conventions, it will systematically miss or misinterpret specifications for those configurations at inference time. Document parsing models are notorious for struggles with tables, subscripts, and multi-column layouts where tolerance bounds are often encoded, creating a real risk of extracting wrong numerical values or failing to flag tighter tolerances that appear in non-standard formatting. The retraining cadence is also a vulnerability\u2014fuel fabrication evolves with new pellet designs and regulatory guidance updates, so a model qualified on 2020 specifications may silently degrade when reviewing 2025 submissions that reference newer ASTM standards or advanced fuel geometries it has never seen.",
+        "proposed_vulnerability_terms": [
+          "materials outside trained scope (operational drift)",
+          "data integrity",
+          "misaligned, hallucinatory, or misattributed AI output",
+          "model drift"
+        ],
+        "proposed_incurred_insecurity": "Failure to correctly parse or flag out-of-tolerance dimensional specifications could allow fuel pellets with geometric defects (ovality, dish depth errors, enrichment zoning mismatches) to pass automated review, directly undermining the regulatory barrier meant to prevent fuel performance degradation or cladding breach during reactor operation."
+      },
+      "security_specialist": {
+        "argument": "An adversary seeking to introduce sub-specification fuel pellets (for diversion, sabotage, or quality-degradation attacks) could exploit automated review systems through carefully crafted specification documents that pass AI checks but embed exploitable ambiguities or edge-case dimensional tolerances. If the AI becomes the primary gatekeeper for technical specification approval, insiders with knowledge of its training corpus could iteratively probe which out-of-tolerance submissions still pass, effectively reverse-engineering a 'safe corridor' for malicious specification changes. The automation concentrates trust in a single review pathway, making it a high-value target for compromise: poisoning the model or its reference data during updates could pre-authorize entire classes of non-compliant fuel geometries. Unlike human review fatigue which varies unpredictably, an AI's blind spots are reproducible\u2014once discovered by an adversary, they can be reliably re-exploited across multiple facilities using the same model, and the regulator may not detect the pattern until post-fabrication inspection or operational anomalies emerge.",
+        "proposed_vulnerability_terms": [
+          "automation bias and complacency",
+          "data poisoning",
+          "inability to detect unique or contrived component modifications",
+          "model inversion",
+          "operational drift"
+        ],
+        "proposed_incurred_insecurity": "The system creates a reproducible, high-value attack surface where adversaries can systematically probe and exploit AI blind spots to pre-authorize non-compliant fuel specifications, with compromise potentially undetected until fuel is fabricated and loaded\u2014by which point diversion, sabotage, or performance-degradation objectives may already be achieved."
+      },
+      "synthesis_notes": "All three panelists converged on misaligned/hallucinatory output and automation bias as core vulnerabilities. The AI engineer's 'materials outside trained scope' and 'model drift' both map to the broader 'operational drift' term that the security specialist also identified. Data poisoning and model inversion (adversarial probing of blind spots) were unique security concerns worth retaining. The nuclear engineer's 'sensitivity to designs outside trained scope' is subsumed by operational drift."
+    },
     "ai_vulnerability_legacy": [
-      "misaligned or hallucinatory documentation",
-      "mistranslation or misattribution of multi-use acronyms",
-      "negative bias in training data",
+      "misaligned, hallucinatory, or misattributed AI output",
       "automation bias and complacency",
-      "unique failure modes outside trained scope"
+      "operational drift",
+      "data integrity",
+      "data poisoning",
+      "model inversion"
     ],
     "ai_vulnerability_atlas": [
       {
-        "atlas_id": "AML.T0020",
-        "atlas_name": "Training Data Poisoning",
+        "atlas_id": "AML.T0059",
+        "atlas_name": "Erode Dataset Integrity",
         "atlas_tactics": [
+          "Impact"
+        ],
+        "source_term": "data integrity"
+      },
+      {
+        "atlas_id": "AML.T0020",
+        "atlas_name": "Poison Training Data",
+        "atlas_tactics": [
+          "Resource Development",
           "Persistence"
         ],
-        "condition": "if adversarially introduced",
-        "source_term": "negative bias in training data"
+        "source_term": "data poisoning"
       },
       {
-        "atlas_id": "AML.T0043",
-        "atlas_name": "Craft Adversarial Data",
+        "atlas_id": "AML.T0024.001",
+        "atlas_name": "Invert AI Model",
         "atlas_tactics": [
-          "AI Attack Staging"
+          "Exfiltration"
         ],
-        "condition": "if adversarially triggered rather than naturally occurring",
-        "source_term": "unique failure modes outside trained scope"
+        "source_term": "model inversion"
       }
     ],
-    "ai_vulnerability_non_atlas": [
+    "ai_vulnerability_operational": [
       {
-        "term": "misaligned or hallucinatory documentation",
-        "category": "reliability_ood"
+        "op_id": "OP.C0304.01",
+        "op_name": "Hallucination or misattribution",
+        "op_group": "OP.G03",
+        "source_term": "misaligned, hallucinatory, or misattributed AI output"
       },
       {
-        "term": "mistranslation or misattribution of multi-use acronyms",
-        "category": "reliability_ood"
+        "op_id": "OP.C0101.04",
+        "op_name": "Misuse (over-trust)",
+        "op_group": "OP.G01",
+        "source_term": "automation bias and complacency"
       },
       {
-        "term": "negative bias in training data",
-        "category": "data_quality"
+        "op_id": "OP.C0101.05",
+        "op_name": "Disuse (under-trust)",
+        "op_group": "OP.G01",
+        "source_term": "automation bias and complacency"
       },
       {
-        "term": "automation bias and complacency",
-        "category": "human_factors"
-      },
-      {
-        "term": "unique failure modes outside trained scope",
-        "category": "reliability_ood"
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
+        "op_group": "OP.G03",
+        "source_term": "operational drift"
       }
     ],
-    "ai_vulnerability_unmapped": [],
-    "ai_vulnerability_avid": [
-      {
-        "sep_id": "E0402",
-        "sep_name": "Generative Misinformation",
-        "sep_domain": "ethics",
-        "source_term": "misaligned or hallucinatory documentation"
-      },
-      {
-        "sep_id": "P0204",
-        "sep_name": "Accuracy",
-        "sep_domain": "performance",
-        "source_term": "mistranslation or misattribution of multi-use acronyms"
-      },
-      {
-        "sep_id": "P0104",
-        "sep_name": "Data quality issues",
-        "sep_domain": "performance",
-        "condition": "default, for generic data-quality bias",
-        "source_term": "negative bias in training data"
-      },
-      {
-        "sep_id": "E0100",
-        "sep_name": "Bias/Discrimination",
-        "sep_domain": "ethics",
-        "condition": "if the bias reflects societal/protected-group discrimination rather than generic data-quality noise",
-        "source_term": "negative bias in training data"
-      },
-      {
-        "sep_id": "P0202",
-        "sep_name": "OOD generalization",
-        "sep_domain": "performance",
-        "source_term": "unique failure modes outside trained scope"
-      }
-    ],
-    "ai_vulnerability_avid_unmapped": [
-      "automation bias and complacency"
-    ],
+    "ai_vulnerability_category_unmapped": [],
     "stride": [
+      "Denial of Service",
+      "Information Disclosure",
       "Tampering"
     ],
-    "red_team_critique": {
-      "assumption_failure": "The AI designer assumes that fuel pellet specification documents follow consistent formatting, nomenclature, and dimensional notation across manufacturers, reactor vendors, and regulatory regimes\u2014enabling reliable pattern extraction. When this assumption fails (e.g., legacy documents using imperial vs. metric units, vendor-specific acronym overloading like \"OD\" for outer diameter vs. oxide density, or novel cladding alloys described with non-standardized terminology), the system's mistranslation and misattribution vulnerabilities activate: tolerances may be mapped to wrong parameters, acceptance criteria may hallucinate plausible-but-incorrect values, and edge-case geometries fall outside training scope, producing undetected approval of non-compliant fuel that could degrade in-core.",
-      "data_integrity": "Training data for this automated licensing review system would include historical technical specifications, fuel-pellet tolerance databases, and regulatory acceptance criteria from multiple jurisdictions and fuel vendors. The most plausible undetected integrity failure is **gradual drift or corruption in dimensional tolerance thresholds**\u2014for instance, if training corpora mix metric/imperial units inconsistently, conflate tolerances for different reactor types, or include outdated standards that were later tightened\u2014because regulatory documents are iterative, multi-authored, and span decades, making silent degradation or unit-confusion difficult to flag without cross-referencing original source documents. Inference-time data (new fuel design submissions) could similarly suffer from **missing metadata** (e.g., omitted cladding material specifications or unstated manufacturing process changes) that the AI interpolates incorrectly, especially if the automation lacks hard validation checks against current regulatory minimums, allowing edge-case geometries to slip through on plausible but incorrect hallucinated precedent.",
-      "human_ai_handoff": "The entry assumes an \"automated review\" workflow where an AI flags or approves dimensional tolerances, implying handoff occurs when the AI escalates edge-case geometries or novel materials\u2014but automation complacency will degrade that handoff if the AI consistently accepts routine designs without error, training human reviewers to trust approvals uncritically. Alert fatigue from false positives on marginal geometries, or overly confident scoring that masks hallucinated acceptance criteria, would further erode expert scrutiny, especially for novel cladding materials where human judgment is most critical. Over time, reviewers may treat AI approval as dispositive rather than advisory, suppressing the deep technical review needed to catch misattributed tolerances before non-compliant fuel enters reactor cores.",
-      "out_of_distribution": "The most problematic OOD inputs are **novel cladding materials or unconventional pellet geometries** (e.g., annular pellets, ceramic composites, additive-manufactured structures) that deviate from the historical light-water-reactor solid-pellet designs dominating regulatory precedent and training corpora. When the AI encounters these edge cases without robust uncertainty quantification, it silently generates plausible-sounding acceptance criteria by **extrapolating tolerances from dissimilar materials** or **hallucinating standards that blend incompatible design philosophies**, effectively inventing safety margins rather than deferring to human judgment. This silent failure mode bypasses the \"unique failure outside trained scope\" flag because the output *appears* coherent and properly formatted, exploiting automation bias to approve geometries whose thermomechanical behavior under irradiation remains unanalyzed.",
-      "supply_chain": "**Supply-chain vulnerabilities in fuel tolerance review:**\n\nThe greatest exposure lies in pretrained language models and third-party training corpora containing fuel specifications, regulatory documents, and historical inspection reports. A compromised foundation model or poisoned reference dataset could systematically misrepresent dimensional tolerance bands (e.g., subtly widening acceptance windows for pellet diameter or clad thickness) in ways indistinguishable from legitimate regulatory interpretation. From the operator's perspective, the AI would appear to function normally\u2014citing plausible standards and producing internally consistent reviews\u2014while systematically approving out-of-spec geometries, only becoming apparent through downstream fabrication defects or post-delivery physical inspection failures. Sensor/measurement equipment feeding dimensional data represents a secondary supply-chain risk if calibration databases or embedded firmware are externally sourced."
-    },
+    "evidence": [],
     "dread_score": {
       "damage": {
         "score": 4,
-        "why": "Approving non-compliant fuel designs that enter reactor cores risks unanalyzed thermomechanical behavior under irradiation, potentially leading to fuel failure, cladding breach, or fission product release\u2014approaching but not definitively causing radiological release."
+        "why": "Approval of out-of-specification fuel pellets could lead to cladding breach, fission gas release anomalies, or pellet-cladding mechanical interaction during reactor operation\u2014significant safety-margin erosion with potential for localized fuel failure, though full radiological release would require cascading failures of additional barriers."
       },
       "reproducibility": {
         "score": 4,
-        "why": "Hallucination and mistranslation vulnerabilities trigger reliably when edge-case geometries or novel materials appear, given the documented OOD failure modes and lack of uncertainty quantification in typical LLM deployments."
+        "why": "Once AI blind spots for specific tolerance formats, fuel geometries, or document structures are identified, they can be reliably triggered across submissions with similar characteristics, as model parsing failures are deterministic for given input patterns."
       },
       "exploitability": {
         "score": 3,
-        "why": "Requires submitting fuel design documents with edge-case geometries or leveraging supply-chain access to training corpora\u2014feasible for sophisticated vendors or insiders but not trivially achievable via routine external interaction alone."
+        "why": "Requires either insider knowledge to craft specification documents exploiting known AI parsing weaknesses, or systematic probing to discover blind spots, but does not require nation-state resources\u2014a knowledgeable fuel vendor or compromised regulatory staff could achieve this."
       },
       "affected_users": {
         "score": 4,
-        "why": "Non-compliant fuel approved at fabrication propagates across multiple reactor cores if the design is widely deployed, affecting facility-wide fuel inventories and potentially multiple reactors using the same fuel product line."
+        "why": "Impact spans licensing approval process across multiple facilities potentially using the same automated review system, and defective fuel entering reactors affects core-wide fuel performance and safety margins, though containment provides ultimate boundary."
       },
       "discoverability": {
-        "score": 4,
-        "why": "Automation complacency and coherent-appearing hallucinated criteria make silent approval of edge cases plausible until downstream physical inspection or in-core performance degradation reveals the error, potentially after fuel loading."
+        "score": 3,
+        "why": "Independent human expert review and downstream core physics verification provide detection opportunities, but automation bias may reduce scrutiny; systematic exploitation across novel fuel designs could evade detection until post-fabrication inspection or operational anomalies emerge during irradiation."
       },
-      "total": 19
+      "total": 18
     }
   },
   {
@@ -4144,23 +4177,56 @@
     "facility_domain": [
       "fuel_fabrication"
     ],
-    "incurred_insecurity": "Trainees may internalize biased inspection patterns from AI-generated examples, developing overconfidence in automated assessment and reduced ability to detect novel defect types outside the training distribution, particularly as fabrication processes evolve.",
+    "incurred_insecurity": "Inspectors trained on AI simulations that lack representative defect diversity or have been compromised may systematically fail to recognize critical fuel pellet flaws on the production line, allowing defective or sabotaged fuel into the supply chain if downstream sampling and destructive testing do not intercept the specific defect modes the inspector was not trained to detect.",
+    "red_team_panel": {
+      "nuclear_engineer": {
+        "argument": "Training simulations that teach inspectors to detect flaws in fuel pellets create a dangerous coupling between model fidelity and inspector competence. If the AI-generated simulation systematically under-represents certain defect types (cracks, density variations, enrichment irregularities) or presents them in unrealistic ways, trainees develop a skewed mental model of what constitutes acceptable quality. When these inspectors move to the production floor, they may fail to flag real defects that fall outside their AI-trained pattern recognition, directly compromising the first line of defense against defective fuel entering a reactor. Existing procedural safeguards (sampling plans, destructive testing, independent QA review) assume inspectors have been trained on representative failure modes; if the AI simulation's dataset lacks edge cases or drifts from actual production variance, those downstream checks may not catch what the inspector missed.",
+        "proposed_vulnerability_terms": [
+          "automation bias and complacency",
+          "dataset bias",
+          "operational drift",
+          "unique failure modes outside trained scope"
+        ],
+        "proposed_incurred_insecurity": "Inspectors trained on non-representative AI simulations may systematically fail to identify real fuel pellet defects on the production line, allowing out-of-spec fuel to proceed toward reactor loading if downstream destructive testing or independent QA review does not intercept the specific defect mode the inspector was not trained to recognize."
+      },
+      "ai_engineer": {
+        "argument": "This use case trains inspectors via AI-generated or AI-scored simulations of fuel pellet defects, meaning the training data must faithfully represent the full distribution of real-world pellet flaws\u2014cracks, density variations, dimensional tolerances, surface finish anomalies. If the simulation was built from a narrow dataset (e.g., one supplier's historical reject stream, or synthetic defects that don't capture subtle manufacturing variations across different fabrication lines), trainees will develop pattern-recognition blind spots for defect classes absent from training. Once deployed, these inspectors may miss novel or rare defect morphologies, effectively encoding dataset bias into the human workforce. Additionally, if the simulation model drifts over time (e.g., isn't retrained as pellet manufacturing processes or acceptance criteria evolve), the training becomes stale and misaligned with current quality standards, perpetuating outdated inspection heuristics.",
+        "proposed_vulnerability_terms": [
+          "dataset bias",
+          "model and operational drift",
+          "reliance on synthetic data",
+          "unique failure modes outside trained scope"
+        ],
+        "proposed_incurred_insecurity": "Inspectors trained on biased or incomplete simulations will systematically overlook defect classes underrepresented in the training corpus, allowing defective fuel into the supply chain; model drift ensures that even initially adequate simulations degrade in fidelity as real-world manufacturing evolves."
+      },
+      "security_specialist": {
+        "argument": "AI-assisted training simulations for fuel pellet inspection create a covert insider pathway by allowing an adversary to manipulate the training environment to systematically blind future inspectors to specific defect signatures that the adversary plans to introduce during sabotage or diversion operations. A sophisticated insider (or compromised trainer) could poison the simulation dataset to normalize anomalous patterns\u2014such as surface cracks associated with deliberate contamination or density variations indicating partial material substitution\u2014so that inspectors trained on the corrupted simulator fail to recognize these signatures when encountering them on the production floor. This concentrates trust in the training system as the authoritative reference for 'normal,' making it a high-value target: compromise it once during the training phase, and you pre-condition an entire cohort of inspectors to miss your future actions. The use case also risks automation bias if inspectors come to defer to AI-flagged examples during training, eroding their independent pattern-recognition skills in a way an adversary could time an attack around (waiting until recently-trained, simulation-dependent staff are on shift). Unlike one-time operational AI failures, training systems have a force-multiplier effect because they shape human judgment persistently across the facility's workforce.",
+        "proposed_vulnerability_terms": [
+          "data poisoning",
+          "automation bias and complacency",
+          "dataset bias",
+          "intent misalignment"
+        ],
+        "proposed_incurred_insecurity": "An adversary gains the ability to pre-condition inspector blindness to chosen defect signatures by corrupting the authoritative training dataset, enabling future sabotage or material diversion to evade human detection at scale across the trained workforce."
+      },
+      "synthesis_notes": "All three panelists converged on dataset bias and automation bias as core risks; the nuclear engineer and AI engineer both identified drift and out-of-scope failure modes, while the security specialist uniquely surfaced data poisoning as a deliberate adversarial vector that leverages the training system's authoritative role. Intent misalignment was dropped as redundant with data poisoning in this context."
+    },
     "ai_vulnerability_legacy": [
-      "negative bias in training data",
-      "reliance on synthetic data",
+      "dataset bias",
+      "data poisoning",
+      "model and operational drift",
       "automation bias and complacency",
-      "unique failure modes outside trained scope",
-      "model drift"
+      "unique failure modes outside trained scope"
     ],
     "ai_vulnerability_atlas": [
       {
         "atlas_id": "AML.T0020",
-        "atlas_name": "Training Data Poisoning",
+        "atlas_name": "Poison Training Data",
         "atlas_tactics": [
+          "Resource Development",
           "Persistence"
         ],
-        "condition": "if adversarially introduced",
-        "source_term": "negative bias in training data"
+        "source_term": "data poisoning"
       },
       {
         "atlas_id": "AML.T0043",
@@ -4172,98 +4238,64 @@
         "source_term": "unique failure modes outside trained scope"
       }
     ],
-    "ai_vulnerability_non_atlas": [
+    "ai_vulnerability_operational": [
       {
-        "term": "negative bias in training data",
-        "category": "data_quality"
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
+        "op_group": "OP.G03",
+        "source_term": "model and operational drift"
       },
       {
-        "term": "reliance on synthetic data",
-        "category": "data_quality"
+        "op_id": "OP.C0101.04",
+        "op_name": "Misuse (over-trust)",
+        "op_group": "OP.G01",
+        "source_term": "automation bias and complacency"
       },
       {
-        "term": "automation bias and complacency",
-        "category": "human_factors"
+        "op_id": "OP.C0101.05",
+        "op_name": "Disuse (under-trust)",
+        "op_group": "OP.G01",
+        "source_term": "automation bias and complacency"
       },
       {
-        "term": "unique failure modes outside trained scope",
-        "category": "reliability_ood"
-      },
-      {
-        "term": "model drift",
-        "category": "reliability_drift"
-      }
-    ],
-    "ai_vulnerability_unmapped": [],
-    "ai_vulnerability_avid": [
-      {
-        "sep_id": "P0104",
-        "sep_name": "Data quality issues",
-        "sep_domain": "performance",
-        "condition": "default, for generic data-quality bias",
-        "source_term": "negative bias in training data"
-      },
-      {
-        "sep_id": "E0100",
-        "sep_name": "Bias/Discrimination",
-        "sep_domain": "ethics",
-        "condition": "if the bias reflects societal/protected-group discrimination rather than generic data-quality noise",
-        "source_term": "negative bias in training data"
-      },
-      {
-        "sep_id": "P0104",
-        "sep_name": "Data quality issues",
-        "sep_domain": "performance",
-        "source_term": "reliance on synthetic data"
-      },
-      {
-        "sep_id": "P0202",
-        "sep_name": "OOD generalization",
-        "sep_domain": "performance",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
+        "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
-      },
-      {
-        "sep_id": "P0102",
-        "sep_name": "Concept drift",
-        "sep_domain": "performance",
-        "source_term": "model drift"
       }
     ],
-    "ai_vulnerability_avid_unmapped": [
-      "automation bias and complacency"
+    "ai_vulnerability_category_unmapped": [
+      {
+        "category_name": "Dataset Bias",
+        "description": "dataset bias"
+      }
     ],
     "stride": [
       "Tampering"
     ],
-    "red_team_critique": {
-      "assumption_failure": "The AI training system designer assumes the fuel fabrication process remains **stable** and that the inspection task distribution is **stationary** over time\u2014i.e., that defect types, materials, and quality specifications encountered in operation will resemble those in the training data. When this assumption is violated (as fabrication processes evolve with new fuel designs, cladding materials, or manufacturing techniques), trainees will have internalized inspection patterns that no longer align with reality, creating a **competency gap** where inspectors confidently miss novel defect types because both they and their AI training aid were never exposed to them. The assumption failure is compounded by the reliance on synthetic data, which may not capture the full complexity of real-world manufacturing variation, leading to a workforce trained on an **idealized, outdated model** of fuel pellet quality assessment rather than the actual operational envelope.",
-      "data_integrity": "**Data integrity lens:**\n\nTraining data for the AI inspection simulator enters through curated defect image libraries (real or synthetic) and labeled quality thresholds; inference-time data consists of trainee interactions and simulated pellet images. The most plausible undetected failure is **gradual training-data drift** as fabrication processes evolve (new alloys, sintering parameters, or defect morphologies) without systematic updates to the simulation dataset\u2014defects that were once rare become common, or vice versa, yet the training examples remain static. Synthetic data reliance exacerbates this: if the generative process is calibrated once and never re-validated against current production statistics, trainees learn from a fossilized defect distribution that diverges from operational reality, and routine simulation metrics (completion rates, trainee scores) would not flag the mismatch until inspectors encounter novel real-world defects they were never trained to recognize.",
-      "human_ai_handoff": "The AI-assisted training simulation creates a critical handoff *during* skill formation: trainees learn inspection by comparing their visual judgments against AI-generated \"ground truth\" examples, establishing the AI as an authoritative reference rather than a tool to be validated. Over time, if the simulation consistently presents confident assessments (even for edge cases) without flagging uncertainty or distribution boundaries, trainees internalize that automation is more reliable than human judgment\u2014a form of **anticipatory complacency** that persists into operational settings. When these trainees graduate to real inspection roles, they are predisposed to accept AI recommendations without independent verification, especially under time pressure or high throughput, because their formative experience framed human oversight as redundant rather than complementary.",
-      "out_of_distribution": "Fuel pellet defects arising from **process changes, new material suppliers, or novel contamination modes** (e.g., updated sintering parameters, substituted binder chemistries, or previously unseen microstructural anomalies) are most likely to fall outside the training distribution. When the AI encounters these OOD defects, it will silently misclassify them as acceptable or map them to superficially similar known defect categories without flagging uncertainty, causing trainees to **miss critical quality failures** while falsely believing the inspection was thorough. This is compounded by the reliance on synthetic training data, which may systematically underrepresent rare or emergent defect morphologies that only appear as fabrication processes evolve.",
-      "supply_chain": "**Supply-chain red-team assessment:**\n\nThe training simulation likely relies on **synthetic defect images or augmentation libraries** (e.g., GAN-generated pellet defects, third-party physics simulation packages) and possibly **pretrained computer vision backbones** (e.g., ImageNet-initialized models from public repositories). A compromise could manifest as systematically biased synthetic data that over-represents benign-looking defects or under-represents certain critical crack geometries, leading trainees to unknowingly adopt inspection blind spots. From the operator's vantage point, this would appear as **gradual performance degradation in real-world inspections**\u2014newly trained inspectors consistently missing defect classes that were subtly omitted or misrepresented in the poisoned training library\u2014only becoming apparent through batch rejection rates or downstream fuel performance anomalies, long after the compromised training materials were deployed."
-    },
+    "evidence": [],
     "dread_score": {
       "damage": {
-        "score": 3,
-        "why": "Inspectors missing novel defect types could allow defective fuel pellets into reactor service, eroding safety margins through undetected manufacturing flaws, but would typically be caught by downstream quality gates or manifest as gradual performance degradation rather than immediate radiological release."
+        "score": 4,
+        "why": "Systematic failure to detect critical fuel pellet defects could allow defective fuel into reactors, potentially causing fuel failures, cladding breaches, or coolant contamination\u2014significant safety-margin erosion and operational disruption, though not directly causing immediate radiological release."
       },
       "reproducibility": {
         "score": 4,
-        "why": "Once fabrication processes evolve or synthetic training data becomes outdated, the competency gap reliably manifests across all trainees exposed to the stale simulation, making this vulnerability highly reproducible given process drift conditions."
+        "why": "Once inspectors are trained on biased or poisoned simulations, they will reliably fail to recognize underrepresented defect classes throughout their careers until retrained, making the vulnerability highly reproducible across the trained cohort."
       },
       "exploitability": {
         "score": 3,
-        "why": "Requires access to training data pipelines or synthetic generation parameters to introduce bias, or passive exploitation via neglecting to update training datasets as processes evolve\u2014achievable by insiders with curriculum development roles but not trivially accessible externally."
+        "why": "Requires insider access to the training system development or data curation pipeline to inject bias or poison training data, but does not require nation-state resources\u2014a knowledgeable insider or compromised training vendor could achieve this."
       },
       "affected_users": {
         "score": 4,
-        "why": "Impacts the entire cohort of trainees who internalize biased inspection patterns, potentially affecting facility-wide fuel quality assessment capability as these inspectors enter operational roles across multiple production lines."
+        "why": "Impacts entire cohorts of trained inspectors across the fuel fabrication facility's quality control chain, potentially affecting multiple production lines and propagating defective fuel throughout the supply chain to multiple reactor facilities."
       },
       "discoverability": {
         "score": 4,
-        "why": "Training-data drift and resulting inspector blind spots manifest gradually through missed novel defects that only become apparent via downstream batch rejections or fuel performance anomalies, often long after compromised training, making early detection unlikely without systematic validation against current production statistics."
+        "why": "Training dataset bias or poisoning is difficult to detect without systematic validation against real-world defect distributions; degraded inspector performance may only become apparent after defective fuel reaches downstream testing or operational anomalies emerge, allowing prolonged undetected operation."
       },
-      "total": 18
+      "total": 19
     }
   },
   {
@@ -4343,7 +4375,7 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -4361,8 +4393,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -4376,7 +4408,7 @@
         "op_id": "OP.C0204",
         "op_name": "Data availability/continuity",
         "op_group": "OP.G02",
-        "condition": "for the availability component only -- confidentiality is AVID S0301",
+        "condition": "for the availability component only",
         "source_term": "data confidentiality and availability"
       }
     ],
@@ -4544,20 +4576,14 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
-      },
-      {
         "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "materials outside trained scope (operational drift)"
       },
@@ -4574,8 +4600,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       }
@@ -4703,8 +4729,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -4715,14 +4741,8 @@
         "source_term": "reliance on operator data"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
-      },
-      {
         "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "materials outside trained scope (operational drift)"
       }
@@ -4870,7 +4890,7 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -4888,8 +4908,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -4903,7 +4923,7 @@
         "op_id": "OP.C0505",
         "op_name": "Data access governance",
         "op_group": "OP.G05",
-        "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface (that case is AVID S0300 instead)",
+        "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface",
         "source_term": "data access"
       }
     ],
@@ -4999,12 +5019,12 @@
     "ai_vulnerability_operational": [
       {
         "op_id": "OP.C0302.01",
-        "op_name": "Data drift",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "data drift"
       },
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -5022,14 +5042,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
-      },
-      {
         "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "materials outside trained scope (operational drift)"
       }
@@ -5117,7 +5131,7 @@
     "ai_vulnerability_atlas": [],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -5135,8 +5149,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -5150,7 +5164,7 @@
         "op_id": "OP.C0505",
         "op_name": "Data access governance",
         "op_group": "OP.G05",
-        "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface (that case is AVID S0300 instead)",
+        "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface",
         "source_term": "data access"
       }
     ],
@@ -5271,19 +5285,19 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.03",
+        "op_id": "OP.C0304.03",
         "op_name": "Oversimplification or omission",
         "op_group": "OP.G03",
         "source_term": "oversimplification"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       },
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -5304,7 +5318,7 @@
         "op_id": "OP.C0204",
         "op_name": "Data availability/continuity",
         "op_group": "OP.G02",
-        "condition": "for the availability component only -- confidentiality is AVID S0301",
+        "condition": "for the availability component only",
         "source_term": "data confidentiality and availability"
       }
     ],
@@ -5417,20 +5431,14 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "materials outside trained scope (operational drift)"
       },
       {
         "op_id": "OP.C0302",
-        "op_name": "Drift",
-        "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
-      },
-      {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       },
@@ -5574,19 +5582,19 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       },
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -5707,7 +5715,7 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -5719,14 +5727,14 @@
         "source_term": "version control ambiguity"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
       {
         "op_id": "OP.C0302.02",
-        "op_name": "Concept drift",
+        "op_name": "Concept Drift",
         "op_group": "OP.G03",
         "source_term": "model drift"
       }
@@ -5904,14 +5912,14 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -6031,32 +6039,26 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "sensitivity to designs outside trained scope"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
-      },
-      {
         "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "materials outside trained scope (operational drift)"
       }
@@ -6172,8 +6174,8 @@
         "source_term": "reliance on synthetic data"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -6190,10 +6192,10 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
-        "condition": "for the naturally-occurring, non-adversarial OOD case -- an adversarially introduced component is AVID S0200 instead",
+        "condition": "for the naturally-occurring, non-adversarial OOD case -- an adversarially introduced component is an ATLAS technique instead",
         "source_term": "inability to detect unique or contrived component modifications"
       }
     ],
@@ -6301,7 +6303,7 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -6319,8 +6321,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       }
@@ -6445,20 +6447,20 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       },
@@ -6478,7 +6480,7 @@
         "op_id": "OP.C0204",
         "op_name": "Data availability/continuity",
         "op_group": "OP.G02",
-        "condition": "for the availability component only -- confidentiality is AVID S0301",
+        "condition": "for the availability component only",
         "source_term": "data confidentiality and availability"
       }
     ],
@@ -6577,8 +6579,8 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -6717,8 +6719,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "sensitivity to designs outside trained scope"
       },
@@ -6735,16 +6737,16 @@
         "source_term": "transfer-learning mismatch between sites"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
-        "condition": "for the naturally-occurring, non-adversarial OOD case -- an adversarially introduced component is AVID S0200 instead",
+        "condition": "for the naturally-occurring, non-adversarial OOD case -- an adversarially introduced component is an ATLAS technique instead",
         "source_term": "inability to detect unique or contrived component modifications"
       }
     ],
@@ -6888,26 +6890,20 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
-      },
-      {
         "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "materials outside trained scope (operational drift)"
       },
@@ -6921,7 +6917,7 @@
         "op_id": "OP.C0204",
         "op_name": "Data availability/continuity",
         "op_group": "OP.G02",
-        "condition": "for the availability component only -- confidentiality is AVID S0301",
+        "condition": "for the availability component only",
         "source_term": "data confidentiality and availability"
       }
     ],
@@ -7034,8 +7030,8 @@
         "source_term": "reliance on operator data"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -7052,8 +7048,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure or operational modes"
       }
@@ -7148,7 +7144,7 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
@@ -7166,8 +7162,8 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -7175,7 +7171,7 @@
         "op_id": "OP.C0505",
         "op_name": "Data access governance",
         "op_group": "OP.G05",
-        "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface (that case is AVID S0300 instead)",
+        "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface",
         "source_term": "data access"
       }
     ],
@@ -7280,14 +7276,14 @@
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0305.01",
+        "op_id": "OP.C0304.01",
         "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
         "source_term": "misaligned, hallucinatory, or misattributed AI output"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift",
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
       },
@@ -7304,10 +7300,10 @@
         "source_term": "automation bias and complacency"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
-        "condition": "for the naturally-occurring, non-adversarial OOD case -- an adversarially introduced component is AVID S0200 instead",
+        "condition": "for the naturally-occurring, non-adversarial OOD case -- an adversarially introduced component is an ATLAS technique instead",
         "source_term": "inability to detect unique or contrived component modifications"
       }
     ],
@@ -7432,8 +7428,8 @@
         "source_term": "reliance on synthetic data"
       },
       {
-        "op_id": "OP.C0304",
-        "op_name": "Out-of-distribution / generalization failure",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
       },
@@ -7451,7 +7447,7 @@
       },
       {
         "op_id": "OP.C0302.02",
-        "op_name": "Concept drift",
+        "op_name": "Concept Drift",
         "op_group": "OP.G03",
         "source_term": "model drift"
       },
@@ -7459,7 +7455,7 @@
         "op_id": "OP.C0204",
         "op_name": "Data availability/continuity",
         "op_group": "OP.G02",
-        "condition": "for the availability component only -- confidentiality is AVID S0301",
+        "condition": "for the availability component only",
         "source_term": "data confidentiality and availability"
       }
     ],
