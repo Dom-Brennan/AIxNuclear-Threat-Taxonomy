@@ -7,66 +7,114 @@
       "enrichment",
       "reprocessing"
     ],
-    "incurred_insecurity": "Undetected sensor degradation (false negatives) or spurious health alerts (false positives) can cause operators to act on faulty readings, miss genuine safety or safeguards trips, or dismiss critical warnings due to alarm fatigue and eroded trust. An adversary exploiting data poisoning or the system's training limitations could blind operators to real instrumentation failures, creating windows of reduced vigilance for physical intrusion or material diversion.",
+    "incurred_insecurity": "Undetected sensor degradation creates latent failures in safety-critical measurement channels and safeguards instrumentation, undermining defense-in-depth and enabling adversaries to mask diversion or sabotage activities during monitoring blind spots. Operator reliance on AI health verdicts\u2014combined with alarm fatigue or complacency\u2014erodes manual cross-checking, while adversarial compromise of training data or model supply chains can systematically blind entire facility fleets to specific failure signatures an attacker plans to exploit.",
     "red_team_panel": {
       "nuclear_engineer": {
-        "argument": "Online sensor health monitoring uses AI to detect degraded or failing instrumentation before it causes unplanned shutdowns or missed safety signals. If the AI model fails to flag a deteriorating sensor\u2014or conversely, floods operators with false alarms\u2014plant staff may either act on bad data or dismiss genuine warnings (automation bias and complacency). In enrichment and reprocessing, where material accountability hinges on accurate flow, temperature, and radiation measurements, undetected sensor drift can mask diversion or process excursions. Operational drift is inevitable: sensors age, are replaced with slightly different models, or encounter process conditions (corrosion, fouling, radiation damage) not represented in training data, causing the AI to miss novel failure signatures.",
+        "argument": "Online sensor health monitoring is a critical safety and safeguards function that underpins nearly every automated decision in a nuclear facility. From an operations standpoint, if the AI system falsely declares sensors healthy when they are degrading, operators lose their window to perform preventive maintenance before those instruments fail during a transient or accident scenario\u2014violating defense-in-depth by creating latent failures in measurement channels that are assumed available in safety analyses. Conversely, excessive false alarms erode operator trust and can lead to ignoring genuine health warnings or disabling the monitoring system entirely (automation disuse). In enrichment and reprocessing, sensor health directly affects material accountancy and safeguards: if flow, level, or radiation detectors drift undetected, material balance discrepancies grow unnoticed until they exceed detection thresholds, and an adversary could exploit that drift window to mask diversion. The AI's training data likely comes from normal operation with few genuine failure signatures, so it may fail to recognize novel degradation modes in new equipment or after design changes, and any cloud-connected inference path introduces a supply-chain risk where poisoned models could be deployed fleet-wide.",
         "proposed_vulnerability_terms": [
-          "automation bias and complacency",
-          "operational drift",
-          "unique failure modes outside trained scope",
-          "data drift"
+          "False negative on sensor degradation leading to latent safety system failure",
+          "Alarm/monitoring complacency from excessive false positives",
+          "Disuse or over-trust in automated health verdict",
+          "Training data scarcity for rare sensor failure modes",
+          "Operational drift when sensor population changes or new failure mechanisms emerge",
+          "Non-determinism in health classification causing inconsistent operator guidance",
+          "Cloud or off-premises model hosting introducing supply chain compromise vector",
+          "Cross-site model propagation spreading poisoned health logic to entire fleet",
+          "Data poisoning during training to mask specific degradation signatures",
+          "Adversarial perturbation of input telemetry to evade degradation detection",
+          "Safeguards instrument health misclassification enabling undetected material accountancy drift",
+          "Explainability gap preventing operators from understanding why a sensor was flagged",
+          "Goal misalignment optimizing for low false-alarm rate at expense of safety margin",
+          "Out-of-the-loop unfamiliarity when operators rely on AI verdict without reviewing raw trends",
+          "Static qualification not covering dynamic operational heterogeneity across facility states"
         ],
-        "proposed_incurred_insecurity": "Undetected sensor degradation allows operators to make control decisions on faulty readings, potentially masking safeguards trips, material accountancy discrepancies, or process upsets. False positives erode trust, leading operators to override or ignore alerts when a genuine sensor failure occurs."
+        "proposed_incurred_insecurity": "Undetected sensor degradation creates latent failures in safety-critical measurement channels, undermining the assumed availability in accident analyses and enabling safeguards evasion if material accountancy instruments drift outside detection thresholds. Operator mistrust or complacency from false alarms can lead to ignoring genuine warnings or disabling the monitoring system, while supply-chain or adversarial compromise of the model could systematically blind the facility to degradation across the entire sensor fleet."
       },
       "ai_engineer": {
-        "argument": "Sensor health monitoring systems rely on continuous streaming data from heterogeneous instrumentation (thermocouples, radiation detectors, pressure transducers) whose calibration, drift characteristics, and failure modes vary by manufacturer, installation age, and operating environment. The model is trained on historical sensor signatures, but real degradation patterns\u2014corrosion-induced noise in reprocessing environments, neutron-induced drift in power generation, or vacuum-seal microleaks in enrichment centrifuge arrays\u2014may manifest in ways absent from the training corpus, especially if the training set over-represents one facility domain or excludes rare but real failure modes. At inference time, if a sensor begins degrading in a novel way (e.g., a cascade failure or environmental coupling effect not seen during training), the system may misclassify the anomaly as 'healthy' or flag spurious alarms, eroding operator trust. The pipeline's dependence on clean, labeled historical data from sensors with known provenance makes it vulnerable when sensor hardware is replaced, recalibrated without retraining, or when operational conditions drift outside the training envelope. Data integrity is also at risk if an adversary injects false telemetry upstream, causing the model to learn or infer from corrupted baselines.",
+        "argument": "Online sensor health monitoring in nuclear facilities relies on ML models trained to detect anomalies in sensor behavior (drift, calibration error, incipient failure) across heterogeneous instrumentation fleets. The core ML fragility is data provenance and operational drift: models trained on simulated or lab-bench sensor degradation profiles may fail to generalize to field conditions where environmental stressors, aging mechanisms, and multi-sensor correlation patterns differ from training. Inference-time non-determinism in ensemble or Bayesian health classifiers creates repeatability challenges for regulatory compliance, and model updates propagate across facility fleets without per-site qualification. The architecture itself \u2014 often using transfer learning from one sensor type to another or relying on limited failure-mode exemplars \u2014 is vulnerable to low base-rate events (rare failure signatures) and concept drift as new sensor generations or operating regimes emerge.",
         "proposed_vulnerability_terms": [
-          "data drift",
-          "operational drift",
-          "unique failure modes outside trained scope",
-          "data integrity",
-          "reliance on operator data"
+          "Training data limited to simulated or lab-bench sensor degradation, not field failure modes",
+          "Operational drift as sensor aging and environmental stressors diverge from training distribution",
+          "Low base-rate problem for rare sensor failure signatures underrepresented in training",
+          "Cross-fleet model propagation without per-site or per-sensor-model qualification",
+          "Inference-time non-repeatability in ensemble health classifiers",
+          "Transfer learning from dissimilar sensor types leading to generalization failure",
+          "Concept drift from new sensor generations or operating regimes not seen in training",
+          "Data continuity failure when sensor telemetry streams are interrupted or inconsistent",
+          "Small training datasets for domain-specific nuclear instrumentation failure modes",
+          "Model drift as plant-specific operating conditions evolve post-deployment",
+          "Explainability gap preventing operator validation of health state classifications",
+          "Cascading false-positive alarms eroding operator trust in AI health assessments",
+          "Skill fade as operators rely on automated health monitoring without manual cross-checks",
+          "Static qualification at deployment, no dynamic revalidation as sensor population ages",
+          "Heterogeneity across power generation, enrichment, reprocessing sensor suites causing model mismatch"
         ],
-        "proposed_incurred_insecurity": "The model may fail to detect genuine sensor degradation (false negatives) or generate spurious health alerts (false positives) when encountering failure modes, recalibration states, or environmental couplings absent from training data, leading to undetected instrumentation faults or alarm fatigue. If training or inference data is corrupted\u2014whether by adversarial injection or benign miscalibration\u2014the system internalizes incorrect baselines, systematically misrepresenting sensor health across the facility."
+        "proposed_incurred_insecurity": "Undetected sensor degradation or miscalibration propagates into safety and process control loops, potentially masking real instrumentation failures or triggering spurious alarms that degrade operator trust. Over time, model drift and lack of per-site qualification lead to silent monitoring blind spots in critical measurement channels, undermining the validity of downstream safety and safeguards decisions."
       },
       "security_specialist": {
-        "argument": "An adversary with insider access could weaponize the AI-driven sensor health monitoring system as a surveillance tool to map the facility's operational rhythms and identify predictable windows of reduced human oversight when operators trust the AI's 'all-clear' signals. By subtly poisoning telemetry feeds or exploiting the system's inability to detect deliberately contrived sensor degradation patterns, an attacker could condition staff to ignore certain classes of alarms, then exploit that trained complacency during a physical intrusion or sabotage event. The concentration of trust in automated health assessment creates a single point of failure: compromise the AI's training data or decision thresholds, and you effectively blind human operators to genuine anomalies that fall outside the model's learned scope. Across enrichment and reprocessing facilities, this becomes especially dangerous because sensor health directly gates whether safety-critical instrumentation (e.g., criticality monitors, containment integrity sensors) is believed to be functional.",
+        "argument": "Online sensor health monitoring AI creates a critical adversarial opportunity: an attacker who can subtly compromise the model or its training data can mask real sensor degradation that would otherwise trigger human investigation, effectively blinding operators to precursor conditions the adversary plans to exploit. This is a high-value target because it's a trust concentrator\u2014operators will rely on AI's 'healthy' verdict to not inspect physical instruments, and the system runs continuously with minimal human-in-the-loop verification. A sophisticated adversary (state-level or advanced insider) could use this as an enabling step: poison the model to ignore specific signatures (vibration, temperature, pressure anomalies) that their planned sabotage or diversion would produce, then execute the primary attack while the monitoring system provides false assurance. The use case spans power generation, enrichment, and reprocessing\u2014domains where undetected sensor failure or adversary-induced blindness directly enables material diversion, equipment damage for later exploitation, or operational disruption timed to other facility vulnerabilities. Even non-adversarial model drift or data-quality failure becomes a security issue here, because an adversary can time their action to coincide with naturally degraded detection capability that no one notices.",
         "proposed_vulnerability_terms": [
-          "data poisoning",
-          "automation bias and complacency",
-          "unique failure modes outside trained scope",
-          "operational drift"
+          "Training data poisoning to ignore specific sensor failure signatures",
+          "Model architecture backdoor insertion during supply-chain acquisition",
+          "Insider access to model parameters enabling targeted blind-spot creation",
+          "Adversarial input crafting to suppress anomaly alerts on live sensor streams",
+          "False-negative optimization via transferred proxy model trained on stolen facility data",
+          "Model drift exploitation: attacker times physical action to period of known low detection fidelity",
+          "Cloud-hosted model infrastructure compromise enabling real-time alert suppression",
+          "Cross-site model propagation spreading poisoned health-monitoring logic fleet-wide",
+          "Operator automation complacency: reduced manual sensor inspection because AI says healthy",
+          "Alarm fatigue reversal: adversary uses AI to create fake alerts until operators disable critical warnings",
+          "Data provenance attack: adversary substitutes simulated sensor data in training set to teach model bad-is-normal",
+          "Operational drift blind spot: model trained on steady-state fails to recognize adversary-induced transient signatures",
+          "Exfiltration of model weights via inference API to build perfect evasion strategy offline",
+          "Denial of AI service timed to sabotage window, forcing manual fallback during critical operation",
+          "LLM-based monitoring explanation manipulation: adversary injects prompt to rationalize away real anomalies",
+          "RAG poisoning of maintenance documentation so AI learns incorrect sensor baseline definitions",
+          "Physical sensor tampering masked by simultaneous AI model manipulation (dual-path attack)",
+          "Model non-determinism exploited: adversary triggers edge-case inputs causing inconsistent alert behavior",
+          "Embedded malware in model artifact stealing credential for sensor data historian access",
+          "Legitimate vendor update trojanized to degrade detection of specific failure modes"
         ],
-        "proposed_incurred_insecurity": "An adversary gains the ability to erode operator vigilance through trusted automation while simultaneously creating blind spots in safety-critical monitoring infrastructure, enabling timed attacks that exploit predictable gaps in human oversight when the AI falsely signals sensor integrity."
+        "proposed_incurred_insecurity": "An adversary gains the ability to conduct physical sabotage, material diversion, or equipment degradation while the AI monitoring system fails to alert operators, either because the model was pre-compromised or because its alerts are suppressed/ignored due to adversary-induced trust erosion. The operational consequence is that traditional defense-in-depth (human cross-checking physical instruments) erodes because the AI becomes the trusted arbiter of sensor health, and the facility operates with undetected blind spots that adversaries can exploit for kinetic or material-security objectives."
       },
-      "synthesis_notes": "All three panelists converged on operational/data drift, novel failure modes outside training scope, and automation bias as core risks. The AI engineer's 'reliance on operator data' was subsumed under 'data integrity,' which the security specialist extended to 'data poisoning' as a distinct adversarial vector. The security specialist's trust-exploitation angle reinforced rather than expanded the automation bias term already identified by the nuclear engineer."
+      "synthesis_notes": "All three panelists strongly converged on operational/concept drift, training data limitations, alarm fatigue/complacency, cross-fleet propagation risks, and explainability gaps. The security specialist introduced distinct adversarial scenarios (data poisoning, supply-chain backdoors, dual-path attacks, timing exploitation) that the others framed more passively as system fragilities; these were retained as separate items where they represent genuinely different attack mechanisms rather than natural drift."
     },
     "ai_vulnerability_legacy": [
-      "automation bias and complacency",
-      "operational drift",
-      "data drift",
-      "unique failure modes outside trained scope",
-      "data integrity",
-      "data poisoning"
+      "Training data limited to simulated or narrow operational conditions, missing field failure modes",
+      "Operational drift as sensor aging, environmental stressors, or operating regimes diverge from training distribution",
+      "Low base-rate problem for rare sensor failure signatures underrepresented in training",
+      "Cross-fleet model propagation without per-site qualification spreading vulnerabilities",
+      "Inference-time non-determinism causing inconsistent health classifications",
+      "Transfer learning generalization failure across dissimilar sensor types or operating contexts",
+      "Concept drift from new sensor generations or evolving facility conditions post-deployment",
+      "Training data poisoning to ignore specific degradation signatures enabling adversarial evasion",
+      "Model supply-chain compromise (backdoor insertion, trojanized updates) targeting health-monitoring logic",
+      "Adversarial input perturbation to suppress real-time anomaly detection on live sensor telemetry",
+      "Insider manipulation of model parameters to create targeted monitoring blind spots",
+      "Exfiltration of model weights via inference API enabling offline evasion strategy development",
+      "Cloud or off-premises hosting enabling real-time alert suppression by external attacker",
+      "Operator automation complacency reducing manual sensor inspection and cross-checking",
+      "Alarm fatigue from excessive false positives leading to genuine warning dismissal or system disablement",
+      "Explainability gap preventing operator validation of health state classifications",
+      "Goal misalignment optimizing for low false-alarm rate at expense of detection sensitivity",
+      "Static qualification without dynamic revalidation as sensor populations age or change",
+      "Model drift exploitation by adversary timing physical actions to periods of degraded detection fidelity",
+      "Physical sensor tampering coordinated with simultaneous AI model manipulation (dual-path attack)"
     ],
     "ai_vulnerability_atlas": [
       {
-        "atlas_id": "AML.T0043",
-        "atlas_name": "Craft Adversarial Data",
+        "atlas_id": "AML.T0040",
+        "atlas_name": "AI Model Inference API Access",
         "atlas_tactics": [
-          "AI Attack Staging"
+          "AI Model Access"
         ],
-        "condition": "if adversarially triggered rather than naturally occurring",
-        "source_term": "unique failure modes outside trained scope"
-      },
-      {
-        "atlas_id": "AML.T0059",
-        "atlas_name": "Erode Dataset Integrity",
-        "atlas_tactics": [
-          "Impact"
+        "match_kind": "keyword-match",
+        "match_score": 16.73,
+        "matched_terms": [
+          "model",
+          "vulnerabiliti"
         ],
-        "source_term": "data integrity"
+        "source_term": "Cross-fleet model propagation without per-site qualification spreading vulnerabilities"
       },
       {
         "atlas_id": "AML.T0020",
@@ -75,85 +123,364 @@
           "Resource Development",
           "Persistence"
         ],
-        "source_term": "data poisoning"
+        "match_kind": "keyword-match",
+        "match_score": 30.58,
+        "matched_terms": [
+          "poison",
+          "data",
+          "train"
+        ],
+        "source_term": "Training data poisoning to ignore specific degradation signatures enabling adversarial evasion"
+      },
+      {
+        "atlas_id": "AML.T0018.000",
+        "atlas_name": "Poison AI Model",
+        "atlas_tactics": [
+          "Persistence",
+          "AI Attack Staging"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 21.92,
+        "matched_terms": [
+          "poison",
+          "train",
+          "degradation"
+        ],
+        "source_term": "Training data poisoning to ignore specific degradation signatures enabling adversarial evasion"
+      },
+      {
+        "atlas_id": "AML.T0024",
+        "atlas_name": "Exfiltration via AI Inference API",
+        "atlas_tactics": [
+          "Exfiltration"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 36.61,
+        "matched_terms": [
+          "exfiltration",
+          "inference",
+          "api",
+          "via"
+        ],
+        "source_term": "Exfiltration of model weights via inference API enabling offline evasion strategy development"
+      },
+      {
+        "atlas_id": "AML.T0040",
+        "atlas_name": "AI Model Inference API Access",
+        "atlas_tactics": [
+          "AI Model Access"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 36.22,
+        "matched_terms": [
+          "inference",
+          "api",
+          "model"
+        ],
+        "source_term": "Exfiltration of model weights via inference API enabling offline evasion strategy development"
+      },
+      {
+        "atlas_id": "AML.T0041",
+        "atlas_name": "Physical Environment Access",
+        "atlas_tactics": [
+          "AI Model Access"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 20.3,
+        "matched_terms": [
+          "physical",
+          "attack",
+          "model"
+        ],
+        "source_term": "Physical sensor tampering coordinated with simultaneous AI model manipulation (dual-path attack)"
       }
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0101.04",
-        "op_name": "Misuse (over-trust)",
-        "op_group": "OP.G01",
-        "source_term": "automation bias and complacency"
-      },
-      {
-        "op_id": "OP.C0101.05",
-        "op_name": "Disuse (under-trust)",
-        "op_group": "OP.G01",
-        "source_term": "automation bias and complacency"
-      },
-      {
-        "op_id": "OP.C0302.01",
-        "op_name": "Data / Operational drift",
-        "op_group": "OP.G03",
-        "source_term": "operational drift"
+        "op_id": "OP.C0201.05",
+        "op_name": "Field/operational data",
+        "op_group": "OP.G02",
+        "match_kind": "keyword-match",
+        "match_score": 20.97,
+        "matched_terms": [
+          "field",
+          "operational",
+          "data"
+        ],
+        "source_term": "Training data limited to simulated or narrow operational conditions, missing field failure modes"
       },
       {
         "op_id": "OP.C0302.01",
         "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
-        "source_term": "data drift"
+        "match_kind": "keyword-match",
+        "match_score": 19.38,
+        "matched_terms": [
+          "operational",
+          "distribution",
+          "drift"
+        ],
+        "source_term": "Operational drift as sensor aging, environmental stressors, or operating regimes diverge from training distribution"
       },
       {
-        "op_id": "OP.C0302",
-        "op_name": "Drift / Out-of-distribution / generalization failure",
+        "op_id": "OP.C0202",
+        "op_name": "Small-data / low base-rate problem",
+        "op_group": "OP.G02",
+        "match_kind": "keyword-match",
+        "match_score": 34.84,
+        "matched_terms": [
+          "low",
+          "base-rate",
+          "problem"
+        ],
+        "source_term": "Low base-rate problem for rare sensor failure signatures underrepresented in training"
+      },
+      {
+        "op_id": "OP.C0602",
+        "op_name": "Cross-site/fleet model propagation",
+        "op_group": "OP.G06",
+        "match_kind": "keyword-match",
+        "match_score": 12.24,
+        "matched_terms": [
+          "propagation",
+          "model"
+        ],
+        "source_term": "Cross-fleet model propagation without per-site qualification spreading vulnerabilities"
+      },
+      {
+        "op_id": "OP.C0603",
+        "op_name": "Intra-system fault/bias propagation",
+        "op_group": "OP.G06",
+        "match_kind": "keyword-match",
+        "match_score": 12.19,
+        "matched_terms": [
+          "propagation",
+          "spread"
+        ],
+        "source_term": "Cross-fleet model propagation without per-site qualification spreading vulnerabilities"
+      },
+      {
+        "op_id": "OP.C0303",
+        "op_name": "Static/dynamic qualification mismatch",
         "op_group": "OP.G03",
-        "source_term": "unique failure modes outside trained scope"
+        "match_kind": "keyword-match",
+        "match_score": 10.84,
+        "matched_terms": [
+          "qualification",
+          "model"
+        ],
+        "source_term": "Cross-fleet model propagation without per-site qualification spreading vulnerabilities"
+      },
+      {
+        "op_id": "OP.C0101.01",
+        "op_name": "Out-of-the-loop unfamiliarity",
+        "op_group": "OP.G01",
+        "match_kind": "keyword-match",
+        "match_score": 11.21,
+        "matched_terms": [
+          "reduc",
+          "manual",
+          "operator",
+          "automation"
+        ],
+        "source_term": "Operator automation complacency reducing manual sensor inspection and cross-checking"
+      },
+      {
+        "op_id": "OP.C0101.02",
+        "op_name": "Clumsy automation",
+        "op_group": "OP.G01",
+        "match_kind": "keyword-match",
+        "match_score": 10.4,
+        "matched_terms": [
+          "automation",
+          "operator"
+        ],
+        "source_term": "Operator automation complacency reducing manual sensor inspection and cross-checking"
+      },
+      {
+        "op_id": "OP.C0102",
+        "op_name": "Alarm/monitoring complacency",
+        "op_group": "OP.G01",
+        "match_kind": "keyword-match",
+        "match_score": 25.02,
+        "matched_terms": [
+          "alarm",
+          "false",
+          "positiv",
+          "system"
+        ],
+        "source_term": "Alarm fatigue from excessive false positives leading to genuine warning dismissal or system disablement"
+      },
+      {
+        "op_id": "OP.C0401",
+        "op_name": "Explainability/opacity limit",
+        "op_group": "OP.G04",
+        "match_kind": "keyword-match",
+        "match_score": 15.49,
+        "matched_terms": [
+          "explainability",
+          "validation"
+        ],
+        "source_term": "Explainability gap preventing operator validation of health state classifications"
+      },
+      {
+        "op_id": "OP.C0303",
+        "op_name": "Static/dynamic qualification mismatch",
+        "op_group": "OP.G03",
+        "match_kind": "keyword-match",
+        "match_score": 32.76,
+        "matched_terms": [
+          "static",
+          "dynamic",
+          "qualification"
+        ],
+        "source_term": "Static qualification without dynamic revalidation as sensor populations age or change"
       }
     ],
-    "ai_vulnerability_category_unmapped": [],
+    "ai_vulnerability_category_unmapped": [
+      {
+        "category_name": "Inference-time Non-determinism Causing Inconsistent Health Classifications",
+        "description": "Inference-time non-determinism causing inconsistent health classifications"
+      },
+      {
+        "category_name": "Transfer Learning Generalization Failure Across Dissimilar Sensor Types or Operating Contexts",
+        "description": "Transfer learning generalization failure across dissimilar sensor types or operating contexts"
+      },
+      {
+        "category_name": "Concept Drift From New Sensor Generations or Evolving Facility Conditions Post-deployment",
+        "description": "Concept drift from new sensor generations or evolving facility conditions post-deployment"
+      },
+      {
+        "category_name": "Model Supply-chain Compromise (backdoor Insertion, Trojanized Updates) Targeting Health-monitoring Logic",
+        "description": "Model supply-chain compromise (backdoor insertion, trojanized updates) targeting health-monitoring logic"
+      },
+      {
+        "category_name": "Adversarial Input Perturbation to Suppress Real-time Anomaly Detection on Live Sensor Telemetry",
+        "description": "Adversarial input perturbation to suppress real-time anomaly detection on live sensor telemetry"
+      },
+      {
+        "category_name": "Insider Manipulation of Model Parameters to Create Targeted Monitoring Blind Spots",
+        "description": "Insider manipulation of model parameters to create targeted monitoring blind spots"
+      },
+      {
+        "category_name": "Cloud or Off-premises Hosting Enabling Real-time Alert Suppression by External Attacker",
+        "description": "Cloud or off-premises hosting enabling real-time alert suppression by external attacker"
+      },
+      {
+        "category_name": "Goal Misalignment Optimizing for Low False-alarm Rate at Expense of Detection Sensitivity",
+        "description": "Goal misalignment optimizing for low false-alarm rate at expense of detection sensitivity"
+      },
+      {
+        "category_name": "Model Drift Exploitation by Adversary Timing Physical Actions to Periods of Degraded Detection Fidelity",
+        "description": "Model drift exploitation by adversary timing physical actions to periods of degraded detection fidelity"
+      }
+    ],
     "stride": [
-      "Denial of Service",
+      "Information Disclosure",
       "Tampering"
     ],
-    "dread_score": {
-      "damage": {
-        "score": 4,
-        "why": "Undetected sensor degradation in enrichment or reprocessing can mask material diversion or safeguards anomalies; false positives can erode trust leading to ignored genuine safety trips\u2014both scenarios risk material control failures or safety-margin erosion approaching but not guaranteeing radiological release."
-      },
-      "reproducibility": {
-        "score": 4,
-        "why": "Operational drift and data drift are near-inevitable in continuous sensor monitoring across aging instrumentation and evolving process conditions; once training-test mismatch accumulates, false negatives or positives become reliably reproducible under those drifted conditions."
-      },
-      "exploitability": {
-        "score": 3,
-        "why": "Data poisoning or manipulation of telemetry feeds requires insider access to sensor networks or training pipelines; naturally occurring drift exploits require only time and lack of retraining, but deliberate adversarial exploitation demands moderate insider position or supply-chain access to sensor data streams."
-      },
-      "affected_users": {
-        "score": 4,
-        "why": "Sensor health monitoring typically oversees dozens to hundreds of instrumentation channels facility-wide; systemic misclassification or alarm fatigue propagates across multiple safety and safeguards systems, affecting plant-wide decision-making rather than isolated sensors."
-      },
-      "discoverability": {
-        "score": 4,
-        "why": "Gradual drift or subtly poisoned baselines can evade detection for extended periods if human oversight relies on the AI's health verdicts; alarm fatigue further reduces vigilance, and novel failure modes outside training scope may not trigger existing manual cross-checks until consequences manifest."
-      },
-      "total": 19
-    },
     "evidence": [
       {
         "evidence_for": "use_case",
+        "source_type": "Peer-reviewed Journal",
+        "citation": "Ma, J. & Jiang, J. (2011), \"Applications of fault detection and diagnosis methods in nuclear power plants: A review,\" Progress in Nuclear Energy",
+        "url": "https://doi.org/10.1016/j.pnucene.2010.12.001",
+        "note": "Reviews fault detection and diagnosis methods applied to nuclear power plant systems including sensor validation and monitoring, establishing the operational context for AI-based sensor health monitoring in nuclear facilities."
+      },
+      {
+        "evidence_for": "use_case",
         "source_type": "IAEA Publication",
-        "citation": "IAEA Nuclear Energy Series NR-T-1.26, \"Considerations for Deploying Artificial Intelligence in Nuclear Applications\"",
-        "url": "https://www-pub.iaea.org/MTCD/publications/PDF/p15866-PUB2119_web.pdf",
-        "note": "Describes ANN-based on-line sensor health monitoring as an established NPP application -- detecting, isolating, and estimating readings for degraded sensors."
+        "citation": "IAEA (2018), \"Artificial Intelligence for Accelerating Nuclear Applications, Reactor and Fuel Cycle Technologies,\" IAEA-TECDOC-1863",
+        "url": "https://www.iaea.org/publications/12811/artificial-intelligence-for-accelerating-nuclear-applications-reactor-and-fuel-cycle-technologies",
+        "note": "Documents IAEA recognition of AI applications in nuclear reactor diagnostics and condition monitoring, including sensor data analytics for operational decision-making in power generation and fuel cycle facilities."
+      },
+      {
+        "evidence_for": "use_case",
+        "source_type": "National Laboratory Publication",
+        "citation": "Coble, J.B. et al. (2015), \"A Review of Prognostics and Health Management Applications in Nuclear Power Plants,\" ORNL/LTR-2015/696",
+        "url": "https://info.ornl.gov/sites/publications/Files/Pub60585.pdf",
+        "note": "Oak Ridge National Laboratory report surveying prognostics and health management techniques for nuclear plant components and sensors, documenting actual deployment proposals and research prototypes for automated sensor health monitoring."
       },
       {
         "evidence_for": "vulnerability",
         "source_type": "Peer-reviewed Journal",
-        "citation": "Choi & Lee (2020), \"Consistency Index-Based Sensor Fault Detection System for Nuclear Power Plant Emergency Situations Using an LSTM Network,\" Sensors 20(6):1651",
-        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7146157/",
-        "note": "Opens by citing TMI-2, where one sensor's incorrect indication misled the operator -- grounds the automation-bias/complacency framing in a real historical precedent for this exact use case."
+        "citation": "Biggio, B. & Roli, F. (2018), \"Wild patterns: Ten years after the rise of adversarial machine learning,\" Pattern Recognition",
+        "url": "https://doi.org/10.1016/j.patcog.2018.07.023",
+        "note": "Establishes foundational adversarial machine learning threats including training data poisoning and adversarial input perturbations that can suppress anomaly detection, directly relevant to sensor health monitoring vulnerabilities."
+      },
+      {
+        "evidence_for": "vulnerability",
+        "source_type": "Peer-reviewed Journal",
+        "citation": "Qui\u00f1onero-Candela, J. et al. (2009), \"Dataset Shift in Machine Learning,\" MIT Press",
+        "url": "https://mitpress.mit.edu/9780262170055/dataset-shift-in-machine-learning/",
+        "note": "Comprehensive treatment of dataset shift, covariate shift, and concept drift\u2014the foundational mechanisms underlying operational drift and generalization failure when sensor populations age or operating conditions diverge from training distributions."
+      },
+      {
+        "evidence_for": "vulnerability",
+        "source_type": "Peer-reviewed Journal",
+        "citation": "Parasuraman, R. & Manzey, D.H. (2010), \"Complacency and Bias in Human Use of Automation: An Attentional Integration,\" Human Factors",
+        "url": "https://doi.org/10.1177/0018720810376055",
+        "note": "Documents automation complacency and bias in human-machine systems, providing empirical foundation for operator reliance on AI verdicts eroding manual cross-checking behaviors in safety-critical monitoring contexts."
+      },
+      {
+        "evidence_for": "vulnerability",
+        "source_type": "Peer-reviewed Journal",
+        "citation": "Weiss, K. et al. (2016), \"A survey of transfer learning,\" Journal of Big Data",
+        "url": "https://doi.org/10.1186/s40537-016-0043-6",
+        "note": "Survey covering transfer learning challenges including negative transfer and generalization failure across dissimilar domains, directly applicable to cross-fleet model deployment and sensor type heterogeneity issues."
+      },
+      {
+        "evidence_for": "vulnerability",
+        "source_type": "Peer-reviewed Journal",
+        "citation": "He, Y. et al. (2020), \"Data poisoning attacks on machine learning models: A survey,\" IEEE Access",
+        "url": "https://doi.org/10.1109/ACCESS.2020.3010476",
+        "note": "Surveys data poisoning attack vectors including targeted backdoor insertion to ignore specific signatures, applicable to adversarial compromise of sensor health monitoring training pipelines in nuclear safeguards contexts."
+      },
+      {
+        "evidence_for": "vulnerability",
+        "source_type": "IAEA Publication",
+        "citation": "IAEA (2021), \"Computer Security of Instrumentation and Control Systems at Nuclear Facilities,\" IAEA Nuclear Security Series No. 17-T (Rev. 1)",
+        "url": "https://www.iaea.org/publications/13433/computer-security-of-instrumentation-and-control-systems-at-nuclear-facilities",
+        "note": "Addresses cybersecurity threats to nuclear instrumentation including potential for adversarial manipulation of monitoring systems and insider threats, establishing nuclear-specific context for AI model supply-chain and inference-time attacks."
+      },
+      {
+        "evidence_for": "vulnerability",
+        "source_type": "Peer-reviewed Journal",
+        "citation": "Breznitz, J.S. (1984), \"Cry-wolf: The psychology of false alarms,\" Lawrence Erlbaum Associates",
+        "url": "https://psycnet.apa.org/record/1984-98632-000",
+        "note": "Classic work establishing the alarm fatigue phenomenon where excessive false positives lead to warning dismissal, foundational to understanding degraded operator response when AI health monitors generate unreliable alerts."
+      },
+      {
+        "evidence_for": "vulnerability",
+        "source_type": "National or State Government Publication",
+        "citation": "NRC (2000), \"Technical Basis and Implementation Guidelines for A Technique for Human Event Analysis (ATHEANA),\" NUREG-1624",
+        "url": "https://www.nrc.gov/reading-rm/doc-collections/nuregs/staff/sr1624/",
+        "note": "NRC analysis framework for human reliability including error-likely situations created by automation, relevant to understanding how AI-driven complacency undermines defense-in-depth principles in nuclear operations."
       }
-    ]
+    ],
+    "dread_score": {
+      "damage": {
+        "score": 4,
+        "why": "Undetected sensor degradation in safety-critical or safeguards instrumentation directly erodes defense-in-depth and enables material accountancy drift; while not guaranteed radiological release, it creates precursor conditions for loss of safety margin or safeguards falsification that would score 5 if realized."
+      },
+      "reproducibility": {
+        "score": 4,
+        "why": "Once operational drift, training data limitations, or adversarial model compromise conditions are present, the vulnerability class reliably manifests as false negatives or alarm fatigue; minor environmental or procedural variations may affect exact timing but not fundamental exploitability."
+      },
+      "exploitability": {
+        "score": 3,
+        "why": "Non-adversarial drift and training data gaps require no special access (score 4-5), but many high-consequence scenarios (supply-chain backdoors, insider parameter manipulation, dual-path attacks) require privileged access to model pipelines or physical instrumentation, balancing to moderate exploitability overall."
+      },
+      "affected_users": {
+        "score": 4,
+        "why": "Cross-fleet model propagation and reliance on centralized health monitoring logic means compromise or drift affects entire sensor populations across facility systems; safeguards and safety channels are coupled through shared monitoring infrastructure, enabling facility-wide latent failures."
+      },
+      "discoverability": {
+        "score": 4,
+        "why": "Latent sensor degradation masked by false 'healthy' verdicts plausibly remains undetected until equipment failure during a transient; operator complacency and explainability gaps reduce manual cross-checking, and adversarial compromise is designed to evade detection mechanisms, though some drift may eventually surface via material balance or maintenance trends."
+      },
+      "total": 19
+    }
   },
   {
     "use_area": "Operation and Maintenance",
@@ -164,169 +491,516 @@
       "reprocessing",
       "waste_storage_transport"
     ],
-    "incurred_insecurity": "Undetected or underestimated equipment degradation (due to operational/data drift, out-of-distribution failure modes, or adversarial evasion) enables continued operation of compromised pressure boundary or confinement systems, defeating code-mandated inspection schedules and increasing likelihood of through-wall failure, leak, or containment breach. Additionally, if compromised, the system becomes an intelligence asset revealing facility vulnerabilities and exploiting operator trust.",
+    "incurred_insecurity": "Undetected equipment degradation can lead to through-wall leaks, pressure boundary failures, or catastrophic ruptures in systems handling radioactive materials, fissile inventories, or corrosive reprocessing chemicals. An adversary who manipulates training data, inference inputs, or the model itself can mask visible structural weaknesses, timing sabotage around hidden defects that appear as accidental failures. Systematic false positives erode operator trust, causing real defects to be dismissed, while automation complacency and skill fade degrade the defense-in-depth principle that requires independent human verification.",
     "red_team_panel": {
       "nuclear_engineer": {
-        "argument": "Multi-modal visual diagnostics for equipment degradation introduce critical operational vulnerabilities when operators rely on AI-flagged defects to prioritize maintenance or justify continued operation of suspect components. If the model fails to detect nascent cracks in high-consequence systems (pipework carrying primary coolant, high-pressure steam lines, or HF/UF6 process piping in enrichment), operators may defer inspection or replacement, leading directly to leak-before-break failures, loss of coolant/containment, or toxic releases. The multi-modal nature (combining visual, thermal, ultrasonic imagery) increases susceptibility to operational drift as lighting conditions, surface treatments, corrosion products, and sensor calibration vary across facilities and aging timescales\u2014conditions outside the training envelope produce silent misses rather than alarmed uncertainty. Existing practice relies on deterministic flaw sizing and code-mandated inspection intervals; AI-driven deferral of these intervals based on 'no defect detected' output bypasses multiple defense-in-depth layers if operators treat the tool as confirmatory rather than advisory.",
+        "argument": "This use case directly influences whether operators detect safety-critical degradation before it leads to leaks, failures, or releases in active nuclear systems handling radioactive materials or high-energy fluids. If the AI misses genuine cracks (false negative), operators may defer maintenance on failing piping until catastrophic rupture; if it generates false positives or hallucinates damage, they may waste time or shut down healthy systems unnecessarily, eroding trust and potentially causing real defects to be ignored later. The model must generalize across diverse materials, lighting, surface conditions, and degradation modes (fatigue, corrosion, embrittlement) that vary by facility type\u2014data from one enrichment cascade's stainless piping may not cover the corrosion mechanisms in reprocessing acid lines or the neutron-embrittlement signatures in power-reactor pressure boundaries. Operators acting on these recommendations lack transparency into why the AI flagged a region, making it difficult to cross-check against engineering judgment, and any adversarial manipulation of input imagery (or poisoned training data embedding benign-looking cracks) could systematically blind the system to real hazards.",
         "proposed_vulnerability_terms": [
-          "automation bias and complacency",
-          "operational drift",
-          "unique failure modes outside trained scope",
-          "materials outside trained scope (operational drift)"
+          "False negative on safety-critical crack detection",
+          "Hallucinated or phantom defect generation",
+          "Out-of-distribution failure across facility types and material degradation modes",
+          "Training data scarcity for rare degradation signatures",
+          "Adversarial image perturbation to hide genuine cracks",
+          "Poisoned training data embedding benign-looking defects",
+          "Operator over-reliance causing missed manual inspection",
+          "Explainability gap preventing cross-check with engineering judgment",
+          "Concept drift as material aging or corrosion mechanisms evolve",
+          "Alarm fatigue from false positives eroding trust",
+          "Non-deterministic output on repeated scans of same feature",
+          "Cloud dependency for inference delaying urgent inspection results",
+          "Cross-site model propagation spreading calibration errors fleet-wide",
+          "Lighting or surface-condition variation breaking model performance",
+          "Simulated training data not capturing real operational degradation",
+          "Goal misalignment prioritizing detectability over safety consequence"
         ],
-        "proposed_incurred_insecurity": "Undetected or underestimated equipment degradation enables continued operation of compromised pressure boundary or confinement systems, defeating code-mandated inspection schedules and directly increasing likelihood of through-wall failure, coolant/process fluid release, or containment breach before protective actions are triggered."
+        "proposed_incurred_insecurity": "Undetected piping or equipment degradation can lead to radioactive or hazardous material leaks, pressure boundary failures, or catastrophic ruptures in facilities handling fissile materials, reprocessing acids, or high-activity waste. Conversely, systematic false alarms erode operator trust, potentially causing real defects flagged later to be dismissed, while unnecessary shutdowns disrupt safeguards continuity and operational safety margins."
       },
       "ai_engineer": {
-        "argument": "Multi-modal visual diagnostic systems for equipment degradation rely on training datasets that capture canonical failure modes (e.g., fatigue cracks, corrosion patterns) under controlled or historically observed conditions. In nuclear facilities spanning power generation, enrichment, reprocessing, and waste domains, equipment operates in widely varying radiation fields, temperatures, chemical environments, and mechanical stresses\u2014each producing degradation signatures that may deviate from training distributions. At inference time, if the model encounters a crack morphology influenced by neutron embrittlement in a high-flux reactor vessel versus stress-corrosion cracking in a reprocessing acid loop, the visual features (texture, color, edge sharpness) differ substantially; a model trained predominantly on one facility type or degradation mechanism may misclassify or fail to detect anomalies in another. Additionally, image provenance\u2014lighting conditions, camera calibration drift, sensor contamination, or changes in inspection protocol\u2014introduces data drift that degrades model confidence without explicit retraining triggers, and the system's inability to flag when inputs fall outside its training manifold means false negatives (missed cracks) go undetected until catastrophic failure.",
+        "argument": "This use case relies on multi-modal visual inputs (thermal, camera, possibly ultrasonic imaging) to detect degradation in safety-critical components across diverse nuclear facilities. The core ML fragility is concept drift: cracks/corrosion patterns evolve with aging fleet materials, new alloys in next-gen plants, and environmental stressors not seen during training (like accelerated degradation in unique reprocessing chemistries or waste-storage radiation fields). Training data is almost certainly bench-test or early-life operational data\u2014realistic late-life degradation signatures, especially rare failure modes, are scarce because destructive validation destroys the very samples needed. At inference time, if the model encounters a novel crack morphology (intergranular vs. transgranular in a new alloy) or multi-modal misalignment (thermal/visual sensors out of sync), it may confidently misclassify benign wear as safe or miss incipient failure, with no mechanism to flag out-of-distribution uncertainty. Cross-facility deployment amplifies this: a model trained on PWR piping may confidently hallucinate 'no defect' when applied to reprocessing tankage with entirely different metallurgy and stress regimes.",
         "proposed_vulnerability_terms": [
-          "operational drift",
-          "data drift",
-          "unique failure modes outside trained scope",
-          "materials outside trained scope (operational drift)",
-          "transfer-learning mismatch between sites"
+          "Concept drift from aging materials and evolving degradation modes",
+          "Training data scarcity for rare late-life failure signatures",
+          "Out-of-distribution generalization failure across facility types and material classes",
+          "Multi-modal sensor fusion misalignment or temporal de-synchronization",
+          "Hallucination of false-negative assessments for novel crack morphologies",
+          "Cross-site model propagation without facility-specific retraining or qualification",
+          "Inference-time overconfidence on inputs outside training distribution",
+          "Data provenance mismatch: bench-test vs. field operational degradation patterns",
+          "Non-deterministic model outputs complicating regulatory repeatability for safety cases",
+          "Static qualification against dynamic operational heterogeneity across facility domains",
+          "Skill fade and automation complacency in human inspectors relying on AI verdicts",
+          "Model inversion or exfiltration revealing proprietary degradation signature datasets",
+          "Lack of explainability masking why model flagged or ignored specific defect features"
         ],
-        "proposed_incurred_insecurity": "From an ML engineering perspective, the incurred insecurity is silent model degradation: the diagnostic system continues to produce confident predictions on out-of-distribution equipment states or image conditions, but those predictions are systematically unreliable because the training corpus did not encompass the facility-specific or time-evolved degradation physics, leading to undetected cracks propagating to rupture."
+        "proposed_incurred_insecurity": "Undetected equipment degradation leading to through-wall leaks, component failure, or loss of primary containment in high-consequence nuclear systems (primary coolant loops, spent fuel cladding, reprocessing vessel integrity). Over-reliance on model outputs erodes human vigilance, while cross-facility deployment without domain-specific retraining creates silent failure modes in materials/chemistries the model never learned."
       },
       "security_specialist": {
-        "argument": "An adversary could exploit this visual diagnostic system as a reconnaissance tool by compromising access credentials or insider position to systematically map equipment condition across the facility, identifying which critical components (pumps, valves, cooling lines) are degraded but not yet flagged for replacement\u2014intelligence valuable for timing sabotage when backup safety margins are thinnest. The system's reliance on visual input creates an evasion opportunity: an insider or supply-chain-compromised maintenance contractor could introduce superficial cosmetic treatments (coatings, wraps, surface finishes) that mask visible degradation indicators from the AI while leaving the underlying structural crack intact, effectively blinding automated surveillance to pre-positioned failure points. Furthermore, if operators develop automation bias and trust the AI's 'no anomaly detected' output without independent verification, an adversary gains a predictable window where human vigilance is lowest\u2014perfect for executing physical tampering that won't be visually evident until catastrophic failure.",
+        "argument": "This use case creates a critical insider pathway: an adversary who can manipulate the training data, substitute imagery at inference time, or compromise the model itself can mask visible degradation signatures that would otherwise trigger human inspection or repair\u2014allowing them to time a sabotage event around a hidden structural weakness (e.g., a coolant line compromised but AI-classified as 'normal'). The multi-modal aspect (combining thermal, visual, ultrasonic, etc.) concentrates trust in a single diagnostic oracle, eroding the defense-in-depth principle where different sensor modalities and human walkthroughs cross-check each other. A sophisticated adversary gains leverage not just from fooling the AI once, but from establishing a pattern where operators grow complacent about accepting AI 'all-clear' verdicts without independent verification, then exploiting that trust window. Even non-adversarially, if the model drifts or fails to generalize to a novel crack morphology (especially in new-build or post-refurbishment equipment it hasn't seen), operators may miss a cascading fault precursor until physical failure occurs, which itself becomes an exploitable window for an adversary who has surveilled the facility's maintenance rhythms.",
         "proposed_vulnerability_terms": [
-          "evasion",
-          "automation bias and complacency",
-          "data access",
-          "inability to detect unique or contrived component modifications"
+          "Training data poisoning to hide degradation signatures",
+          "Inference-time image substitution or manipulation",
+          "Model extraction to identify blind spots in crack detection",
+          "Insider access to diagnostic model or edge deployment to mask sabotage precursors",
+          "Automation-trust exploitation: timing attack around AI false-negative window",
+          "Multi-modal sensor fusion compromise concentrating single point of failure",
+          "Out-of-distribution failure on novel crack morphology or new-build equipment",
+          "Operational drift from evolving degradation patterns post-qualification",
+          "Data scarcity for rare but safety-critical failure modes",
+          "Simulated training data fidelity gap versus real operational cracks",
+          "Cross-site model propagation spreading a compromised diagnostic baseline",
+          "Cloud dependency for model updates creating supply-chain insertion point",
+          "Explainability limit preventing human verification of AI crack classification rationale",
+          "Skill fade in manual ultrasonic or visual inspection due to over-reliance on AI",
+          "Alarm complacency when AI provides frequent 'no issue detected' outputs",
+          "Hallucination or misattribution of crack severity or location",
+          "Non-deterministic inference making audit or troubleshooting infeasible",
+          "RAG poisoning if diagnostic system references maintenance manuals or historical records",
+          "AI-generated manipulated imagery in verification or documentation workflows"
         ],
-        "proposed_incurred_insecurity": "The system creates a dual threat surface: it becomes both an intelligence-gathering asset if compromised (revealing facility weak points) and a trust anchor that adversaries can exploit through evasion techniques or insider access, degrading the defensive value of human skepticism in equipment monitoring."
+        "proposed_incurred_insecurity": "An adversary (insider or supply-chain actor) can mask structural degradation that would otherwise force a shutdown or inspection, enabling them to time physical sabotage around a hidden weakness or to induce a catastrophic failure that appears accidental. Even absent an adversary, automation complacency and skill fade mean operators may not catch novel or drifted crack signatures until after a loss-of-coolant or containment breach initiates, degrading the facility's defense-in-depth and creating exploitable windows for a patient attacker who monitors maintenance cadences."
       },
-      "synthesis_notes": "All three panelists converged on automation bias, operational drift, and out-of-distribution failure modes as core risks; the AI engineer added data drift and transfer-learning mismatch as distinct technical causes, while the security specialist uniquely identified evasion and data-access threats. The nuclear engineer's 'inability to detect unique or contrived component modifications' was subsumed under evasion (adversarial masking) and unique failure modes (operational), avoiding redundancy."
+      "synthesis_notes": "All three panelists strongly converged on false negatives for safety-critical cracks, out-of-distribution failures across diverse facility types and materials, training data scarcity for rare degradation modes, concept drift, and automation complacency. The security specialist uniquely emphasized adversarial manipulation pathways (poisoning, inference-time evasion, insider access) and supply-chain compromise, which the others implicitly acknowledged but did not foreground. The AI engineer's multi-modal fusion misalignment and overconfidence themes merged with the nuclear engineer's lighting/surface-condition concerns under a single generalization-failure framing. Explainability gaps and non-deterministic outputs were raised by all and consolidated into distinct items."
     },
     "ai_vulnerability_legacy": [
-      "automation bias and complacency",
-      "operational drift",
-      "data drift",
-      "unique failure modes outside trained scope",
-      "materials outside trained scope (operational drift)",
-      "transfer-learning mismatch between sites",
-      "evasion",
-      "data access"
+      "Misaligned, hallucinatory, or misattributed AI output",
+      "Training data poisoning",
+      "Adversarial example (evasion at inference time)",
+      "Training data insufficiency for rare degradation modes",
+      "Out-of-distribution generalization failure across facility types and materials",
+      "Concept drift from aging materials and evolving failure signatures",
+      "Multi-modal sensor fusion misalignment or de-synchronization",
+      "Overconfident inference on novel or out-of-distribution inputs",
+      "Cross-facility model deployment without domain-specific retraining",
+      "Non-deterministic model outputs",
+      "Explainability deficit preventing engineering cross-check",
+      "Automation complacency and operator skill fade",
+      "Model extraction revealing detection blind spots",
+      "Insider threat with access to diagnostic model or training pipeline",
+      "Supply-chain compromise of cloud-delivered model updates",
+      "Static qualification versus dynamic operational heterogeneity",
+      "Simulated training data fidelity gap with real operational degradation"
     ],
     "ai_vulnerability_atlas": [
       {
-        "atlas_id": "AML.T0043",
-        "atlas_name": "Craft Adversarial Data",
+        "atlas_id": "AML.T0063",
+        "atlas_name": "Discover AI Model Outputs",
+        "atlas_tactics": [
+          "Discovery"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 17.0,
+        "matched_terms": [
+          "output"
+        ],
+        "source_term": "Misaligned, hallucinatory, or misattributed AI output"
+      },
+      {
+        "atlas_id": "AML.T0020",
+        "atlas_name": "Poison Training Data",
+        "atlas_tactics": [
+          "Resource Development",
+          "Persistence"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 30.58,
+        "matched_terms": [
+          "poison",
+          "data",
+          "train"
+        ],
+        "source_term": "Training data poisoning"
+      },
+      {
+        "atlas_id": "AML.T0024.000",
+        "atlas_name": "Infer Training Data Membership",
+        "atlas_tactics": [
+          "Exfiltration"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 17.28,
+        "matched_terms": [
+          "train",
+          "data"
+        ],
+        "source_term": "Training data insufficiency for rare degradation modes"
+      },
+      {
+        "atlas_id": "AML.T0020",
+        "atlas_name": "Poison Training Data",
+        "atlas_tactics": [
+          "Resource Development",
+          "Persistence"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 16.88,
+        "matched_terms": [
+          "data",
+          "train"
+        ],
+        "source_term": "Training data insufficiency for rare degradation modes"
+      },
+      {
+        "atlas_id": "AML.T0024",
+        "atlas_name": "Exfiltration via AI Inference API",
+        "atlas_tactics": [
+          "Exfiltration"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 13.1,
+        "matched_terms": [
+          "train",
+          "data"
+        ],
+        "source_term": "Training data insufficiency for rare degradation modes"
+      },
+      {
+        "atlas_id": "AML.T0063",
+        "atlas_name": "Discover AI Model Outputs",
+        "atlas_tactics": [
+          "Discovery"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 22.02,
+        "matched_terms": [
+          "output",
+          "model"
+        ],
+        "source_term": "Non-deterministic model outputs"
+      },
+      {
+        "atlas_id": "AML.T0054",
+        "atlas_name": "LLM Jailbreak",
+        "atlas_tactics": [
+          "Privilege Escalation",
+          "Defense Evasion"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 17.21,
+        "matched_terms": [
+          "model"
+        ],
+        "source_term": "Non-deterministic model outputs"
+      },
+      {
+        "atlas_id": "AML.T0024.002",
+        "atlas_name": "Extract AI Model",
+        "atlas_tactics": [
+          "Exfiltration"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 12.31,
+        "matched_terms": [
+          "model",
+          "extraction"
+        ],
+        "source_term": "Model extraction revealing detection blind spots"
+      },
+      {
+        "atlas_id": "AML.T0040",
+        "atlas_name": "AI Model Inference API Access",
+        "atlas_tactics": [
+          "AI Model Access"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 18.02,
+        "matched_terms": [
+          "model",
+          "acces"
+        ],
+        "source_term": "Insider threat with access to diagnostic model or training pipeline"
+      },
+      {
+        "atlas_id": "AML.T0005.001",
+        "atlas_name": "Train Proxy via Replication",
         "atlas_tactics": [
           "AI Attack Staging"
         ],
-        "condition": "if adversarially triggered rather than naturally occurring",
-        "source_term": "unique failure modes outside trained scope"
+        "match_kind": "keyword-match",
+        "match_score": 14.82,
+        "matched_terms": [
+          "train",
+          "model"
+        ],
+        "source_term": "Insider threat with access to diagnostic model or training pipeline"
       },
       {
-        "atlas_id": "AML.T0015",
-        "atlas_name": "Evade AI Model",
+        "atlas_id": "AML.T0043.002",
+        "atlas_name": "Black-Box Transfer",
         "atlas_tactics": [
-          "Initial Access",
-          "Defense Evasion",
-          "Impact"
+          "AI Attack Staging"
         ],
-        "source_term": "evasion"
+        "match_kind": "keyword-match",
+        "match_score": 12.73,
+        "matched_terms": [
+          "model",
+          "train"
+        ],
+        "source_term": "Insider threat with access to diagnostic model or training pipeline"
+      },
+      {
+        "atlas_id": "AML.T0018.000",
+        "atlas_name": "Poison AI Model",
+        "atlas_tactics": [
+          "Persistence",
+          "AI Attack Staging"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 12.07,
+        "matched_terms": [
+          "model",
+          "train"
+        ],
+        "source_term": "Insider threat with access to diagnostic model or training pipeline"
+      },
+      {
+        "atlas_id": "AML.T0005.000",
+        "atlas_name": "Train Proxy via Gathered AI Artifacts",
+        "atlas_tactics": [
+          "AI Attack Staging"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 11.95,
+        "matched_terms": [
+          "train",
+          "model"
+        ],
+        "source_term": "Insider threat with access to diagnostic model or training pipeline"
+      },
+      {
+        "atlas_id": "AML.T0024.000",
+        "atlas_name": "Infer Training Data Membership",
+        "atlas_tactics": [
+          "Exfiltration"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 17.28,
+        "matched_terms": [
+          "train",
+          "data"
+        ],
+        "source_term": "Simulated training data fidelity gap with real operational degradation"
+      },
+      {
+        "atlas_id": "AML.T0020",
+        "atlas_name": "Poison Training Data",
+        "atlas_tactics": [
+          "Resource Development",
+          "Persistence"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 16.88,
+        "matched_terms": [
+          "data",
+          "train"
+        ],
+        "source_term": "Simulated training data fidelity gap with real operational degradation"
+      },
+      {
+        "atlas_id": "AML.T0024",
+        "atlas_name": "Exfiltration via AI Inference API",
+        "atlas_tactics": [
+          "Exfiltration"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 13.1,
+        "matched_terms": [
+          "train",
+          "data"
+        ],
+        "source_term": "Simulated training data fidelity gap with real operational degradation"
       }
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0101.04",
-        "op_name": "Misuse (over-trust)",
-        "op_group": "OP.G01",
-        "source_term": "automation bias and complacency"
-      },
-      {
-        "op_id": "OP.C0101.05",
-        "op_name": "Disuse (under-trust)",
-        "op_group": "OP.G01",
-        "source_term": "automation bias and complacency"
-      },
-      {
-        "op_id": "OP.C0302.01",
-        "op_name": "Data / Operational drift",
+        "op_id": "OP.C0304.01",
+        "op_name": "Hallucination or misattribution",
         "op_group": "OP.G03",
-        "source_term": "operational drift"
-      },
-      {
-        "op_id": "OP.C0302.01",
-        "op_name": "Data / Operational drift",
-        "op_group": "OP.G03",
-        "source_term": "data drift"
+        "match_kind": "curated",
+        "source_term": "Misaligned, hallucinatory, or misattributed AI output"
       },
       {
         "op_id": "OP.C0302",
         "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
-        "source_term": "unique failure modes outside trained scope"
+        "match_kind": "keyword-match",
+        "match_score": 28.63,
+        "matched_terms": [
+          "out-of-distribution",
+          "generalization",
+          "failure",
+          "material"
+        ],
+        "source_term": "Out-of-distribution generalization failure across facility types and materials"
       },
       {
         "op_id": "OP.C0302",
         "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
+        "match_kind": "keyword-match",
+        "match_score": 15.8,
+        "matched_terms": [
+          "failure",
+          "drift",
+          "material"
+        ],
+        "source_term": "Concept drift from aging materials and evolving failure signatures"
+      },
+      {
+        "op_id": "OP.C0302.02",
+        "op_name": "Concept Drift",
+        "op_group": "OP.G03",
+        "match_kind": "keyword-match",
+        "match_score": 15.77,
+        "matched_terms": [
+          "concept",
+          "drift"
+        ],
+        "source_term": "Concept drift from aging materials and evolving failure signatures"
+      },
+      {
+        "op_id": "OP.C0304",
+        "op_name": "Content fidelity failure",
+        "op_group": "OP.G03",
+        "match_kind": "keyword-match",
+        "match_score": 11.13,
+        "matched_terms": [
+          "failure",
+          "drift"
+        ],
+        "source_term": "Concept drift from aging materials and evolving failure signatures"
+      },
+      {
+        "op_id": "OP.C0101.06",
+        "op_name": "Skill fade",
+        "op_group": "OP.G01",
+        "match_kind": "keyword-match",
+        "match_score": 25.31,
+        "matched_terms": [
+          "skill",
+          "fade",
+          "automation"
+        ],
+        "source_term": "Automation complacency and operator skill fade"
       },
       {
         "op_id": "OP.C0602",
         "op_name": "Cross-site/fleet model propagation",
         "op_group": "OP.G06",
-        "source_term": "transfer-learning mismatch between sites"
+        "match_kind": "keyword-match",
+        "match_score": 11.66,
+        "matched_terms": [
+          "model",
+          "blind",
+          "spot"
+        ],
+        "source_term": "Model extraction revealing detection blind spots"
       },
       {
-        "op_id": "OP.C0505",
-        "op_name": "Data access governance",
-        "op_group": "OP.G05",
-        "condition": "when the access pathway is a governance gap rather than a genuinely over-permissive interface",
-        "source_term": "data access"
+        "op_id": "OP.C0303",
+        "op_name": "Static/dynamic qualification mismatch",
+        "op_group": "OP.G03",
+        "match_kind": "keyword-match",
+        "match_score": 32.76,
+        "matched_terms": [
+          "static",
+          "dynamic",
+          "qualification"
+        ],
+        "source_term": "Static qualification versus dynamic operational heterogeneity"
+      },
+      {
+        "op_id": "OP.C0201.01",
+        "op_name": "Simulated data",
+        "op_group": "OP.G02",
+        "match_kind": "keyword-match",
+        "match_score": 14.19,
+        "matched_terms": [
+          "simulat",
+          "data"
+        ],
+        "source_term": "Simulated training data fidelity gap with real operational degradation"
+      },
+      {
+        "op_id": "OP.C0201.05",
+        "op_name": "Field/operational data",
+        "op_group": "OP.G02",
+        "match_kind": "keyword-match",
+        "match_score": 11.44,
+        "matched_terms": [
+          "operational",
+          "data"
+        ],
+        "source_term": "Simulated training data fidelity gap with real operational degradation"
+      },
+      {
+        "op_id": "OP.C0302.01",
+        "op_name": "Data / Operational drift",
+        "op_group": "OP.G03",
+        "match_kind": "keyword-match",
+        "match_score": 10.27,
+        "matched_terms": [
+          "operational",
+          "data"
+        ],
+        "source_term": "Simulated training data fidelity gap with real operational degradation"
       }
     ],
-    "ai_vulnerability_category_unmapped": [],
+    "ai_vulnerability_category_unmapped": [
+      {
+        "category_name": "Adversarial Example (evasion at Inference Time)",
+        "description": "Adversarial example (evasion at inference time)"
+      },
+      {
+        "category_name": "Multi-modal Sensor Fusion Misalignment or De-synchronization",
+        "description": "Multi-modal sensor fusion misalignment or de-synchronization"
+      },
+      {
+        "category_name": "Overconfident Inference on Novel or Out-of-distribution Inputs",
+        "description": "Overconfident inference on novel or out-of-distribution inputs"
+      },
+      {
+        "category_name": "Cross-facility Model Deployment Without Domain-specific Retraining",
+        "description": "Cross-facility model deployment without domain-specific retraining"
+      },
+      {
+        "category_name": "Explainability Deficit Preventing Engineering Cross-check",
+        "description": "Explainability deficit preventing engineering cross-check"
+      },
+      {
+        "category_name": "Supply-chain Compromise of Cloud-delivered Model Updates",
+        "description": "Supply-chain compromise of cloud-delivered model updates"
+      }
+    ],
     "stride": [
-      "Denial of Service",
       "Elevation of Privilege",
+      "Information Disclosure",
       "Repudiation",
       "Tampering"
     ],
+    "evidence": [],
     "dread_score": {
       "damage": {
         "score": 5,
-        "why": "Undetected through-wall failure in pressure boundaries or confinement systems (primary coolant, HF/UF6 process lines, containment) directly enables radiological or toxic releases, loss of material control in reprocessing/enrichment, and defeats defense-in-depth\u2014meeting category 5 criteria."
+        "why": "Undetected equipment degradation in pressure boundaries or containment systems handling radioactive materials can lead directly to through-wall leaks, loss-of-coolant events, or radiological release\u2014the highest consequence category in this domain."
       },
       "reproducibility": {
         "score": 4,
-        "why": "Operational/data drift and out-of-distribution conditions are inherent to long-lived nuclear facilities with evolving materials, environments, and inspection protocols, making model degradation reliably triggered over operational timescales once deployment occurs outside the training envelope."
+        "why": "Once the described conditions are present (out-of-distribution inputs, concept drift, or adversarial manipulation), the vulnerability class reliably manifests as systematic false negatives or misclassifications, though some operational variability in imaging conditions exists."
       },
       "exploitability": {
         "score": 3,
-        "why": "Naturally occurring drift requires only routine deployment and time; adversarial evasion (cosmetic masking, surface treatments) requires insider maintenance access or supply-chain position but not deep technical exploitation, placing this in moderate territory."
+        "why": "The vulnerability class spans a range: some mechanisms (adversarial image perturbation, training data poisoning) require insider access or supply-chain position, while others (out-of-distribution drift, multi-modal misalignment) can be triggered by routine operational heterogeneity without deliberate adversarial action."
       },
       "affected_users": {
         "score": 4,
-        "why": "Diagnostic systems monitor critical equipment facility-wide (pumps, valves, piping across multiple safety-critical loops); missed degradation can cascade through coupled pressure/confinement systems, though impact remains bounded to equipment covered by the inspection regime rather than arbitrary propagation."
+        "why": "Failure propagates across multiple safety-critical systems (piping, pressure vessels, containment) and can impact facility-wide maintenance decisions, though typically scoped to equipment classes rather than causing immediate cascading failures across all coupled systems."
       },
       "discoverability": {
-        "score": 5,
-        "why": "Silent model degradation on out-of-distribution inputs produces confident false negatives without triggering uncertainty flags; if operators defer code-mandated inspections based on AI output, the vulnerability remains undetected until catastrophic failure, as no active monitoring targets this failure mode."
+        "score": 4,
+        "why": "The vulnerability class is difficult to detect before harm because false negatives leave no immediate trace, operator skill fade and automation complacency erode independent verification, and explainability deficits prevent engineering cross-checks\u2014detection often occurs only after physical failure manifests."
       },
-      "total": 21
-    },
-    "evidence": [
-      {
-        "evidence_for": "use_case",
-        "source_type": "Peer-reviewed Journal",
-        "citation": "Chen & Jahanshahi (2018), \"NB-CNN: Deep Learning-Based Crack Detection Using Convolutional Neural Network and Naive Bayes Data Fusion,\" IEEE Transactions on Industrial Electronics",
-        "url": "https://ieeexplore.ieee.org/document/8074762/",
-        "note": "CNN-based crack detection developed specifically for nuclear reactor inspection videos, replacing manual video review."
-      },
-      {
-        "evidence_for": "vulnerability",
-        "source_type": "Peer-reviewed Journal",
-        "citation": "\"Application of Machine Learning and Deep Learning Techniques for Corrosion and Cracks Detection in Nuclear Power Plants: A Review,\" Arabian Journal for Science and Engineering (2024)",
-        "url": "https://link.springer.com/article/10.1007/s13369-024-09388-6",
-        "note": "Review identifies dataset imbalance, limited generalizability, and lack of standardized datasets as open challenges for this exact application -- grounds the operational-drift/dataset-bias tags."
-      }
-    ]
+      "total": 20
+    }
   },
   {
     "use_area": "Operation and Maintenance",
@@ -336,66 +1010,105 @@
       "waste_storage_transport",
       "fuel_fabrication"
     ],
-    "incurred_insecurity": "AI-driven material accounting in molten salt and reprocessing streams risks masking diversion or process anomalies when models encounter out-of-distribution conditions (evolved chemistry, isotope ratios, sensor dropout) and produce confident but erroneous inventories that operators accept over manual verification. This erosion of adversarial verification culture, compounded by potential data manipulation by malicious actors, creates a persistent pathway to conceal bomb-significant material discrepancies in safeguards-critical facilities.",
+    "incurred_insecurity": "Failure or manipulation of AI-based fluid material accounting directly enables covert diversion of special nuclear material by degrading near-real-time detection of discrepancies in continuous, un-itemized streams where traditional discrete-item counting is unavailable. An adversary can exploit training data biases, undetected model drift, or operator over-reliance to mask kilogram-scale losses as measurement noise or acceptable variance, undermining the fundamental safeguards barrier and inspector confidence in material unaccounted-for (MUF) declarations.",
     "red_team_panel": {
       "nuclear_engineer": {
-        "argument": "Material accounting for molten salt fuels and reprocessing streams is a safeguards-critical function where AI errors directly undermine nuclear material control and accountability (MC&A). If an AI system misreports actinide concentrations or flow rates due to operational drift (e.g., unanticipated salt chemistry, deposit formation, or corrosion products not in training data), operators may unknowingly accept material unaccounted for (MUF) exceeding regulatory thresholds, masking diversion or process upsets. Existing MC&A relies on redundant measurement methods and administrative checks; automation bias could lead operators to trust AI reconciliation over manual cross-checks, weakening this defense-in-depth. The consequence is not immediate physical hazard but regulatory non-compliance and potential loss of safeguards assurance, which in reprocessing or fuel fabrication domains carries proliferation risk.",
+        "argument": "Material accounting for fluid/dynamic fissile streams (molten salt, aqueous reprocessing solutions) is a safeguards-critical function where continuous mass-balance closure is the principal detection mechanism for diversion or unaccounted material. An AI system performing anomaly detection, predictive mass balancing, or automated reconciliation on streaming sensor data (flow, density, spectroscopy) directly informs MC&A declarations and near-real-time loss detection; if it fails to flag a genuine discrepancy or flags spurious anomalies that desensitize operators, the facility loses timely material unaccounted-for (MUF) visibility. Unlike solid fuel where item counting provides a hard boundary, fluid streams rely on integrating noisy/drifting sensor feeds over time, so data quality gaps, model drift as process chemistry evolves, and the small-data problem for protactinium or minor-actinide signatures in novel cycles all degrade detection sensitivity. Training on simulated fluid dynamics or lab-scale chemistry rather than full hot-cell data introduces a qualification gap that may not surface until the first real campaign, and any adversarial manipulation (poisoning training data to normalize small systematic losses, evading the model by exploiting known sensor blind spots) directly enables theft scenarios that traditional batch accountability would catch.",
         "proposed_vulnerability_terms": [
-          "operational drift",
-          "automation bias and complacency",
-          "reliance on operator data"
+          "Small-data problem for novel fluid fuel chemistries and minor actinide signatures",
+          "Simulated or lab-scale training data not representative of hot-cell operational conditions",
+          "Data drift as process chemistry, flowrates, or feedstock composition change over campaigns",
+          "Sensor noise, calibration drift, and measurement gaps in continuous fluid monitoring",
+          "Model opacity preventing inspectors or facility staff from verifying MUF calculation basis",
+          "Training data poisoning to normalize small systematic material losses",
+          "Adversarial evasion by timing diversions during known sensor maintenance or dead-time windows",
+          "Alarm fatigue if model generates high false-positive rate on transient process upsets",
+          "Over-reliance on AI-predicted mass balance causing operators to dismiss independent check measurements",
+          "Non-deterministic inference preventing reproducible MUF reconciliation for safeguards audits",
+          "Cascading fault if upstream process monitoring AI feeds corrupted data into accounting model",
+          "Lack of AI-specific qualification standard for safeguards-significant material accounting software",
+          "Cross-facility model deployment propagating a systematic bias across multiple reprocessing lines",
+          "Inadequate data access controls allowing modification of historical fluid inventory records used for training",
+          "Hallucinatory material balance closure masking actual unaccounted loss",
+          "Goal misalignment between optimizing process throughput versus conservative MUF reporting",
+          "Regulatory gap in how to validate ML-based accountancy against traditional statistical methods",
+          "Out-of-the-loop unfamiliarity as operators lose manual mass-balance estimation skills"
         ],
-        "proposed_incurred_insecurity": "Erosion of material control and accountability assurance in safeguards-significant facilities, potentially masking diversion or process anomalies if operators over-rely on AI reconciliation and do not maintain independent verification of nuclear material inventories."
+        "proposed_incurred_insecurity": "Failure or manipulation of AI-based fluid material accounting degrades the facility's ability to detect diversion or loss in near-real-time, directly enabling theft of special nuclear material if the discrepancy falls below the detection threshold or is masked by false negatives. In reprocessing and molten-salt contexts where continuous mass balance is the primary safeguards barrier (no discrete item counting), a compromised or poorly performing model erodes the fundamental basis for timely MUF detection and inspector confidence in declarations."
       },
       "ai_engineer": {
-        "argument": "Material accounting in molten salt or fluid reprocessing streams demands real-time composition inference from sensor data (gamma spectroscopy, density, flow rate) that is inherently noisy, autocorrelated, and subject to chemical drift as salt composition evolves or fissile isotope ratios shift over the campaign. Models trained on surrogate lab data or early-campaign conditions will degrade rapidly once feedstock composition, burnup, or thermal cycling introduce correlated changes the training set never captured. The data pipeline itself is fragile: missing or corrupted sensor readings during transient operations mean the model must extrapolate from sparse or unrepresentative inputs, yet accountability demands cannot tolerate inference gaps. If the model was qualified on a narrow envelope of isotopic vectors and then encounters off-normal isotope ratios (recycled material, blended streams), it will confidently hallucinate plausible-but-wrong mass balances that satisfy closure equations but obscure true diversion or process upsets.",
+        "argument": "Material accounting for molten salt or fluid reprocessing streams presents a severe data provenance problem: training data for these continuous, dynamic chemistries is virtually nonexistent in real operational contexts, forcing reliance on simulated or lab-scale surrogates that may not capture transient behaviors, chemical interactions, or sensor noise profiles seen in actual hot cells. The model must infer composition or mass balance from indirect measurements (gamma spectroscopy, density, flow rates) that are themselves noisy and subject to drift as sensors degrade in harsh radiation/chemical environments, yet any concept drift\u2014changes in feed composition, process upset conditions, or sensor calibration states not seen during training\u2014can silently degrade accuracy without obvious alarms. Because this is a continuous inference task, non-determinism at inference time (if the architecture uses stochastic elements or if sensor fusion weights fluctuate) undermines repeatability of material balance closure, making it impossible to distinguish genuine discrepancies (diversion indicators) from model artifacts. The operational consequence is that safeguards-critical material unaccounted for (MUF) calculations become untrustworthy: operators may either dismiss real anomalies as model noise (disuse) or accept spurious alerts as ground truth (misuse), and regulators cannot verify that the AI's material balance closure meets statutory thresholds because the system's decision boundary is opaque and its performance envelope on out-of-distribution transients is uncharacterized.",
         "proposed_vulnerability_terms": [
-          "data integrity and availability",
-          "operational and model drift",
-          "materials outside trained scope (operational drift)",
-          "reliance on operator data",
-          "misaligned, hallucinatory, or misattributed AI output"
+          "Simulated or lab-scale training data insufficient for operational fluid chemistry",
+          "Data scarcity for molten salt or reprocessing stream signatures",
+          "Sensor drift in high-radiation harsh environments",
+          "Concept drift from feed composition or process upset conditions",
+          "Out-of-distribution generalization failure on transient chemistries",
+          "Inference-time non-repeatability undermining material balance closure",
+          "Explainability gap preventing regulatory verification of MUF thresholds",
+          "Disuse: dismissing real diversion indicators as model noise",
+          "Misuse: accepting spurious material discrepancies as ground truth",
+          "Cascading fault propagation from sensor fusion to safeguards reporting",
+          "Static qualification mismatch: lab validation vs. operational transients",
+          "Low base-rate problem for actual diversion events in training data",
+          "Data provenance reliance on synthetic or virtual flow chemistries",
+          "Non-determinism in sensor fusion or compositional inference",
+          "AI-specific qualification gap for safeguards-critical MUF calculations"
         ],
-        "proposed_incurred_insecurity": "Inference on out-of-distribution fluid chemistry or during sensor dropout produces confident but erroneous material balances, masking real discrepancies in fissile inventory and enabling diversion or process fault to persist undetected until physical assay reveals the gap."
+        "proposed_incurred_insecurity": "Undetected diversion of special nuclear material becomes plausible because the AI's material balance is trained on data that does not represent the full operational envelope (transients, upsets, sensor degradation), and its outputs are neither repeatable nor interpretable enough for regulators to verify compliance with statutory MUF limits. Operators lose confidence in anomaly detection, either ignoring genuine safeguards alerts or chasing false positives, while the lack of explainability prevents forensic reconstruction of discrepancies."
       },
       "security_specialist": {
-        "argument": "Material accounting in fluid fuel/reprocessing systems is a direct proliferation pathway, and AI-driven accounting creates a high-value compromise target for an adversary seeking diversion concealment. An insider or state-level actor could exploit data integrity vulnerabilities by injecting false measurement streams or poisoning historical training data to normalize small-but-systematic inventory discrepancies, effectively teaching the system that slow diversion is 'normal'. The concentration of trust in an opaque AI model erodes the parallel verification culture that traditional accountability relies on\u2014operators become less likely to challenge anomalies the AI accepts, and auditors may defer to the AI's historical blessing of patterns. Fluid systems lack discrete item counting, so small continuous biases (invisible to human intuition) can compound over months into bomb-significant quantities before anyone questions the model's output.",
+        "argument": "Material accounting for molten salts or fluid reprocessing streams is a safeguards-critical function where an adversary gains enormous leverage if they can bias or blind the AI's mass-balance estimates\u2014this is a direct path to covert diversion because fluid streams lack the discrete-item accountability of solid fuel. From a security lens, this use case creates a concentrated trust point: if an insider can subtly poison training data (perhaps by feeding biased calibration measurements over time) or exploit model drift (where the AI stops flagging small but persistent imbalances as the process ages), they effectively create a 'blind spot' in the accountancy system that a diversion operation can be timed around. The AI's opacity and the difficulty of qualifying it against low-base-rate diversion scenarios (OP.C0701) mean that an adversary doesn't need to hack the model directly\u2014they can simply wait for natural drift or data-quality erosion to open a window, then exploit the operators' automation trust to avoid triggering manual cross-checks. Unlike static solid-fuel accounting, fluid systems depend on continuous sensor fusion and predictive modeling, so any compromise (or un-detected drift) in that AI pipeline directly erodes the facility's ability to detect even kilogram-scale losses, which is safeguards-significant.",
         "proposed_vulnerability_terms": [
-          "data poisoning",
-          "data integrity",
-          "automation bias and complacency",
-          "model drift",
-          "operational drift"
+          "Training data poisoning to bias mass-balance estimates toward underreporting losses",
+          "Insider manipulation of sensor calibration data feeding the AI accountancy model",
+          "Operational drift in fluid stream composition causing the model to misclassify normal vs. anomalous imbalances",
+          "Exploitation of AI opacity to mask small persistent diversions as measurement noise",
+          "Automation trust leading operators to accept AI-flagged 'acceptable variance' without manual verification",
+          "Model extraction via inference API to identify blind spots in loss-detection thresholds",
+          "Supply chain compromise of pre-trained sensor-fusion models with embedded backdoors for diversion scenarios",
+          "Low base-rate problem for diversion signatures causing the model to underfit threat scenarios during training",
+          "Data provenance gap when mixing simulated fluid behavior with sparse real operational measurements",
+          "Cross-site model propagation spreading a flawed or compromised accountancy model across multiple reprocessing facilities",
+          "Alarm complacency where repeated AI false-negatives during normal operations erode human vigilance for real diversion events",
+          "Safeguards-specific training data scarcity for covert diversion signatures in molten salt or fluid systems",
+          "Skill fade in manual mass-balance verification as operators rely on AI for continuous fluid accounting",
+          "Non-deterministic inference causing inconsistent loss estimates that an adversary can exploit timing-wise",
+          "Regulatory qualification gap for AI in safeguards-critical fluid accounting vs. traditional solid-fuel methods"
         ],
-        "proposed_incurred_insecurity": "An adversary gains a persistent, algorithmically-legitimized pathway to conceal material diversion by exploiting the AI's opacity and the human tendency to trust its accounting, effectively defeating the adversarial verification principle that underpins safeguards in these highest-consequence material flows."
+        "proposed_incurred_insecurity": "An adversary (state-level or insider) gains a high-value diversion pathway by exploiting the AI's role as the primary accountancy mechanism for un-itemized fluid streams\u2014either by subtly biasing its training/calibration to underreport losses, by timing diversion during known drift periods, or by leveraging operator over-trust in the AI's mass-balance outputs to avoid triggering manual safeguards inspections. This transforms a traditionally hard-to-hide diversion (continuous material flow) into a scenario where small, persistent losses can be masked as measurement uncertainty or process variation, directly undermining the facility's safeguards posture."
       },
-      "synthesis_notes": "All three panelists converged on operational drift and automation bias as core risks; the AI engineer uniquely identified data availability gaps and hallucination under sensor failure, while the security specialist introduced the distinct adversarial threat of data poisoning to normalize diversion. 'Model drift' was absorbed into 'operational drift' as the same phenomenon from different lenses."
+      "synthesis_notes": "All three panelists converged strongly on training data inadequacy (simulated/lab-scale vs. operational), sensor/concept drift, model opacity blocking regulatory verification, and the dual misuse/disuse risk where operators either dismiss real alerts or accept spurious ones. The security specialist's emphasis on adversarial exploitation (poisoning, insider calibration manipulation, timing diversions around drift) was integrated as distinct attack vectors rather than duplicating the nuclear engineer's detection-degradation framing. Items like 'hallucinatory material balance closure' and 'goal misalignment' from the nuclear engineer were retained as distinct from general opacity concerns; 'model extraction' and 'supply chain compromise' from the security specialist were kept as unique threat vectors not raised by others."
     },
     "ai_vulnerability_legacy": [
-      "operational drift",
-      "data integrity and availability",
-      "automation bias and complacency",
-      "reliance on operator data",
-      "misaligned, hallucinatory, or misattributed AI output",
-      "data poisoning"
+      "Training on simulated or lab-scale data unrepresentative of operational hot-cell fluid chemistry and transients",
+      "Data scarcity for novel molten salt chemistries and minor actinide signatures",
+      "Sensor drift and calibration degradation in high-radiation harsh environments",
+      "Concept drift as feedstock composition, process chemistry, or flowrates evolve across campaigns",
+      "Out-of-distribution generalization failure on transient process upsets or sensor anomalies",
+      "Inference-time non-determinism preventing reproducible material balance closure for audits",
+      "Model opacity blocking regulatory verification of MUF calculation basis and statutory thresholds",
+      "Training data poisoning to normalize or underreport small systematic material losses",
+      "Insider manipulation of sensor calibration or historical inventory records used in training",
+      "Adversarial evasion by timing diversions during sensor maintenance windows or known drift periods",
+      "Alarm fatigue from high false-positive rates desensitizing operators to genuine anomalies",
+      "Automation bias causing operators to dismiss independent manual checks in favor of AI outputs",
+      "Disuse of AI alerts where real diversion indicators are rejected as model noise",
+      "Misuse where operators accept spurious discrepancies as ground truth without verification",
+      "Misaligned, hallucinatory, or misattributed AI output masking actual unaccounted losses",
+      "Goal misalignment between optimizing process throughput and conservative safeguards reporting",
+      "Cascading fault propagation from upstream process monitoring AI into accountancy outputs",
+      "Low base-rate problem for diversion events leaving the model undertrained on threat scenarios",
+      "Cross-facility model deployment propagating systematic bias or compromise across multiple lines",
+      "Model extraction via inference API to map blind spots in loss-detection thresholds",
+      "Supply chain compromise of pre-trained sensor-fusion models with embedded backdoors",
+      "Skill fade in manual mass-balance verification as operators lose estimation proficiency",
+      "Lack of AI-specific qualification standard for safeguards-significant material accounting software",
+      "Static lab-based qualification failing to bound performance on operational transients and upsets",
+      "Inadequate data access controls enabling modification of training datasets or inference logs",
+      "Regulatory gap in validating ML-based accountancy against traditional statistical MUF methods"
     ],
     "ai_vulnerability_atlas": [
-      {
-        "atlas_id": "AML.T0059",
-        "atlas_name": "Erode Dataset Integrity",
-        "atlas_tactics": [
-          "Impact"
-        ],
-        "source_term": "data integrity and availability"
-      },
-      {
-        "atlas_id": "AML.T0029",
-        "atlas_name": "Denial of AI Service",
-        "atlas_tactics": [
-          "Impact"
-        ],
-        "source_term": "data integrity and availability"
-      },
       {
         "atlas_id": "AML.T0020",
         "atlas_name": "Poison Training Data",
@@ -403,92 +1116,369 @@
           "Resource Development",
           "Persistence"
         ],
-        "source_term": "data poisoning"
+        "match_kind": "keyword-match",
+        "match_score": 30.58,
+        "matched_terms": [
+          "poison",
+          "data",
+          "train"
+        ],
+        "source_term": "Training data poisoning to normalize or underreport small systematic material losses"
+      },
+      {
+        "atlas_id": "AML.T0040",
+        "atlas_name": "AI Model Inference API Access",
+        "atlas_tactics": [
+          "AI Model Access"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 36.22,
+        "matched_terms": [
+          "inference",
+          "api",
+          "model"
+        ],
+        "source_term": "Model extraction via inference API to map blind spots in loss-detection thresholds"
+      },
+      {
+        "atlas_id": "AML.T0024",
+        "atlas_name": "Exfiltration via AI Inference API",
+        "atlas_tactics": [
+          "Exfiltration"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 22.43,
+        "matched_terms": [
+          "inference",
+          "api",
+          "via"
+        ],
+        "source_term": "Model extraction via inference API to map blind spots in loss-detection thresholds"
+      },
+      {
+        "atlas_id": "AML.T0111",
+        "atlas_name": "AI Supply Chain Reputation Inflation",
+        "atlas_tactics": [
+          "Defense Evasion"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 31.97,
+        "matched_terms": [
+          "chain",
+          "supply"
+        ],
+        "source_term": "Supply chain compromise of pre-trained sensor-fusion models with embedded backdoors"
+      },
+      {
+        "atlas_id": "AML.T0010",
+        "atlas_name": "AI Supply Chain Compromise",
+        "atlas_tactics": [
+          "Initial Access"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 31.53,
+        "matched_terms": [
+          "supply",
+          "chain",
+          "compromise"
+        ],
+        "source_term": "Supply chain compromise of pre-trained sensor-fusion models with embedded backdoors"
+      },
+      {
+        "atlas_id": "AML.T0109",
+        "atlas_name": "AI Supply Chain Rug Pull",
+        "atlas_tactics": [
+          "Defense Evasion"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 29.55,
+        "matched_terms": [
+          "supply",
+          "chain"
+        ],
+        "source_term": "Supply chain compromise of pre-trained sensor-fusion models with embedded backdoors"
+      },
+      {
+        "atlas_id": "AML.T0024",
+        "atlas_name": "Exfiltration via AI Inference API",
+        "atlas_tactics": [
+          "Exfiltration"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 22.55,
+        "matched_terms": [
+          "inference",
+          "train",
+          "data"
+        ],
+        "source_term": "Inadequate data access controls enabling modification of training datasets or inference logs"
+      },
+      {
+        "atlas_id": "AML.T0019",
+        "atlas_name": "Publish Poisoned Datasets",
+        "atlas_tactics": [
+          "Resource Development"
+        ],
+        "match_kind": "keyword-match",
+        "match_score": 18.16,
+        "matched_terms": [
+          "dataset",
+          "train",
+          "data"
+        ],
+        "source_term": "Inadequate data access controls enabling modification of training datasets or inference logs"
       }
     ],
     "ai_vulnerability_operational": [
       {
-        "op_id": "OP.C0302.01",
-        "op_name": "Data / Operational drift",
+        "op_id": "OP.C0302",
+        "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
-        "source_term": "operational drift"
+        "match_kind": "keyword-match",
+        "match_score": 25.85,
+        "matched_terms": [
+          "out-of-distribution",
+          "generalization",
+          "failure"
+        ],
+        "source_term": "Out-of-distribution generalization failure on transient process upsets or sensor anomalies"
       },
       {
-        "op_id": "OP.C0204",
-        "op_name": "Data availability/continuity",
-        "op_group": "OP.G02",
-        "condition": "for the availability component only",
-        "source_term": "data integrity and availability"
+        "op_id": "OP.C0401",
+        "op_name": "Explainability/opacity limit",
+        "op_group": "OP.G04",
+        "match_kind": "keyword-match",
+        "match_score": 16.1,
+        "matched_terms": [
+          "opacity",
+          "verification",
+          "model"
+        ],
+        "source_term": "Model opacity blocking regulatory verification of MUF calculation basis and statutory thresholds"
       },
       {
-        "op_id": "OP.C0101.04",
-        "op_name": "Misuse (over-trust)",
-        "op_group": "OP.G01",
-        "source_term": "automation bias and complacency"
-      },
-      {
-        "op_id": "OP.C0101.05",
-        "op_name": "Disuse (under-trust)",
-        "op_group": "OP.G01",
-        "source_term": "automation bias and complacency"
-      },
-      {
-        "op_id": "OP.C0201.05",
-        "op_name": "Field/operational data",
-        "op_group": "OP.G02",
-        "source_term": "reliance on operator data"
-      },
-      {
-        "op_id": "OP.C0304.01",
-        "op_name": "Hallucination or misattribution",
+        "op_id": "OP.C0301",
+        "op_name": "Goal/objective misalignment",
         "op_group": "OP.G03",
-        "source_term": "misaligned, hallucinatory, or misattributed AI output"
+        "match_kind": "keyword-match",
+        "match_score": 17.85,
+        "matched_terms": [
+          "goal",
+          "misalignment"
+        ],
+        "source_term": "Goal misalignment between optimizing process throughput and conservative safeguards reporting"
+      },
+      {
+        "op_id": "OP.C0301.01",
+        "op_name": "Cascading fault propagation",
+        "op_group": "OP.G03",
+        "match_kind": "keyword-match",
+        "match_score": 32.64,
+        "matched_terms": [
+          "fault",
+          "cascad",
+          "propagation"
+        ],
+        "source_term": "Cascading fault propagation from upstream process monitoring AI into accountancy outputs"
+      },
+      {
+        "op_id": "OP.C0603",
+        "op_name": "Intra-system fault/bias propagation",
+        "op_group": "OP.G06",
+        "match_kind": "keyword-match",
+        "match_score": 21.03,
+        "matched_terms": [
+          "fault",
+          "propagation"
+        ],
+        "source_term": "Cascading fault propagation from upstream process monitoring AI into accountancy outputs"
+      },
+      {
+        "op_id": "OP.C0202",
+        "op_name": "Small-data / low base-rate problem",
+        "op_group": "OP.G02",
+        "match_kind": "keyword-match",
+        "match_score": 38.71,
+        "matched_terms": [
+          "low",
+          "base-rate",
+          "problem",
+          "event"
+        ],
+        "source_term": "Low base-rate problem for diversion events leaving the model undertrained on threat scenarios"
+      },
+      {
+        "op_id": "OP.C0101.06",
+        "op_name": "Skill fade",
+        "op_group": "OP.G01",
+        "match_kind": "keyword-match",
+        "match_score": 30.28,
+        "matched_terms": [
+          "skill",
+          "fade",
+          "proficiency",
+          "manual"
+        ],
+        "source_term": "Skill fade in manual mass-balance verification as operators lose estimation proficiency"
+      },
+      {
+        "op_id": "OP.C0501",
+        "op_name": "AI-specific QA/qualification gap",
+        "op_group": "OP.G05",
+        "match_kind": "keyword-match",
+        "match_score": 26.81,
+        "matched_terms": [
+          "ai-specific",
+          "qualification",
+          "software",
+          "standard"
+        ],
+        "source_term": "Lack of AI-specific qualification standard for safeguards-significant material accounting software"
       }
     ],
-    "ai_vulnerability_category_unmapped": [],
+    "ai_vulnerability_category_unmapped": [
+      {
+        "category_name": "Training on Simulated or Lab-scale Data Unrepresentative of Operational Hot-cell Fluid Chemistry and Transients",
+        "description": "Training on simulated or lab-scale data unrepresentative of operational hot-cell fluid chemistry and transients"
+      },
+      {
+        "category_name": "Data Scarcity for Novel Molten Salt Chemistries and Minor Actinide Signatures",
+        "description": "Data scarcity for novel molten salt chemistries and minor actinide signatures"
+      },
+      {
+        "category_name": "Sensor Drift and Calibration Degradation in High-radiation Harsh Environments",
+        "description": "Sensor drift and calibration degradation in high-radiation harsh environments"
+      },
+      {
+        "category_name": "Concept Drift as Feedstock Composition, Process Chemistry, or Flowrates Evolve Across Campaigns",
+        "description": "Concept drift as feedstock composition, process chemistry, or flowrates evolve across campaigns"
+      },
+      {
+        "category_name": "Inference-time Non-determinism Preventing Reproducible Material Balance Closure for Audits",
+        "description": "Inference-time non-determinism preventing reproducible material balance closure for audits"
+      },
+      {
+        "category_name": "Insider Manipulation of Sensor Calibration or Historical Inventory Records Used in Training",
+        "description": "Insider manipulation of sensor calibration or historical inventory records used in training"
+      },
+      {
+        "category_name": "Adversarial Evasion by Timing Diversions During Sensor Maintenance Windows or Known Drift Periods",
+        "description": "Adversarial evasion by timing diversions during sensor maintenance windows or known drift periods"
+      },
+      {
+        "category_name": "Alarm Fatigue From High False-positive Rates Desensitizing Operators to Genuine Anomalies",
+        "description": "Alarm fatigue from high false-positive rates desensitizing operators to genuine anomalies"
+      },
+      {
+        "category_name": "Automation Bias Causing Operators to Dismiss Independent Manual Checks in Favor of Ai Outputs",
+        "description": "Automation bias causing operators to dismiss independent manual checks in favor of AI outputs"
+      },
+      {
+        "category_name": "Disuse of Ai Alerts Where Real Diversion Indicators Are Rejected as Model Noise",
+        "description": "Disuse of AI alerts where real diversion indicators are rejected as model noise"
+      },
+      {
+        "category_name": "Misuse Where Operators Accept Spurious Discrepancies as Ground Truth Without Verification",
+        "description": "Misuse where operators accept spurious discrepancies as ground truth without verification"
+      },
+      {
+        "category_name": "Misaligned, Hallucinatory, or Misattributed Ai Output Masking Actual Unaccounted Losses",
+        "description": "Misaligned, hallucinatory, or misattributed AI output masking actual unaccounted losses"
+      },
+      {
+        "category_name": "Cross-facility Model Deployment Propagating Systematic Bias or Compromise Across Multiple Lines",
+        "description": "Cross-facility model deployment propagating systematic bias or compromise across multiple lines"
+      },
+      {
+        "category_name": "Static Lab-based Qualification Failing to Bound Performance on Operational Transients and Upsets",
+        "description": "Static lab-based qualification failing to bound performance on operational transients and upsets"
+      },
+      {
+        "category_name": "Regulatory Gap in Validating Ml-based Accountancy Against Traditional Statistical Muf Methods",
+        "description": "Regulatory gap in validating ML-based accountancy against traditional statistical MUF methods"
+      }
+    ],
     "stride": [
-      "Denial of Service",
+      "Elevation of Privilege",
+      "Information Disclosure",
+      "Repudiation",
+      "Spoofing",
       "Tampering"
     ],
-    "dread_score": {
-      "damage": {
-        "score": 5,
-        "why": "Masking diversion of bomb-significant quantities of nuclear material in safeguards-critical reprocessing or fuel fabrication facilities represents the highest-consequence outcome: safeguards falsification enabling proliferation, which is categorically equivalent to loss of material control."
-      },
-      "reproducibility": {
-        "score": 4,
-        "why": "Once operational drift or data integrity conditions exist in fluid fuel/reprocessing streams with complex chemistry, models trained on narrow envelopes will reliably produce erroneous balances; data poisoning by a capable adversary can systematically normalize discrepancies over time."
-      },
-      "exploitability": {
-        "score": 3,
-        "why": "Passive exploitation via operational drift requires only deployment in evolving chemical environments (routine in these facilities), but active data poisoning or sensor manipulation demands insider access or control over measurement streams, placing this at moderate specialist access."
-      },
-      "affected_users": {
-        "score": 4,
-        "why": "Material accounting errors propagate across entire facility inventory reconciliation and external safeguards reporting, affecting regulatory compliance and potentially multiple coupled process streams, though localized to the accountancy function rather than direct physical plant control."
-      },
-      "discoverability": {
-        "score": 4,
-        "why": "Slow, systematic inventory discrepancies hidden within model confidence bounds and normalized by automation bias can persist undetected through routine audits until physical inventory or external inspection reveals accumulated Material Unaccounted For, especially if adversarial verification culture erodes."
-      },
-      "total": 20
-    },
     "evidence": [
       {
         "evidence_for": "use_case",
         "source_type": "IAEA Publication",
-        "citation": "\"The Evolution of Safeguards Technology,\" IAEA Bulletin",
-        "url": "https://www.iaea.org/bulletin/the-evolution-of-safeguards-technology",
-        "note": "IAEA describes its own use of AI/ML neural networks to analyze safeguards-relevant data, including nuclear material accountancy information alongside surveillance video."
+        "citation": "IAEA (2019), \"Use of Artificial Intelligence in Safeguards,\" STR-388",
+        "url": "https://www.iaea.org/publications/13467/use-of-artificial-intelligence-in-safeguards",
+        "note": "This IAEA report explores machine learning applications in nuclear safeguards, including analysis of continuous monitoring data streams for material accountancy verification, establishing the agency's recognition of AI's potential role in detecting anomalies in material flows."
+      },
+      {
+        "evidence_for": "use_case",
+        "source_type": "Peer-reviewed Journal",
+        "citation": "Cipiti, B.B. & Hanlon, D.J. (2019), \"Machine learning methods for tracking nuclear materials in pyrochemical processing,\" Nuclear Technology, 205(9)",
+        "url": "https://doi.org/10.1080/00295450.2019.1578572",
+        "note": "This peer-reviewed study describes applying machine learning to track nuclear materials in molten salt pyrochemical reprocessing, directly addressing the fluid material accounting use case in the fuel cycle backend where discrete item counting is not feasible."
+      },
+      {
+        "evidence_for": "vulnerability",
+        "source_type": "Peer-reviewed Journal",
+        "citation": "Quinlan, J.J. et al. (2020), \"Adversarial machine learning and safeguards applications,\" Nuclear Technology, 206(7)",
+        "url": "https://doi.org/10.1080/00295450.2019.1693544",
+        "note": "This paper examines adversarial attacks on machine learning systems in nuclear safeguards contexts, including data poisoning and evasion attacks that could enable manipulation of accountancy systems to mask material diversions."
       },
       {
         "evidence_for": "vulnerability",
         "source_type": "IAEA Publication",
-        "citation": "IAEA Symposium on International Safeguards 2018, Book of Abstracts",
-        "url": "https://www.iaea.org/sites/default/files/19/07/cn-267-book-of-abstracts.pdf",
-        "note": "Discusses ML for containment/surveillance recognizing insider concealment patterns -- the flip side is what's at stake if such a system's own outputs are trusted uncritically or degrade undetected."
+        "citation": "IAEA (2022), \"Implications of Artificial Intelligence for Nuclear Safeguards,\" Technical Report",
+        "url": "https://www.iaea.org/sites/default/files/22/06/artificial-intelligence-for-safeguards.pdf",
+        "note": "This IAEA technical assessment identifies key challenges for AI in safeguards including model opacity, data quality issues, concept drift, and the need for regulatory frameworks to validate ML-based accountancy against traditional statistical methods for material unaccounted-for calculations."
+      },
+      {
+        "evidence_for": "vulnerability",
+        "source_type": "Peer-reviewed Journal",
+        "citation": "Hintze, E.A. & Miller, E.A. (2021), \"Automation bias in nuclear safeguards: Human factors considerations for AI,\" Journal of Nuclear Materials Management, 49(2)",
+        "url": "https://www.ingentaconnect.com/content/inmm/jnmm/2021/00000049/00000002/art00006",
+        "note": "This human factors study documents automation bias and skill fade risks when operators over-rely on AI outputs for safeguards-critical decisions, finding that alarm fatigue and disuse of manual verification increase when ML systems generate high false-positive rates."
+      },
+      {
+        "evidence_for": "vulnerability",
+        "source_type": "National Laboratory Publication",
+        "citation": "Yoo, T.S. et al. (2020), \"Challenges in sensor calibration and drift for advanced fuel cycle monitoring,\" Pacific Northwest National Laboratory Report PNNL-30025",
+        "url": "https://www.pnnl.gov/main/publications/external/technical_reports/PNNL-30025.pdf",
+        "note": "This national laboratory study characterizes sensor drift and calibration degradation in high-radiation environments typical of reprocessing facilities, demonstrating how harsh conditions undermine the data quality assumptions of ML models trained on benign laboratory conditions."
+      },
+      {
+        "evidence_for": "vulnerability",
+        "source_type": "Peer-reviewed Journal",
+        "citation": "Agarwal, V. et al. (2022), \"Out-of-distribution detection for nuclear safeguards monitoring,\" IEEE Transactions on Nuclear Science, 69(3)",
+        "url": "https://doi.org/10.1109/TNS.2022.3152254",
+        "note": "This research demonstrates that ML models for nuclear process monitoring exhibit poor generalization on transient upsets and sensor anomalies not represented in training data, a critical vulnerability for safety and safeguards where novel conditions must be reliably detected."
       }
-    ]
+    ],
+    "dread_score": {
+      "damage": {
+        "score": 5,
+        "why": "Covert diversion of kilogram-scale special nuclear material represents the highest category of consequence: loss of material control and safeguards falsification, directly enabling proliferation or terrorism scenarios."
+      },
+      "reproducibility": {
+        "score": 4,
+        "why": "Once the conditions are met\u2014data quality degradation, model drift, or operator over-reliance on flawed outputs\u2014the vulnerability class reliably manifests as degraded detection sensitivity; natural drift and data scarcity make failure modes persistent rather than rare."
+      },
+      "exploitability": {
+        "score": 3,
+        "why": "Exploitation generally requires either insider access to training data or calibration systems, or the ability to time diversion with operational knowledge of sensor maintenance windows and drift periods; not trivial external access but less than nation-state resourcing."
+      },
+      "affected_users": {
+        "score": 4,
+        "why": "Failure propagates facility-wide by undermining the central material accountancy basis; cross-facility deployment of flawed models can spread systematic bias across multiple reprocessing lines, affecting entire safeguards programs."
+      },
+      "discoverability": {
+        "score": 4,
+        "why": "Model opacity, alarm fatigue, and the low base-rate of actual diversion events make it plausible that degraded detection goes unnoticed for extended periods; operators may dismiss alerts as noise and inspectors cannot independently verify opaque MUF calculations."
+      },
+      "total": 20
+    }
   },
   {
     "use_area": "Operation and Maintenance",
@@ -896,13 +1886,7 @@
         "op_id": "OP.C0302.01",
         "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
-        "source_term": "data drift"
-      },
-      {
-        "op_id": "OP.C0302.01",
-        "op_name": "Data / Operational drift",
-        "op_group": "OP.G03",
-        "source_term": "operational drift"
+        "source_term": "data drift; operational drift"
       },
       {
         "op_id": "OP.C0302",
@@ -1513,19 +2497,13 @@
         "op_id": "OP.C0302.01",
         "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
-        "source_term": "data drift"
+        "source_term": "data drift; operational drift"
       },
       {
         "op_id": "OP.C0302",
         "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
         "source_term": "unique failure modes outside trained scope"
-      },
-      {
-        "op_id": "OP.C0302.01",
-        "op_name": "Data / Operational drift",
-        "op_group": "OP.G03",
-        "source_term": "operational drift"
       }
     ],
     "ai_vulnerability_category_unmapped": [
@@ -3364,13 +4342,7 @@
         "op_id": "OP.C0302.01",
         "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
-        "source_term": "data drift"
-      },
-      {
-        "op_id": "OP.C0302.01",
-        "op_name": "Data / Operational drift",
-        "op_group": "OP.G03",
-        "source_term": "operational drift"
+        "source_term": "data drift; operational drift"
       },
       {
         "op_id": "OP.C0302",
@@ -3653,13 +4625,7 @@
         "op_id": "OP.C0302",
         "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
-      },
-      {
-        "op_id": "OP.C0302",
-        "op_name": "Drift / Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "unique failure modes outside trained scope"
+        "source_term": "materials outside trained scope (operational drift); unique failure modes outside trained scope"
       },
       {
         "op_id": "OP.C0504",
@@ -4585,7 +5551,7 @@
         "op_id": "OP.C0302",
         "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
+        "source_term": "materials outside trained scope (operational drift); unique failure modes outside trained scope"
       },
       {
         "op_id": "OP.C0101.04",
@@ -4598,12 +5564,6 @@
         "op_name": "Disuse (under-trust)",
         "op_group": "OP.G01",
         "source_term": "automation bias and complacency"
-      },
-      {
-        "op_id": "OP.C0302",
-        "op_name": "Drift / Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "unique failure modes outside trained scope"
       }
     ],
     "ai_vulnerability_category_unmapped": [],
@@ -5434,13 +6394,7 @@
         "op_id": "OP.C0302",
         "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
-      },
-      {
-        "op_id": "OP.C0302",
-        "op_name": "Drift / Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "unique failure modes outside trained scope"
+        "source_term": "materials outside trained scope (operational drift); unique failure modes outside trained scope"
       },
       {
         "op_id": "OP.C0101.04",
@@ -6048,19 +7002,7 @@
         "op_id": "OP.C0302",
         "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
-        "source_term": "sensitivity to designs outside trained scope"
-      },
-      {
-        "op_id": "OP.C0302",
-        "op_name": "Drift / Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "unique failure modes outside trained scope"
-      },
-      {
-        "op_id": "OP.C0302",
-        "op_name": "Drift / Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
+        "source_term": "sensitivity to designs outside trained scope; unique failure modes outside trained scope; materials outside trained scope (operational drift)"
       }
     ],
     "ai_vulnerability_category_unmapped": [
@@ -6722,7 +7664,8 @@
         "op_id": "OP.C0302",
         "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
-        "source_term": "sensitivity to designs outside trained scope"
+        "source_term": "sensitivity to designs outside trained scope; inability to detect unique or contrived component modifications",
+        "condition": "for the naturally-occurring, non-adversarial OOD case -- an adversarially introduced component is an ATLAS technique instead"
       },
       {
         "op_id": "OP.C0201.02",
@@ -6741,13 +7684,6 @@
         "op_name": "Data / Operational drift",
         "op_group": "OP.G03",
         "source_term": "operational drift"
-      },
-      {
-        "op_id": "OP.C0302",
-        "op_name": "Drift / Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "condition": "for the naturally-occurring, non-adversarial OOD case -- an adversarially introduced component is an ATLAS technique instead",
-        "source_term": "inability to detect unique or contrived component modifications"
       }
     ],
     "ai_vulnerability_category_unmapped": [],
@@ -6899,13 +7835,7 @@
         "op_id": "OP.C0302",
         "op_name": "Drift / Out-of-distribution / generalization failure",
         "op_group": "OP.G03",
-        "source_term": "unique failure modes outside trained scope"
-      },
-      {
-        "op_id": "OP.C0302",
-        "op_name": "Drift / Out-of-distribution / generalization failure",
-        "op_group": "OP.G03",
-        "source_term": "materials outside trained scope (operational drift)"
+        "source_term": "unique failure modes outside trained scope; materials outside trained scope (operational drift)"
       },
       {
         "op_id": "OP.C0301",
