@@ -9,18 +9,57 @@ Eventually, an open-weight model will be trained to replicate the quantitative a
 
 This taxonomy and all related data are built without security clearance or any proprietary information.
 
+
+
 # AIxNuclear taxonomy tooling -- command reference
 
-Everything here reads/writes files in this same directory. `pipeline.py`
-needs an Anthropic API key (`ANTHROPIC_API_KEY` in the environment, or a
-`.env` file -- it's loaded via `python-dotenv`); the other scripts are pure
-local data processing and don't call the API.
+Everything here reads and writes files in this same directory. `pipeline.py`
+needs an Anthropic API key (`ANTHROPIC_API_KEY` in the environment, or a `.env`
+file loaded via `python-dotenv`). The other scripts are local data processing
+and don't call the API.
 
-Three scripts you'll actually run day to day: **`pipeline.py`** (generate
-and score entries), **`learn_from_curation.py`** (turn a hand-reviewed file
-into a smarter matcher), **`update_dashboard.py`** (push that smarter
-matcher into `dashboard.html`). Everything else here is either a one-time
-setup step or something those three call internally.
+Two things you'll use day to day: **`pipeline.py`** (generate and score
+entries) and **`dashboard.html`** (review and edit them).
+
+## Data files
+
+| File | Role |
+|---|---|
+| `seed_taxonomy_populated.json` | **The** taxonomy. Every command reads from it unless `--output` names an existing file (see below). |
+| `new_candidate_entries.json` | Newly generated entries waiting for review. Folded into the taxonomy with `--merge-candidates`. |
+| `operational_taxonomy.xlsx` | **Single source of truth** for the Operational (OP) codes, names, groups and descriptions. Read directly by `taxonomy_xlsx_loader.py`; edit the workbook itself to change the taxonomy. |
+| `atlas_full_catalog.json` | MITRE ATLAS technique catalog (from `mitre-atlas/atlas-data`, `dist/ATLAS.yaml`). Refresh periodically from upstream. |
+| `dread_calibration_log.jsonl` | Append-only log of every LLM DREAD score next to the human-reviewed score (see `future_dread_calibration.md`). Created on the first scored entry. |
+
+## Entry schema
+
+```json
+{
+  "use_area": "...", "use_case": "...", "facility_domain": ["..."], "use_status": "identified | proposed",
+  "incurred_insecurity": "Overview of the insecurity ...\n\nSubtitle for a threat -- implicit, exploitable\nOne or two precise sentences ...",
+  "ai_vulnerability_atlas": [{"atlas_id": "AML.T0020", "atlas_name": "...", "atlas_tactics": ["..."]}],
+  "ai_vulnerability_operational": [{"op_id": "OP.C0202", "op_name": "...", "op_group": "OP.G02"}],
+  "stride": ["..."], "evidence": [...],
+  "dread_score": {"damage": {"score": 3, "why": "..."}, ..., "total": 14},
+  "red_team_panel": {...}
+}
+```
+
+`incurred_insecurity` is one text field. It opens with a short overview, then
+gives each main threat a subtitle line ending in its type (`-- adversarial`,
+`-- implicit`, or `-- implicit, exploitable`) followed by one or two precise
+sentences: the AI failure mechanism and its facility consequence, and for
+implicit threats, how an adversary could capitalise on them. The pipeline
+writes plain text. In the dashboard you can bold or underline parts of it, in
+which case it is saved with a small sanitized subset of HTML (`<b>`,
+`<strong>`, `<u>`, `<br>`, `<div>`, `<p>`); the pipeline strips that markup
+back to plain text wherever it sends the field to the model.
+
+The ATLAS and Operational codes are picked by the red-team synthesis step
+directly from the two catalogs, and you add or remove them in the dashboard's
+matrix views. ATLAS codes mark adversarial threats, Operational codes mark
+implicit ones, and entries carrying both are where they cross over. `stride`
+is derived from the ATLAS tactics of the entry's ATLAS codes.
 
 ---
 
@@ -30,197 +69,181 @@ setup step or something those three call internally.
 python pipeline.py [flags]
 ```
 
-Flags can be combined in one call; they run in a fixed order regardless of
-how you list them: `--merge-candidates` -> `--entries`/`--entry-index` ->
-`--score-seed` -> `--use-case` -> `--generate-literature` -> `--generate`.
-Running with no flags at all prints a reminder and does nothing.
+Flags can be combined in one call; they run in a fixed order regardless of how
+you list them: `--merge-candidates` -> `--entries`/`--entry-index` ->
+`--use-case` -> `--generate-literature` -> `--generate`. Running with no flags
+prints a reminder and does nothing.
+
+**Every entry the pipeline writes is fully scored in the same run:** red-team
+panel (three personas plus synthesis) -> `incurred_insecurity` and
+ATLAS/Operational codes -> STRIDE -> evidence search -> DREAD. There is no
+separate scoring pass.
+
+### `--output PATH` -- where results go
+
+| | |
+|---|---|
+| Default | `seed_taxonomy_populated.json`, updated in place. |
+| Writes | `--entries`/`--entry-index` results and `--merge-candidates`. |
+| Reads | `PATH` if it already exists, otherwise `seed_taxonomy_populated.json`. |
+
+Because an existing `PATH` is read back in, repeated runs with the same
+`--output` accumulate into it: `--entries 0-4 --output output.json` followed
+by `--entries 5-9 --output output.json` gives one file with the full taxonomy
+and entries 0-9 rescored. A new `PATH` starts as a full copy of the taxonomy,
+so unrescored entries are never dropped. The generate flags read the same base
+for their grounding examples and duplicate checks. A relative `PATH` is
+relative to the folder you run the command from.
 
 ### Rescoring existing entries
 
 | Flag | What it does |
 |---|---|
-| `--entries RANGE` | Re-runs the red-team panel (3 personas + synthesis) on entries in `seed_taxonomy_populated.json` by 0-based index, e.g. `0-4`, `5-12`, or `all`. Works on any entry regardless of schema. Safe to run in batches -- accumulates into the output file rather than overwriting. |
-| `--entry-index N` | Same, but a single entry -- for spot-checking one result. |
-| `--populated-out PATH` | Where `--entries`/`--entry-index` write results, and (for the generate flags) which file is read as the base taxonomy. Default: `seed_taxonomy_populated.json`. |
-| `--score-seed` | Backfills DREAD scores onto `seed_taxonomy_atlas.json` entries that don't have one yet. |
-| `--force-rescore` | With `--score-seed`, re-scores entries that already have a `dread_score` instead of skipping them. |
-| `--out PATH` | Where `--score-seed` writes the updated file. Default: overwrite `seed_taxonomy_atlas.json` in place. |
+| `--entries RANGE` | Reruns the full pipeline on entries by 0-based index, e.g. `0-4`, `5-12`, or `all`. Only `use_area`, `use_case`, `facility_domain` and `use_status` are read, so it works on entries of any age or schema. Existing `use_case` evidence is kept; `vulnerability` evidence is replaced by the new search, since the insecurity it supported has been rewritten. |
+| `--entry-index N` | Same, for a single entry -- for spot-checking. |
 
 ```bash
-python pipeline.py --entries 0-4
 python pipeline.py --entry-index 12
-python pipeline.py --score-seed
-python pipeline.py --score-seed --force-rescore
+python pipeline.py --entries 0-4 --output output.json
+python pipeline.py --entries all
 ```
 
 ### Generating new entries
 
-Three different ways to get a new candidate entry into the pipeline, all
-ending up in `new_candidate_entries.json` and all running the same
-downstream steps afterward (red-team panel, ATLAS/Operational/STRIDE
-enrichment, evidence search, DREAD scoring).
+All generate flags write to `new_candidate_entries.json`, never straight into
+the taxonomy, and run the same full pipeline on each new entry.
 
 | Flag | What it does |
 |---|---|
-| `--generate N` | The default mode: invents N use cases to fill in whichever `(use_area, facility_domain)` matrix cells are currently thinnest (or, with `--mode gaps`, only cells that are completely empty). |
-| `--mode {spread,gaps}` | Only affects `--generate`. `spread` (default): always target the thinnest cell, even if none are empty -- keeps coverage even. `gaps`: only target empty cells -- switch to this once literature is your main source, since an empty cell then genuinely means "the literature doesn't cover this." |
-| `--use-case TEXT` | Give it a use case you already have (typed by hand, or read out of a paper) and it classifies `use_area`/`facility_domain` for you, rather than inventing the use case itself. The text is never altered. Pair with `--facility-domain` to hint the classification (still verified against the text, not blindly applied). |
-| `--generate-literature N` | Searches the web (restricted to peer-reviewed journals, NRC ADAMS, IAEA documentation, WINS, and think-tanks like VCDNP -- see `APPROVED_LITERATURE_SOURCES` in the file) for up to N *real*, citable use cases instead of inventing any. Reports `not_found` rather than guessing when nothing qualifies, so you'll often get fewer than N -- that's expected. Every accepted entry gets a `source_citation` field, printed for your own verification. |
-| `--facility-domain X` | A soft preference for `--use-case` (verified, can be overridden) or `--generate-literature` (a preference, not a hard constraint -- it'll report `not_found` rather than stretch an off-domain source to fit). One of `power_generation`, `enrichment`, `reprocessing`, `fuel_fabrication`, `waste_storage_transport`. |
-| `--interactive-dread` | Pop up the DREAD review window so you can hand-adjust the LLM's scores before they're saved. Off by default (LLM scores accepted as-is). |
-| `--no-evidence-search` | Skip the literature-evidence search step. Faster/cheaper, or useful if your key lacks `web_search` tool access. |
+| `--generate N` | Fills the thinnest `(use_area, facility_domain)` matrix cells. Each entry is drawn from a real source found by web search for that cell; if nothing citable turns up, the slot is skipped rather than invented. |
+| `--allow-unsourced` | With `--generate`: let the model write use cases from its own knowledge instead. These have no tied evidence -- treat them as hypotheses. |
+| `--mode {spread,gaps}` | `--generate` only. `spread` (default) targets the thinnest cell even when none are empty; `gaps` targets only empty cells, so an unfilled cell means the literature doesn't cover it. |
+| `--generate-literature N` | Searches the literature for up to N real, specific, citable use cases (see `PREFERRED_LITERATURE_SOURCES` and `SOURCE_POLICY` in `pipeline.py`). Reports `not_found` rather than guessing, so fewer than N is normal. The source becomes the entry's first `use_case` evidence item and is printed for you to verify. |
+| `--use-case TEXT` | Classifies a use case you already have into `use_area`/`facility_domain` and runs the pipeline on it. The text is used verbatim. |
+| `--facility-domain X` | A soft preference for `--use-case` (verified against the text) or `--generate-literature` (reports `not_found` rather than stretching an off-domain source). One of `power_generation`, `enrichment`, `reprocessing`, `fuel_fabrication`, `waste_storage_transport`. |
 
 ```bash
-python pipeline.py --generate 15
-python pipeline.py --generate 15 --mode gaps --interactive-dread
-python pipeline.py --use-case "Automated corrosion detection on dry cask storage via drone imagery" --facility-domain waste_storage_transport
 python pipeline.py --generate-literature 5
 python pipeline.py --generate-literature 5 --facility-domain enrichment
+python pipeline.py --generate 15 --mode gaps
+python pipeline.py --use-case "Automated corrosion detection on dry cask storage via drone imagery" --facility-domain waste_storage_transport
 ```
 
-**Duplicate checking**, on every generation path: each new candidate is
-checked against *every* entry already in the taxonomy *and* every entry
-generated earlier in the same run (so entry 90 of a `--generate 100` run is
-checked against entry 5, not just the pre-existing taxonomy) -- this is a
-fast lexical check, always on. At the end of a `--generate`/
-`--generate-literature` batch, one extra pass reviews the whole finished
-batch for *semantic* near-duplicates (same underlying application,
-different wording) that the lexical check can't catch -- it only flags
-these for you to look at, never removes anything automatically.
+**Duplicate checking** runs on every generation path. Each new candidate is
+checked lexically against every entry in the base taxonomy and every entry
+generated earlier in the same run. At the end of a `--generate` or
+`--generate-literature` batch, one more pass reviews the batch for semantic
+near-duplicates (same application, different wording). It only flags these
+for you; it never removes anything.
 
-### Reviewing and merging what was generated
-
-Candidates from any of the three generate flags land in
-`new_candidate_entries.json`, **not** directly in the taxonomy. Open that
-file (or the dashboard), edit/delete entries by hand, then:
-
-```bash
-python pipeline.py --merge-candidates
-```
-
-This appends everything currently in `new_candidate_entries.json` onto
-`seed_taxonomy_populated.json` and clears the candidates file. Run it after
-you've reviewed, not before.
-
----
-
-## 2. `learn_from_curation.py` -- teach the matcher from a reviewed file
-
-```
-python learn_from_curation.py [--path FILE] [--reapply-boosts]
-```
-
-Run this after you've hand-reviewed a taxonomy file (fixed mis-tags,
-deleted bad suggestions, maybe typed in an ATLAS/Operational id yourself).
-It promotes every confirmed match into `learned_vocab_atlas.json` /
-`learned_vocab_operational.json` (the fast exact-match tier both
-`pipeline.py` and the dashboard consult first) and folds the wording into
-`atlas_keywords_tfidf.json` / `operational_keywords_tfidf.json` (so
-similarly-worded *future* text scores better too, not just an exact
-repeat).
+### Options for any run
 
 | Flag | What it does |
 |---|---|
-| `--path FILE` | Which file to learn from. Default: `seed_taxonomy_populated.json`. |
-| `--reapply-boosts` | Only needed once, after rebuilding the TF-IDF index files from scratch (see `build_atlas_keyword_index.py` below) -- re-applies every *previously* learned boost, not just new ones from this run, since a from-scratch rebuild has no memory of past learning. |
+| `--interactive-dread` | Pops up the DREAD review window so you can adjust the LLM's scores before they're saved. Off by default. |
+| `--no-evidence-search` | Skips the evidence search step. Faster and cheaper, or useful if your key lacks `web_search` access. |
+
+### Reviewing and merging
+
+Review `new_candidate_entries.json` (by hand or in the dashboard), delete or
+fix entries, then:
 
 ```bash
-python learn_from_curation.py
-python learn_from_curation.py --path seed_taxonomy_atlas_edited_2026-09-03.json
-python learn_from_curation.py --reapply-boosts
+python pipeline.py --merge-candidates                        # into seed_taxonomy_populated.json
+python pipeline.py --merge-candidates --output output.json   # or into another file
 ```
 
-Safe to re-run on the same file -- already-learned terms are skipped, not
-duplicated.
+This appends the candidates onto the `--output` taxonomy, skips any already
+present, and clears `new_candidate_entries.json`.
+
+### Evidence and source policy
+
+Evidence search and `--generate-literature` look in `PREFERRED_LITERATURE_SOURCES`
+first and fall back to other credible public sources only when those don't cover
+the point; fallback sources are stored with `source_type: "Other"` so they stay
+visible for review. News, press releases, blogs, vendor marketing, Wikipedia,
+forums and AI-generated content are never accepted. Any citation whose URL was
+not actually returned by the search is dropped as likely fabricated. Edit
+`PREFERRED_LITERATURE_SOURCES` and `SOURCE_POLICY` in `pipeline.py` to change
+what counts.
+
+### DREAD scoring
+
+`stride_dread.py` holds the rubric (`DREAD_SYSTEM`), adapted to nuclear
+engineering and scored 1-5 per dimension. **Discoverability** means how easily
+an attacker could find the vulnerability, not how likely the facility is to
+notice a problem. Where the threats in an entry differ on a dimension, the
+scorer rates the most severe credible one and names it in the justification.
+With `--interactive-dread` you can adjust each score before it is saved; every
+score, edited or not, is appended to `dread_calibration_log.jsonl`.
 
 ---
 
-## 3. `update_dashboard.py` -- push the learned vocab into the dashboard
+## 2. `dashboard.html` -- the review UI
 
+Open it in a browser -- no server, no build step. Load
+`seed_taxonomy_populated.json` or `new_candidate_entries.json`.
+
+- **Dashboard tab:** coverage heatmap, STRIDE, DREAD, ATLAS, Operational, the
+  ATLAS x Operations co-occurrence heatmap, and four crossover views: (A) a
+  per-use-case scatter of ATLAS vs Operational code counts (click a dot to open
+  the entry), (B) diverging bars by use area or facility domain, (C) a flow
+  diagram from context through Operational group to ATLAS tactic, and (D) a
+  chord diagram linking Operational groups and ATLAS tactics. To drop one,
+  delete its panel markup, its `renderCrossover*` function and its call in
+  `render()`.
+- **Editor tab:** per entry, an *Incurred Insecurity* text box with bold and
+  underline (Ctrl+B / Ctrl+U), matrix views for ATLAS and Nuclear Operations
+  (click a box to tag or untag), STRIDE, DREAD and Evidence. An unscored
+  entry's DREAD tab stays empty until you type a score. Nothing is written back
+  automatically -- use *Export edited taxonomy* to download the
+  edited file.
+
+The dashboard is a static page, so it can't read the workbook itself. It
+carries an embedded copy of the ATLAS and Operational catalogs (names,
+descriptions, tooltips) and the STRIDE/DREAD text. After you edit
+`operational_taxonomy.xlsx`, refresh `atlas_full_catalog.json`, or change
+`stride_dread.py`, run:
+
+```bash
+python update_dashboard.py           # re-embeds the catalogs into dashboard.html
+python update_dashboard.py --check   # only reports whether it's out of date
 ```
-python update_dashboard.py [--check] [--out FILE] [--no-backup]
-```
 
-Regenerates the data block embedded in `dashboard.html` (full ATLAS/
-Operational catalogs, TF-IDF indices, and learned vocabulary) and splices
-it in automatically -- no manual copy-paste. Run this any time
-`learn_from_curation.py` changes the learned vocab, or after editing
-`operational_taxonomy.xlsx`.
+---
 
-| Flag | What it does |
+## 3. Supporting modules
+
+These are imported by `pipeline.py` and the dashboard scripts; you don't run
+them directly.
+
+| File | Role |
 |---|---|
-| *(none)* | Regenerates and overwrites `dashboard.html` in place, keeping a `.bak` copy of the previous version. |
-| `--check` | Reports whether an update is needed and changes nothing -- exits with code 1 if it's stale. Useful before a commit. |
-| `--out FILE` | Write to a different file instead of overwriting `dashboard.html`. |
-| `--no-backup` | Skip the `.bak` copy. |
-
-```bash
-python update_dashboard.py
-python update_dashboard.py --check
-```
-
-Typical loop after reviewing a file:
-
-```bash
-python learn_from_curation.py --path my_reviewed_file.json
-python update_dashboard.py
-```
+| `llm.py` | The model name, `GenerationFailure`, and robust extraction of JSON from model responses, shared by every API call. |
+| `taxonomy_xlsx_loader.py` | Reads the Operational taxonomy straight from `operational_taxonomy.xlsx`. |
+| `operational_mapping.py` | Operational code/group lookup built from the workbook; validates OP codes the model picks. |
+| `atlas_mapping.py` | ATLAS tactic names and descriptions, and validation of ATLAS IDs against `atlas_full_catalog.json` (drops any ID not in the catalog). |
+| `stride_dread.py` | STRIDE derivation from ATLAS tactics, and DREAD scoring and rubric. |
+| `dread_review.py` | The `--interactive-dread` popup. |
+| `insecurity.py` | Converts stored `incurred_insecurity` (including dashboard markup) to plain text for prompts. |
+| `generate_dashboard_data.py` | Builds the data block `update_dashboard.py` embeds. |
 
 ---
 
-## 4. `dashboard.html` -- the review UI
+## 4. Common recipes
 
-Just open it in a browser -- no server, no build step. It reads the data
-block that `update_dashboard.py` keeps current. Lets you browse entries,
-edit tags, and get the same TF-IDF/learned-vocab tag suggestions
-`pipeline.py` computes (same scoring method, verified to match) -- the only
-difference is `pipeline.py` auto-applies every resolved match (learned tier
-and keyword-match fallback alike) as it enriches an entry, while the
-dashboard surfaces the identical candidates as suggestions you click Apply
-or Ignore on, one at a time. It does not write back to any file on its own; changes
-you make in the browser need to be exported/saved through whatever the
-dashboard's own export mechanism is (check its UI -- this wasn't something
-this session touched).
-
----
-
-## 5. Setup / rarely-run scripts
-
-You generally only touch these when changing the underlying catalogs, not
-as part of day-to-day taxonomy work.
-
-| Script | Run it when... | What it produces |
-|---|---|---|
-| `build_atlas_keyword_index.py` | ATLAS releases a new version of `atlas-data` and you've refreshed `atlas_full_catalog.json` from it. | `atlas_keywords_tfidf.json` (from scratch -- wipes any accumulated learning; run `learn_from_curation.py --reapply-boosts` after). |
-| `build_operational_keyword_index.py` | `operational_taxonomy.xlsx`'s Taxonomy sheet changes. | `operational_keywords_tfidf.json` (same caveat as above). |
-| `build_workbook.py` | You want to regenerate `operational_taxonomy.xlsx` itself from the Python-side operational taxonomy data. | **Caveat:** as written, it saves to the hardcoded path `/mnt/user-data/outputs/operational_taxonomy.xlsx` -- that's this session's sandbox output folder, not a path that exists on your own machine. Edit the `wb.save(...)` line at the bottom of the file to a real path before running it locally, or it'll error out trying to write there. |
-| `apply_atlas_mapping.py` | You've edited `seed_taxonomy.json` directly (rare -- most work now goes through `pipeline.py --generate`/`--use-case`/`--entries` against `seed_taxonomy_populated.json` instead). | `seed_taxonomy_atlas.json`, re-enriched with ATLAS/Operational/STRIDE tags. |
-| `generate_dashboard_data.py` | Only if you want the raw generated JS block by itself (e.g. to inspect it) -- normally `update_dashboard.py` calls this for you and splices the result in, so you don't need to run it directly. | Prints the data block to stdout. |
-
+**Pull real use cases from the literature, review, merge:**
 ```bash
-python build_atlas_keyword_index.py
-python build_operational_keyword_index.py
-python learn_from_curation.py --reapply-boosts   # after either of the above
-python update_dashboard.py
-
-python build_workbook.py
-python apply_atlas_mapping.py
-```
-
-`operational_mapping.py` also runs a quick self-check if executed directly
-(`python operational_mapping.py`) -- reports which `seed_taxonomy.json`
-terms have neither a real ATLAS nor a real Operational match. Diagnostic
-only, writes nothing.
-
----
-
-## 6. Common end-to-end recipes
-
-**Generate a batch, review, merge:**
-```bash
-python pipeline.py --generate 20
-# review/edit new_candidate_entries.json (or the dashboard)
+python pipeline.py --generate-literature 10
+# check each printed source, edit new_candidate_entries.json
 python pipeline.py --merge-candidates
+```
+
+**Rescore the whole taxonomy into a separate file, in batches:**
+```bash
+python pipeline.py --entries 0-9   --output output.json
+python pipeline.py --entries 10-19 --output output.json
+# ...
 ```
 
 **Add a specific use case you found yourself:**
@@ -229,20 +252,7 @@ python pipeline.py --use-case "Your use case text here" --facility-domain enrich
 python pipeline.py --merge-candidates
 ```
 
-**Pull real use cases from literature instead of inventing any:**
+**After editing the workbook:**
 ```bash
-python pipeline.py --generate-literature 10
-# check each source_citation before trusting it
-python pipeline.py --merge-candidates
-```
-
-**After hand-reviewing a file, make the matcher smarter and update the dashboard:**
-```bash
-python learn_from_curation.py --path your_reviewed_file.json
 python update_dashboard.py
-```
-
-**Bring an old/pre-Operational-taxonomy entry up to date:**
-```bash
-python pipeline.py --entries all
 ```
