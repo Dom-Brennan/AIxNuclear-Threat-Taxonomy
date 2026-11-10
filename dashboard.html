@@ -22,22 +22,23 @@
 
 </script>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
   :root{
-    --bg: #10151b;
-    --panel: #171e26;
-    --panel-2: #1d2530;
-    --line: #2a3541;
-    --text: #d7dde3;
-    --text-dim: #7c8a97;
-    --amber: #e8a33d;
-    --amber-dim: #9c6f2c;
-    --security: #c9604f;
-    --ethics: #7fa8c9;
-    --performance: #8fb996;
-    --font-display: 'IBM Plex Sans', 'Segoe UI', sans-serif;
+    --bg: #ffffff;
+    --panel: #ffffff;
+    --panel-2: #f5f5f3;
+    --line: #d4d4d4;
+    --text: #1a1a1a;
+    --text-dim: #5f5f5f;
+    --amber: #a3201d;
+    --amber-dim: #b5605d;
+    --security: #a3201d;
+    --ethics: #3b5b8c;
+    --performance: #4f6b2a;
+    --font-display: 'Source Sans 3', 'Helvetica Neue', Arial, sans-serif;
+    --font-serif: Georgia, 'Times New Roman', serif;
     --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
   }
-  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
   *{box-sizing:border-box;}
   body{
@@ -52,17 +53,17 @@
   }
   header .title-block{display:flex; align-items:baseline; gap:14px;}
   h1{
-    font-size:16px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; margin:0;
+    font-size:16px; font-weight:600; letter-spacing:.06em; text-transform:none; margin:0;
     color:var(--text);
   }
   h1 .dim{color:var(--text-dim); font-weight:400; text-transform:none; letter-spacing:normal;}
   .status-lamp{width:8px; height:8px; border-radius:50%; background:var(--text-dim); display:inline-block; margin-right:6px;}
   .status-lamp.on{background:var(--amber); box-shadow:0 0 6px var(--amber);}
-  #file-status{font-family:var(--font-mono); font-size:12px; color:var(--text-dim);}
+  #file-status{font-family:var(--font-display); font-size:12px; color:var(--text-dim);}
 
   .load-row{display:flex; align-items:center; gap:10px;}
   .file-btn{
-    font-family:var(--font-mono); font-size:12px; letter-spacing:.04em; text-transform:uppercase;
+    font-family:var(--font-display); font-size:12px; letter-spacing:.04em; text-transform:none;
     background:var(--panel-2); color:var(--text); border:1px solid var(--line); padding:8px 14px;
     border-radius:2px; cursor:pointer;
   }
@@ -73,7 +74,7 @@
   /* Help and Taxonomy have no <aside> -- without this override their lone <main> was placed into
      just the first 220px grid track (CSS Grid auto-placement doesn't span unfilled tracks on its
      own), squeezing all that content into a narrow column with empty space to its right. */
-  #view-help, #view-taxonomy{grid-template-columns:1fr;}
+  #view-help, #view-taxonomy, #view-dashboard{grid-template-columns:1fr;}
 
   aside{
     border-right:1px solid var(--line); padding:20px 16px; background:var(--panel);
@@ -82,26 +83,26 @@
   .filter-group{margin-bottom:24px;}
   .filter-group .label-row{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;}
   .eyebrow{
-    font-family:var(--font-mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--text-dim);
+    font-family:var(--font-display); font-size:10px; letter-spacing:.12em; text-transform:none; color:var(--text-dim);
   }
   .link-btn{
-    font-family:var(--font-mono); font-size:10px; color:var(--amber-dim); background:none; border:none;
-    cursor:pointer; letter-spacing:.06em; text-transform:uppercase;
+    font-family:var(--font-display); font-size:10px; color:var(--amber-dim); background:none; border:none;
+    cursor:pointer; letter-spacing:.06em; text-transform:none;
   }
   .link-btn:hover{color:var(--amber);}
   .add-entry-btn{
-    font-family:var(--font-mono); font-size:12px; letter-spacing:.05em; text-transform:uppercase;
-    color:#1a1410; background:var(--amber); border:1px solid var(--amber); border-radius:3px;
+    font-family:var(--font-display); font-size:12px; letter-spacing:.05em; text-transform:none;
+    color:#ffffff; background:var(--amber); border:1px solid var(--amber); border-radius:3px;
     padding:8px 14px; cursor:pointer; font-weight:700; box-shadow:0 1px 3px rgba(0,0,0,0.35);
   }
-  .add-entry-btn:hover{background:#f4b955; border-color:#f4b955;}
+  .add-entry-btn:hover{background:#7e1714; border-color:#7e1714;}
   .toggle-row{display:flex; align-items:center; gap:8px; padding:5px 0; cursor:pointer; user-select:none;}
   .toggle-row input{accent-color:var(--amber); width:14px; height:14px;}
   .toggle-row span{font-size:12.5px;}
   .toggle-row.off span{color:var(--text-dim);}
 
   select{
-    width:100%; font-family:var(--font-mono); font-size:12px; background:var(--panel-2); color:var(--text);
+    width:100%; font-family:var(--font-display); font-size:12px; background:var(--panel-2); color:var(--text);
     border:1px solid var(--line); padding:7px 8px; border-radius:2px;
   }
   .panel-controls{display:flex; gap:6px; flex-wrap:wrap;}
@@ -111,7 +112,7 @@
   .panel-controls select:disabled{opacity:0.45; cursor:not-allowed;}
 
   .stat{margin-top:4px;}
-  .stat .num{font-family:var(--font-mono); font-size:22px; font-weight:600; color:var(--amber);}
+  .stat .num{font-family:var(--font-display); font-size:22px; font-weight:600; color:var(--amber);}
   .stat .lbl{font-size:11px; color:var(--text-dim); letter-spacing:.02em;}
 
   main{padding:20px 24px 60px;}
@@ -121,7 +122,7 @@
     background:var(--panel); border:1px solid var(--line); border-radius:3px; padding:16px 18px 18px;
   }
   .panel h2{
-    font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;
+    font-family:var(--font-display); font-size:11px; letter-spacing:.1em; text-transform:none;
     color:var(--text-dim); margin:0 0 4px;
   }
   .help-panel-title{
@@ -133,36 +134,25 @@
   .panel-chart.tall{height:320px;}
 
   .empty-note{
-    font-family:var(--font-mono); font-size:12px; color:var(--text-dim); text-align:center; padding:40px 10px;
+    font-family:var(--font-display); font-size:12px; color:var(--text-dim); text-align:center; padding:40px 10px;
   }
 
   /* coverage heatmap */
   .heatmap{overflow-x:auto;}
   /* ---- candidate crossover views ---- */
-  .crossover-intro{
-    font-size:12.5px; line-height:1.55; color:var(--text-dim); border-left:3px solid var(--amber-dim);
-    padding:6px 12px; margin:8px 0 16px; max-width:110ch;
-  }
-  .crossover-intro strong{color:var(--text);}
   .xsvg{width:100%; overflow-x:auto;}
   .xsvg svg{display:block; width:100%; height:auto; min-width:760px;}
   .xsvg-chord svg{max-width:860px; margin:0 auto; min-width:620px;}
   .xsvg text{fill:var(--text); font-family:var(--font-display); font-size:11px;}
   .xsvg text.dim{fill:var(--text-dim); font-size:10px;}
-  .xsvg .empty-svg{font-family:var(--font-mono); font-size:12px; color:var(--text-dim); padding:40px 0; text-align:center;}
-  .xk-link{fill:none; stroke-opacity:.32; transition:stroke-opacity .12s;}
-  .xk-link:hover{stroke-opacity:.7;}
-  .xc-ribbon{fill-opacity:.42; stroke:none; transition:fill-opacity .12s;}
-  .xsvg-chord.focus .xc-ribbon{fill-opacity:.06;}
-  .xsvg-chord.focus .xc-ribbon.on{fill-opacity:.75;}
-  .xc-arc{cursor:pointer;}
+  .xsvg .empty-svg{font-family:var(--font-display); font-size:12px; color:var(--text-dim); padding:40px 0; text-align:center;}
   table.heat{border-collapse:collapse; width:100%; font-size:11.5px;}
   table.heat th, table.heat td{
-    border:1px solid var(--line); padding:8px 10px; text-align:center; font-family:var(--font-mono);
+    border:1px solid var(--line); padding:8px 10px; text-align:center; font-family:var(--font-display);
   }
   table.heat th{color:var(--text-dim); font-weight:500; text-align:left; white-space:nowrap;}
   table.heat th.col-head{text-align:center;}
-  table.heat td{color:#0e1319; font-weight:600; cursor:default;}
+  table.heat td{color:var(--text); font-weight:600; cursor:default;}
   table.heat td.zero{color:var(--text-dim); background:var(--panel-2) !important; font-weight:400;}
   table.heat td.heat-cell-clickable{cursor:pointer; transition:outline .1s;}
   table.heat td.heat-cell-clickable:hover{outline:2px solid var(--amber); outline-offset:-2px;}
@@ -183,14 +173,14 @@
   .legend-chip .swatch{width:10px; height:10px; border-radius:2px;}
 
   footer{
-    padding:14px 24px; border-top:1px solid var(--line); font-family:var(--font-mono);
+    padding:14px 24px; border-top:1px solid var(--line); font-family:var(--font-display);
     font-size:11px; color:var(--text-dim);
   }
 
   /* ---- tab switcher ---- */
   .tab-row{display:flex; gap:4px;}
   .tab-btn{
-    font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase;
+    font-family:var(--font-display); font-size:11px; letter-spacing:.06em; text-transform:none;
     background:none; color:var(--text-dim); border:1px solid transparent; padding:6px 12px;
     border-radius:2px; cursor:pointer;
   }
@@ -203,8 +193,8 @@
   .editor-list-header{padding:14px 16px 10px; border-bottom:1px solid var(--line);}
   .editor-list-header .label-row{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
   .adv-filter-toggle{
-    width:100%; text-align:left; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.05em;
-    text-transform:uppercase; color:var(--amber-dim); background:none; border:none; cursor:pointer;
+    width:100%; text-align:left; font-family:var(--font-display); font-size:10.5px; letter-spacing:.05em;
+    text-transform:none; color:var(--amber-dim); background:none; border:none; cursor:pointer;
     padding:8px 0 2px; margin-top:2px;
   }
   .adv-filter-toggle:hover, .adv-filter-toggle.open{color:var(--amber);}
@@ -212,13 +202,13 @@
     display:flex; flex-direction:column; gap:6px; padding:8px 10px; margin-top:4px;
     border:1px solid var(--line); border-radius:3px; background:var(--panel-2);
   }
-  .adv-filter-label{font-family:var(--font-mono); font-size:9.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--text-dim); margin-top:2px;}
+  .adv-filter-label{font-family:var(--font-display); font-size:9.5px; letter-spacing:.05em; text-transform:none; color:var(--text-dim); margin-top:2px;}
   .adv-filter-hint{font-size:10.5px; color:var(--text-dim); line-height:1.4; margin-bottom:2px;}
   .adv-filter-mode{
     display:flex; align-items:center; gap:14px; padding:7px 9px; background:var(--panel-2);
     border:1px solid var(--line); border-radius:3px; font-size:11.5px;
   }
-  .adv-filter-mode-label{font-family:var(--font-mono); font-size:9.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--text-dim); margin-right:auto;}
+  .adv-filter-mode-label{font-family:var(--font-display); font-size:9.5px; text-transform:none; letter-spacing:.04em; color:var(--text-dim); margin-right:auto;}
   .adv-filter-mode label{display:flex; align-items:center; gap:4px; cursor:pointer; color:var(--text);}
   .adv-filter-mode input{cursor:pointer;}
   .adv-checklist{
@@ -235,11 +225,11 @@
   .adv-check-row.child:hover{color:var(--amber);}
   .adv-filter-panel .link-btn{align-self:flex-start; margin-top:4px;}
   .editor-search{
-    width:100%; font-family:var(--font-mono); font-size:12px; background:var(--panel-2); color:var(--text);
+    width:100%; font-family:var(--font-display); font-size:12px; background:var(--panel-2); color:var(--text);
     border:1px solid var(--line); padding:7px 8px; border-radius:2px; margin-top:8px;
   }
   .editor-filter-select{
-    width:100%; font-family:var(--font-mono); font-size:11.5px; background:var(--panel-2); color:var(--text);
+    width:100%; font-family:var(--font-display); font-size:11.5px; background:var(--panel-2); color:var(--text);
     border:1px solid var(--line); padding:6px 7px; border-radius:2px; margin-top:6px;
   }
   .editor-row{
@@ -252,44 +242,44 @@
   }
   .editor-row.dirty .dirty-dot{visibility:visible;}
   .editor-row .row-text{font-size:12px; line-height:1.4;}
-  .editor-row .row-text .ua{color:var(--text-dim); font-size:10.5px; font-family:var(--font-mono); display:block;}
+  .editor-row .row-text .ua{color:var(--text-dim); font-size:10.5px; font-family:var(--font-display); display:block;}
 
   .editor-main{padding:20px 24px 60px; overflow-y:auto; height:100%;}
   .editor-toolbar{display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; gap:12px; flex-wrap:wrap;}
-  .editor-toolbar .counts{font-family:var(--font-mono); font-size:11px; color:var(--text-dim);}
+  .editor-toolbar .counts{font-family:var(--font-display); font-size:11px; color:var(--text-dim);}
   .export-btn{
-    font-family:var(--font-mono); font-size:12px; letter-spacing:.04em; text-transform:uppercase;
-    background:var(--amber); color:#1a1206; border:none; padding:9px 16px; border-radius:2px; cursor:pointer;
+    font-family:var(--font-display); font-size:12px; letter-spacing:.04em; text-transform:none;
+    background:var(--amber); color:#ffffff; border:none; padding:9px 16px; border-radius:2px; cursor:pointer;
     font-weight:600;
   }
-  .export-btn:hover{background:#f0b355;}
+  .export-btn:hover{background:#7e1714;}
   .export-btn:disabled{background:var(--panel-2); color:var(--text-dim); cursor:not-allowed;}
   .reset-btn{
-    font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.04em;
+    font-family:var(--font-display); font-size:11px; text-transform:none; letter-spacing:.04em;
     background:none; color:var(--security); border:1px solid var(--security); padding:6px 12px; border-radius:2px; cursor:pointer;
   }
-  .reset-btn:hover{background:rgba(201,96,79,0.12);}
+  .reset-btn:hover{background:rgba(163,32,29,0.12);}
   .delete-btn{
-    font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.04em;
-    background:var(--security); color:#1a0e0b; border:1px solid var(--security); padding:6px 12px; border-radius:2px;
+    font-family:var(--font-display); font-size:11px; text-transform:none; letter-spacing:.04em;
+    background:var(--security); color:#ffffff; border:1px solid var(--security); padding:6px 12px; border-radius:2px;
     cursor:pointer; font-weight:600;
   }
-  .delete-btn:hover{background:#d8705f;}
+  .delete-btn:hover{background:#7e1714;}
   .uc-text{min-height:84px; line-height:1.5; resize:vertical; overflow:hidden;}
 
   /* ---- use status (identified vs proposed) ---- */
   .status-toggle{display:flex; border:1px solid var(--line); border-radius:3px; overflow:hidden; margin-top:4px;}
   .status-toggle button{
-    flex:1; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.04em; text-transform:uppercase;
+    flex:1; font-family:var(--font-display); font-size:10.5px; letter-spacing:.04em; text-transform:none;
     background:var(--panel-2); color:var(--text-dim); border:none; border-right:1px solid var(--line);
     padding:7px 4px; cursor:pointer;
   }
   .status-toggle button:last-child{border-right:none;}
   .status-toggle button:hover{color:var(--text);}
-  .status-toggle button.active{background:rgba(232,163,61,0.18); color:var(--amber); font-weight:600;}
+  .status-toggle button.active{background:rgba(163,32,29,0.18); color:var(--amber); font-weight:600;}
   .status-toggle-note{font-size:11px; color:var(--text-dim); margin-top:6px; line-height:1.4;}
   .status-tag{
-    display:inline-block; font-family:var(--font-mono); font-size:9px; letter-spacing:.06em; text-transform:uppercase;
+    display:inline-block; font-family:var(--font-display); font-size:9px; letter-spacing:.06em; text-transform:none;
     padding:1px 5px; border-radius:2px; margin-left:6px; vertical-align:1px;
   }
   .status-tag.identified{color:var(--performance); border:1px solid var(--performance);}
@@ -299,26 +289,26 @@
 
   /* ---- confirmation dialog ---- */
   .confirm-overlay{
-    position:fixed; inset:0; background:rgba(8,11,15,0.72); display:flex; align-items:center; justify-content:center;
+    position:fixed; inset:0; background:rgba(0,0,0,0.35); display:flex; align-items:center; justify-content:center;
     z-index:1000;
   }
   .confirm-box{
     background:var(--panel); border:1px solid var(--line); border-top:3px solid var(--security); border-radius:3px;
-    padding:22px 24px 18px; width:min(440px, calc(100vw - 32px)); box-shadow:0 12px 40px rgba(0,0,0,0.5);
+    padding:22px 24px 18px; width:min(440px, calc(100vw - 32px)); box-shadow:0 12px 40px rgba(0,0,0,0.15);
   }
   .confirm-box h3{margin:0 0 8px; font-family:var(--font-display); font-size:15px; color:var(--text);}
   .confirm-box .confirm-msg{font-size:13px; color:var(--text); margin-bottom:6px;}
   .confirm-box .confirm-target{font-size:12px; color:var(--text-dim); margin-bottom:18px; line-height:1.45;}
   .confirm-actions{display:flex; justify-content:flex-end; gap:10px;}
   .confirm-cancel{
-    font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.04em;
+    font-family:var(--font-display); font-size:11px; text-transform:none; letter-spacing:.04em;
     background:none; color:var(--text); border:1px solid var(--line); padding:7px 14px; border-radius:2px; cursor:pointer;
   }
   .confirm-cancel:hover{border-color:var(--text-dim);}
 
   .field-group{margin-bottom:20px;}
   .field-group label.f-label{
-    display:block; font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+    display:block; font-family:var(--font-display); font-size:10px; letter-spacing:.1em; text-transform:none;
     color:var(--text-dim); margin-bottom:6px;
   }
   .f-input, .f-textarea, .f-select{
@@ -335,17 +325,17 @@
     border:1px solid var(--line); padding:8px 14px; border-radius:3px; cursor:pointer; transition:all .12s;
   }
   .toggle-btn:hover{border-color:var(--amber-dim); color:var(--text);}
-  .toggle-btn.active{background:rgba(232,163,61,0.18); border-color:var(--amber); color:var(--amber); font-weight:600;}
+  .toggle-btn.active{background:rgba(163,32,29,0.18); border-color:var(--amber); color:var(--amber); font-weight:600;}
 
   .list-editor .list-row{display:flex; gap:8px; margin-bottom:6px; align-items:center;}
   .list-editor .list-row input{flex:1;}
   .row-remove{
     background:none; border:1px solid var(--line); color:var(--text-dim); width:26px; height:26px; border-radius:2px;
-    cursor:pointer; flex-shrink:0; font-family:var(--font-mono);
+    cursor:pointer; flex-shrink:0; font-family:var(--font-display);
   }
   .row-remove:hover{border-color:var(--security); color:var(--security);}
   .row-add{
-    font-family:var(--font-mono); font-size:11px; text-transform:uppercase; background:none; color:var(--amber-dim);
+    font-family:var(--font-display); font-size:11px; text-transform:none; background:none; color:var(--amber-dim);
     border:1px dashed var(--line); padding:6px 10px; border-radius:2px; cursor:pointer; width:100%; margin-top:2px;
   }
   .row-add:hover{color:var(--amber); border-color:var(--amber-dim);}
@@ -356,16 +346,16 @@
   .match-card-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:8px;}
   .match-card-grid .full{grid-column:1 / -1;}
   .match-card-grid label{
-    display:block; font-family:var(--font-mono); font-size:9px; letter-spacing:.06em; text-transform:uppercase;
+    display:block; font-family:var(--font-display); font-size:9px; letter-spacing:.06em; text-transform:none;
     color:var(--text-dim); margin-bottom:3px;
   }
   .match-card-grid input, .match-card-grid select{
     width:100%; font-size:12px; background:var(--bg); color:var(--text); border:1px solid var(--line);
-    padding:6px 7px; border-radius:2px; font-family:var(--font-mono);
+    padding:6px 7px; border-radius:2px; font-family:var(--font-display);
   }
   .match-field-textarea{
     width:100%; font-size:12px; background:var(--bg); color:var(--text); border:1px solid var(--line);
-    padding:6px 7px; border-radius:2px; font-family:var(--font-mono);
+    padding:6px 7px; border-radius:2px; font-family:var(--font-display);
     min-height:60px; max-height:200px; overflow-y:auto; resize:vertical; line-height:1.4;
   }
   .match-card .match-card-footer{display:flex; justify-content:flex-end;}
@@ -390,14 +380,14 @@
   }
   .dread-row label{font-size:12.5px; font-weight:500; padding-top:8px;}
   .dread-row input[type=number]{
-    font-family:var(--font-mono); font-size:13px; background:var(--panel-2); color:var(--amber); border:1px solid var(--line);
+    font-family:var(--font-display); font-size:13px; background:var(--panel-2); color:var(--amber); border:1px solid var(--line);
     padding:7px; border-radius:2px; width:100%; text-align:center;
   }
   .dread-row textarea{
     font-family:var(--font-display); font-size:12.5px; background:var(--panel-2); color:var(--text); border:1px solid var(--line);
     padding:7px 9px; border-radius:2px; min-height:44px; resize:vertical;
   }
-  .dread-total{font-family:var(--font-mono); font-size:13px; color:var(--amber); font-weight:600; text-align:right;}
+  .dread-total{font-family:var(--font-display); font-size:13px; color:var(--amber); font-weight:600; text-align:right;}
 
   .empty-note.small{padding-top:60px; font-size:12px;}
 
@@ -407,11 +397,11 @@
   }
   .tab-intro strong{color:var(--text); font-weight:600;}
   .tab-intro .tab-intro-source{
-    display:block; margin-top:8px; font-family:var(--font-mono); font-size:10.5px; color:var(--text-dim);
+    display:block; margin-top:8px; font-family:var(--font-display); font-size:10.5px; color:var(--text-dim);
   }
   .tab-intro .tab-intro-source a{color:var(--amber-dim);}
   .tab-name-ref{
-    font-family:var(--font-mono); font-weight:600; color:var(--amber); background:rgba(232,163,61,0.1);
+    font-family:var(--font-display); font-weight:600; color:var(--amber); background:rgba(163,32,29,0.1);
     border:1px solid var(--amber-dim); border-radius:2px; padding:1px 5px; font-size:11.5px; white-space:nowrap;
   }
 
@@ -430,20 +420,20 @@
   }
   .help-pillar-icon{font-size:32px; line-height:1;}
   .help-pillar-title{
-    font-family:var(--font-mono); font-size:16px; letter-spacing:.1em; text-transform:uppercase; font-weight:700;
+    font-family:var(--font-display); font-size:16px; letter-spacing:.1em; text-transform:none; font-weight:700;
   }
   .help-pillar-desc{font-size:13.5px; line-height:1.65; color:var(--text-dim);}
-  .help-pillar-atlas{border-top-color:#7fa8c9;}
-  .help-pillar-atlas .help-pillar-icon-badge{background:rgba(127,168,201,0.16);}
-  .help-pillar-atlas .help-pillar-icon, .help-pillar-atlas .help-pillar-title{color:#7fa8c9;}
-  .help-pillar-operations{border-top-color:#8fb996;}
-  .help-pillar-operations .help-pillar-icon-badge{background:rgba(143,185,150,0.16);}
-  .help-pillar-operations .help-pillar-icon, .help-pillar-operations .help-pillar-title{color:#8fb996;}
+  .help-pillar-atlas{border-top-color:#3b5b8c;}
+  .help-pillar-atlas .help-pillar-icon-badge{background:rgba(59,91,140,0.16);}
+  .help-pillar-atlas .help-pillar-icon, .help-pillar-atlas .help-pillar-title{color:#3b5b8c;}
+  .help-pillar-operations{border-top-color:#4f6b2a;}
+  .help-pillar-operations .help-pillar-icon-badge{background:rgba(79,107,42,0.16);}
+  .help-pillar-operations .help-pillar-icon, .help-pillar-operations .help-pillar-title{color:#4f6b2a;}
   .help-pillar-stride{border-top-color:var(--amber);}
-  .help-pillar-stride .help-pillar-icon-badge{background:rgba(232,163,61,0.16);}
+  .help-pillar-stride .help-pillar-icon-badge{background:rgba(163,32,29,0.16);}
   .help-pillar-stride .help-pillar-icon, .help-pillar-stride .help-pillar-title{color:var(--amber);}
   .help-pillar-dread{border-top-color:var(--security);}
-  .help-pillar-dread .help-pillar-icon-badge{background:rgba(201,96,79,0.16);}
+  .help-pillar-dread .help-pillar-icon-badge{background:rgba(163,32,29,0.16);}
   .help-pillar-dread .help-pillar-icon, .help-pillar-dread .help-pillar-title{color:var(--security);}
 
   .help-glossary{margin-top:4px;}
@@ -452,25 +442,25 @@
     border-bottom:1px solid var(--line);
   }
   .help-glossary-row:last-child{border-bottom:none;}
-  .help-glossary-row .term{font-family:var(--font-mono); color:var(--amber); font-weight:600;}
+  .help-glossary-row .term{font-family:var(--font-display); color:var(--amber); font-weight:600;}
   .help-glossary-row .desc{color:var(--text-dim);}
 
   .risk-cat-row{display:grid; grid-template-columns:1fr 1fr auto; gap:8px; margin-bottom:6px; align-items:start;}
   .risk-cat-row select, .risk-cat-row input{
-    font-family:var(--font-mono); font-size:11.5px; background:var(--panel-2); color:var(--text);
+    font-family:var(--font-display); font-size:11.5px; background:var(--panel-2); color:var(--text);
     border:1px solid var(--line); padding:7px 8px; border-radius:2px; width:100%;
   }
 
   .match-field-label-row{display:flex; align-items:center; gap:6px; margin-bottom:3px;}
   .match-field-label-row label{margin-bottom:0 !important;}
   .field-flag-adversarial{
-    color:var(--security); font-weight:700; font-family:var(--font-mono); font-size:12px;
+    color:var(--security); font-weight:700; font-family:var(--font-display); font-size:12px;
     letter-spacing:0.02em; padding-top:2px;
   }
   .help-icon{
     position:relative; display:inline-flex; align-items:center; justify-content:center;
     width:14px; height:14px; border-radius:50%; border:1px solid var(--text-dim); color:var(--text-dim);
-    font-size:9px; font-family:var(--font-mono); cursor:pointer; flex-shrink:0;
+    font-size:9px; font-family:var(--font-display); cursor:pointer; flex-shrink:0;
   }
   .help-icon:hover{border-color:var(--amber); color:var(--amber);}
   /* Rendered into document.body (a "portal"), not nested under .help-icon -- see the
@@ -478,9 +468,9 @@
      .editor-main's overflow, and avoids the hover-gap "disappears too fast" problem
      since these are click-to-open / click-outside-to-close, not hover-triggered). */
   .help-tooltip-portal{
-    position:fixed; width:260px; background:#0c1015; border:1px solid var(--amber-dim); border-radius:3px;
+    position:fixed; width:260px; background:#ffffff; border:1px solid var(--amber-dim); border-radius:3px;
     padding:10px 12px; font-size:11px; line-height:1.5; color:var(--text); z-index:500; text-align:left;
-    font-family:var(--font-display); box-shadow:0 4px 20px rgba(0,0,0,0.6);
+    font-family:var(--font-display); box-shadow:0 4px 20px rgba(0,0,0,0.12);
   }
   .help-tooltip-link{display:inline-block; margin-top:6px; color:var(--amber); font-size:10px; text-decoration:none;}
   .help-tooltip-link:hover{text-decoration:underline;}
@@ -488,24 +478,24 @@
 
   .tech-search-input{
     width:100%; font-size:12px; background:var(--bg); color:var(--text); border:1px solid var(--line);
-    padding:6px 7px; border-radius:2px; font-family:var(--font-mono);
+    padding:6px 7px; border-radius:2px; font-family:var(--font-display);
   }
   .tech-search-input:focus{border-color:var(--amber-dim); outline:none;}
   .tech-search-dropdown{
-    position:fixed; max-height:260px; overflow-y:auto; background:#0c1015; border:1px solid var(--amber-dim);
-    border-radius:3px; z-index:500; box-shadow:0 4px 20px rgba(0,0,0,0.6);
+    position:fixed; max-height:260px; overflow-y:auto; background:#ffffff; border:1px solid var(--amber-dim);
+    border-radius:3px; z-index:500; box-shadow:0 4px 20px rgba(0,0,0,0.12);
   }
   .tech-search-row{padding:7px 10px; font-size:12px; color:var(--text); cursor:pointer; border-bottom:1px solid var(--line);}
   .tech-search-row-sub{padding-left:24px; color:var(--text-dim);}
   .tech-search-row:last-child{border-bottom:none;}
   .tech-search-row:hover{background:var(--panel-2); color:var(--amber);}
-  .tech-search-empty{padding:10px; font-size:11px; color:var(--text-dim); font-family:var(--font-mono);}
+  .tech-search-empty{padding:10px; font-size:11px; color:var(--text-dim); font-family:var(--font-display);}
 
   .apply-already{color:var(--performance); font-size:11px;}
 
   .entry-tab-bar{display:flex; gap:2px; margin:18px 0 0; flex-wrap:wrap; position:relative;}
   .entry-tab-btn{
-    font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; text-transform:uppercase;
+    font-family:var(--font-display); font-size:11px; letter-spacing:.04em; text-transform:none;
     background:transparent; color:var(--text-dim); border:1px solid transparent;
     padding:10px 16px; cursor:pointer; border-radius:5px 5px 0 0; position:relative;
   }
@@ -519,7 +509,7 @@
     border-color:var(--line); border-bottom-color:var(--panel-2);
     z-index:2; margin-bottom:-1px;
   }
-  .entry-tab-btn:hover:not(.active){color:var(--text); background:rgba(255,255,255,0.04);}
+  .entry-tab-btn:hover:not(.active){color:var(--text); background:rgba(0,0,0,0.03);}
   .entry-tab-content{
     min-height:200px; background:var(--panel-2); border:1px solid var(--line); border-radius:0 6px 6px 6px;
     padding:20px 22px;
@@ -529,16 +519,16 @@
     display:grid; grid-template-columns:1fr; gap:0; margin-top:14px; border-top:1px solid var(--line); padding-top:12px;
   }
   .stride-legend-row{display:grid; grid-template-columns:180px 1fr; gap:10px; padding:5px 0; font-size:12px;}
-  .stride-legend-row .letter{font-family:var(--font-mono); color:var(--amber); font-weight:600;}
+  .stride-legend-row .letter{font-family:var(--font-display); color:var(--amber); font-weight:600;}
   .stride-legend-row .desc{color:var(--text-dim);}
 
   .dread-legend{
     margin-bottom:16px; border:1px solid var(--line); border-radius:3px; padding:12px 14px; background:var(--panel-2);
   }
   .dread-legend-row{display:grid; grid-template-columns:150px 1fr; gap:10px; padding:4px 0; font-size:12px;}
-  .dread-legend-row .dim{font-family:var(--font-mono); color:var(--amber); font-weight:600; text-transform:capitalize;}
+  .dread-legend-row .dim{font-family:var(--font-display); color:var(--amber); font-weight:600; text-transform:capitalize;}
   .dread-legend-row .desc{color:var(--text-dim);}
-  .dread-legend-source{font-size:10.5px; color:var(--text-dim); margin-top:8px; font-family:var(--font-mono);}
+  .dread-legend-source{font-size:10.5px; color:var(--text-dim); margin-top:8px; font-family:var(--font-display);}
   .dread-legend-source a{color:var(--amber-dim);}
 
   /* Nuclear Operations taxonomy tab: an ATLAS-matrix-style board (columns = groups, cells =
@@ -546,40 +536,40 @@
   .taxonomy-toolbar{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:4px;}
   .taxonomy-matrix{display:flex; gap:10px; overflow-x:auto; align-items:flex-start; padding-bottom:8px;}
   .taxonomy-col{flex:0 0 230px; background:var(--panel); border:1px solid var(--line); border-radius:5px; padding:10px;}
-  .taxonomy-col-header{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.05em; text-transform:uppercase; color:var(--amber); margin-bottom:3px; font-weight:600;}
+  .taxonomy-col-header{font-family:var(--font-display); font-size:10.5px; letter-spacing:.05em; text-transform:none; color:var(--amber); margin-bottom:3px; font-weight:600;}
   .taxonomy-col-sub{font-size:11px; color:var(--text-dim); margin-bottom:10px; line-height:1.4;}
   .taxonomy-cat{
     background:var(--panel-2); border:1px solid var(--line); border-radius:4px; padding:7px 9px;
     margin-bottom:6px; cursor:pointer; font-size:12px; line-height:1.35; transition:border-color .12s;
   }
   .taxonomy-cat:hover, .taxonomy-cat.active{border-color:var(--amber-dim); color:var(--amber);}
-  .taxonomy-cat .id{font-family:var(--font-mono); font-size:10px; color:var(--text-dim); display:block;}
+  .taxonomy-cat .id{font-family:var(--font-display); font-size:10px; color:var(--text-dim); display:block;}
   .taxonomy-sub{
     margin:3px 0 8px 8px; padding:4px 8px; font-size:11px; color:var(--text-dim); cursor:pointer;
     border-left:2px solid var(--line);
   }
   .taxonomy-sub:hover, .taxonomy-sub.active{color:var(--amber); border-left-color:var(--amber-dim);}
-  .taxonomy-sub .id{font-family:var(--font-mono); font-size:9.5px; display:block; opacity:.75;}
+  .taxonomy-sub .id{font-family:var(--font-display); font-size:9.5px; display:block; opacity:.75;}
   .taxonomy-detail{
     margin-top:16px; padding:16px 18px; border:1px solid var(--line); border-radius:5px; background:var(--panel-2);
   }
-  .taxonomy-detail .id{font-family:var(--font-mono); font-size:11px; color:var(--amber-dim); letter-spacing:.04em;}
+  .taxonomy-detail .id{font-family:var(--font-display); font-size:11px; color:var(--amber-dim); letter-spacing:.04em;}
   .taxonomy-detail h3{margin:2px 0 8px; font-size:15px; color:var(--text);}
-  .taxonomy-detail .meta{font-family:var(--font-mono); font-size:10.5px; color:var(--text-dim); margin-bottom:10px; text-transform:uppercase; letter-spacing:.04em;}
+  .taxonomy-detail .meta{font-family:var(--font-display); font-size:10.5px; color:var(--text-dim); margin-bottom:10px; text-transform:none; letter-spacing:.04em;}
   .taxonomy-detail p{font-size:13px; line-height:1.55; margin:0 0 8px;}
   .taxonomy-detail a{color:var(--amber-dim); font-size:11.5px;}
   .taxonomy-table-wrap{overflow-x:auto;}
   .taxonomy-table{width:100%; border-collapse:collapse; font-size:12px;}
   .taxonomy-table th{
-    text-align:left; padding:9px 10px; border-bottom:1px solid var(--line); font-family:var(--font-mono);
-    text-transform:uppercase; font-size:10px; letter-spacing:.04em; color:var(--text-dim); cursor:pointer; white-space:nowrap;
+    text-align:left; padding:9px 10px; border-bottom:1px solid var(--line); font-family:var(--font-display);
+    text-transform:none; font-size:10px; letter-spacing:.04em; color:var(--text-dim); cursor:pointer; white-space:nowrap;
   }
   .taxonomy-table th:hover{color:var(--amber);}
   .taxonomy-table td{padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
   .taxonomy-table tr:hover td{background:var(--panel);}
-  .taxonomy-table .id{font-family:var(--font-mono); font-size:11px; color:var(--amber-dim); white-space:nowrap;}
+  .taxonomy-table .id{font-family:var(--font-display); font-size:11px; color:var(--amber-dim); white-space:nowrap;}
   .taxonomy-search{
-    font-family:var(--font-mono); font-size:12px; background:var(--panel-2); color:var(--text);
+    font-family:var(--font-display); font-size:12px; background:var(--panel-2); color:var(--text);
     border:1px solid var(--line); padding:7px 10px; border-radius:2px; width:260px;
   }
 
@@ -593,7 +583,7 @@
      them are tagged while still collapsed. */
   .tagmatrix-controls{display:flex; gap:8px; margin-bottom:10px;}
   .tagmatrix-bulk-btn{
-    font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:.03em;
+    font-family:var(--font-display); font-size:10.5px; text-transform:none; letter-spacing:.03em;
     background:none; color:var(--amber-dim); border:1px dashed var(--line); padding:5px 10px;
     border-radius:2px; cursor:pointer;
   }
@@ -601,7 +591,7 @@
   .tagmatrix{display:flex; gap:10px; overflow-x:auto; align-items:flex-start; padding-bottom:8px;}
   .tagmatrix-col{flex:0 0 215px; background:var(--panel); border:1px solid var(--line); border-radius:5px; padding:10px;}
   .tagmatrix-col-header{
-    font-family:var(--font-mono); font-size:10px; letter-spacing:.05em; text-transform:uppercase;
+    font-family:var(--font-display); font-size:10px; letter-spacing:.05em; text-transform:none;
     color:var(--amber); margin-bottom:8px; font-weight:600;
   }
   .tagmatrix-box{
@@ -609,7 +599,7 @@
     border:1px solid var(--line); border-radius:4px; padding:6px 40px 6px 8px; margin-bottom:5px;
     font-size:11.5px; line-height:1.3; transition:border-color .12s, background .12s;
   }
-  .tagmatrix-box.tagmatrix-lit{background:rgba(232,163,61,0.22); border-color:var(--amber);}
+  .tagmatrix-box.tagmatrix-lit{background:rgba(163,32,29,0.22); border-color:var(--amber);}
   .tagmatrix-box-body{flex:1; cursor:pointer; padding-right:4px;}
   .tagmatrix-box.tagmatrix-lit .tagmatrix-box-body{color:var(--amber); font-weight:600;}
   /* (?) sits to the LEFT of the expand strip (right:22px, its own 14px width ending at right:8px)
@@ -623,7 +613,7 @@
   }
   .tagmatrix-expand:hover, .tagmatrix-expand.tagmatrix-expand-open{color:var(--amber); border-left-color:var(--amber-dim);}
   .tagmatrix-badge{
-    position:absolute; right:-5px; top:-6px; background:var(--amber); color:#1a1f24; font-family:var(--font-mono);
+    position:absolute; right:-5px; top:-6px; background:var(--amber); color:#ffffff; font-family:var(--font-display);
     font-size:9px; font-weight:700; border-radius:8px; padding:1px 5px; line-height:1.3; pointer-events:none;
     border:1px solid var(--panel);
   }
@@ -634,8 +624,232 @@
   /* Sub-boxes have no expand strip (they have no children of their own), so their (?) can sit
      flush at the right edge same as everywhere else the icon is used. */
   .tagmatrix-subbox .tagmatrix-help{right:4px;}
-  .tagmatrix-subbox.tagmatrix-lit{background:rgba(232,163,61,0.18); border-left-color:var(--amber); color:var(--amber);}
+  .tagmatrix-subbox.tagmatrix-lit{background:rgba(163,32,29,0.18); border-left-color:var(--amber); color:var(--amber);}
   .tagmatrix-empty-col{font-size:10.5px; color:var(--text-dim); font-style:italic;}
+
+  /* =========================== JOURNAL THEME (option D) ===========================
+     White page, black ink, serif headings, one red accent. Variable names are kept from the
+     original dark theme (--amber is now the red accent) so every existing rule follows along. */
+  body{font-size:14px; line-height:1.45;}
+  header{background:#ffffff; padding:16px 24px 0; align-items:flex-end;}
+  header .title-block{align-items:flex-end; gap:28px;}
+  h1{font-family:var(--font-serif); font-size:21px; font-weight:400; letter-spacing:0; text-transform:none; padding-bottom:12px;}
+  .tab-row{gap:2px;}
+  .tab-btn{font-family:var(--font-display); font-size:14px; letter-spacing:0; text-transform:none; color:var(--text-dim);
+    border:none; border-bottom:2px solid transparent; border-radius:0; padding:8px 12px 10px;}
+  .tab-btn.active{background:none; color:var(--text); border-color:transparent; border-bottom-color:var(--amber);}
+  .tab-btn:hover:not(.active){color:var(--text);}
+  .load-row{padding-bottom:10px;}
+  .file-btn{background:#ffffff; border-color:var(--text); color:var(--text); text-transform:none; letter-spacing:0; font-size:13px;}
+  .file-btn:hover{border-color:var(--amber); color:var(--amber);}
+  .status-lamp.on{box-shadow:none;}
+
+  .panel{border-radius:2px; padding:18px 20px 20px;}
+  .panel h2{font-family:var(--font-serif); font-size:17px; font-weight:400; letter-spacing:0; text-transform:none;
+    color:var(--text); margin:0 0 6px;}
+  .panel .sub{font-size:12.5px; line-height:1.5; color:var(--text-dim); max-width:95ch;}
+  .eyebrow, .link-btn, .adv-filter-label, .field-group label.f-label, .match-card-grid label,
+  .taxonomy-table th, .taxonomy-col-header, .tagmatrix-col-header{letter-spacing:0; text-transform:none;}
+  .eyebrow{font-size:12px; color:var(--text); font-weight:600;}
+  .link-btn{font-size:11.5px;}
+  select{background:#ffffff;}
+  .panel-controls select{font-size:12px; padding:5px 8px;}
+  table.heat{font-size:12px;}
+  table.heat th, table.heat td{border-color:var(--line);}
+  table.heat th{font-family:var(--font-display); color:var(--text); font-size:12px;}
+  table.heat td{font-family:var(--font-mono); color:var(--text); font-weight:500;}
+  table.heat tr.heat-total-row th, table.heat tr.heat-total-row td{border-top:2px solid var(--text);}
+  .stat .num, .dread-total, .dread-row input[type=number], .taxonomy-cat .id, .taxonomy-sub .id,
+  .taxonomy-detail .id, .taxonomy-table .id, .help-glossary-row .term, .tab-name-ref{font-family:var(--font-mono);}
+  .stat .num{color:var(--text); font-weight:500;}
+
+  /* dashboard view: one column, filters live in a slide-out drawer */
+  #view-dashboard{display:block;}
+  #view-dashboard main{padding-top:0;}
+  .dash-bar{
+    position:sticky; top:var(--header-h, 66px); z-index:20; background:var(--bg);
+    display:flex; align-items:center; gap:18px; flex-wrap:wrap;
+    border-bottom:1px solid var(--line); padding:10px 0 0; margin:0 0 20px;
+  }
+  .filters-toggle{
+    font-family:var(--font-display); font-size:13px; color:var(--text); background:#ffffff;
+    border:1px solid var(--text); border-radius:2px; padding:6px 12px; cursor:pointer; margin-bottom:10px;
+    display:inline-flex; align-items:center; gap:6px;
+  }
+  .filters-toggle:hover, .filters-toggle[aria-expanded="true"]{border-color:var(--amber); color:var(--amber);}
+  .filters-icon{font-size:12px;}
+  .filters-count{color:var(--amber);}
+  .dash-tabs{display:flex; gap:4px; flex-wrap:wrap; align-self:flex-end;}
+  .dash-tab{
+    font-family:var(--font-display); font-size:14.5px; color:var(--text-dim); background:none; border:none;
+    border-bottom:3px solid transparent; padding:6px 12px 10px; cursor:pointer;
+  }
+  .dash-tab:hover{color:var(--text);}
+  .dash-tab.active{color:var(--text); border-bottom-color:var(--amber); font-weight:600;}
+  .dash-tab:focus-visible, .filters-toggle:focus-visible, .tab-btn:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+  .in-view-note{margin-left:auto; font-size:12.5px; color:var(--text-dim); margin-bottom:10px;}
+  .dash-pane{display:none;}
+  .dash-pane.active{display:block;}
+  .pane-note{font-size:13px; color:var(--text-dim); margin:0 0 16px; max-width:90ch; line-height:1.5;
+    border-left:3px solid var(--amber); padding:2px 0 2px 12px;}
+
+  aside.filter-drawer{
+    position:fixed; top:var(--header-h, 66px); left:0; bottom:0; width:290px; max-width:85vw;
+    max-height:none; overflow-y:auto; z-index:40; padding:16px 18px 24px;
+    background:#ffffff; border-right:1px solid var(--line);
+    transform:translateX(-100%); visibility:hidden; transition:transform .2s ease, visibility 0s linear .2s;
+  }
+  aside.filter-drawer.open{transform:none; visibility:visible; transition:transform .2s ease; box-shadow:4px 0 18px rgba(0,0,0,0.08);}
+  .drawer-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;
+    padding-bottom:10px; border-bottom:1px solid var(--line);}
+  .drawer-title{font-family:var(--font-serif); font-size:18px;}
+  .drawer-close{background:none; border:none; font-size:22px; line-height:1; color:var(--text-dim); cursor:pointer; padding:0 4px;}
+  .drawer-close:hover{color:var(--amber);}
+  .drawer-scrim{position:fixed; inset:var(--header-h, 66px) 0 0 0; background:rgba(0,0,0,0.12); z-index:35; display:none;}
+  .drawer-scrim.open{display:block;}
+  @media (prefers-reduced-motion: reduce){ aside.filter-drawer, aside.filter-drawer.open{transition:none;} }
+  @media (max-width: 900px){ .grid{grid-template-columns:1fr;} .in-view-note{margin-left:0;} }
+
+  /* status + editor bits that had dark-specific colours */
+  .status-toggle button{text-transform:none; letter-spacing:0; font-size:12px; background:#ffffff;}
+  .status-toggle button.active{background:rgba(163,32,29,0.08); color:var(--amber);}
+  .status-tag{text-transform:none; letter-spacing:0; font-size:10px;}
+  .entry-tab-btn, .tagmatrix-bulk-btn, .row-add, .export-btn, .reset-btn, .delete-btn, .confirm-cancel,
+  .add-entry-btn, .adv-filter-toggle, .adv-filter-mode-label{text-transform:none; letter-spacing:0;}
+  .entry-tab-btn{font-size:13px;}
+  .entry-tab-btn:hover:not(.active){background:rgba(0,0,0,0.03);}
+  .add-entry-btn{box-shadow:none;}
+  .help-panel-title{font-family:var(--font-serif); font-weight:400;}
+  .help-pillar{box-shadow:none;}
+  .help-pillar:hover{box-shadow:0 6px 16px rgba(0,0,0,0.08);}
+  .help-pillar-title{letter-spacing:0; text-transform:none; font-family:var(--font-serif); font-weight:400; font-size:19px;}
+  .help-pillar-stride{border-top-color:#8a6a1c;}
+  .help-pillar-stride .help-pillar-icon-badge{background:rgba(138,106,28,0.12);}
+  .help-pillar-stride .help-pillar-icon, .help-pillar-stride .help-pillar-title{color:#8a6a1c;}
+  .grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr);}
+  .grid.wide{grid-template-columns:minmax(0,1fr);}
+  @media (max-width: 900px){ .grid{grid-template-columns:minmax(0,1fr);} }
+  .panel .label-row{display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap;}
+  .panel .sub a, .tab-intro a{color:var(--amber);}
+
+  /* drawer: pin to the window between header and bottom edge. align-self:start was left over from
+     the old sticky sidebar; on a fixed element it sizes the box to its content instead of to
+     top/bottom, which is what pushed the drawer off the bottom of the screen. */
+  aside.filter-drawer{align-self:auto; height:auto; overscroll-behavior:contain;}
+  aside.filter-drawer .filter-group{margin-bottom:16px;}
+  aside.filter-drawer .toggle-row{padding:3px 0;}
+  aside.filter-drawer .stat{display:flex; align-items:baseline; gap:8px; margin-top:2px;}
+  aside.filter-drawer .stat .num{font-size:17px;}
+
+  /* fit-to-window tabs (everything except Trial) */
+  @media (min-width: 901px) and (min-height: 560px){
+    body:not(.dash-scroll) #view-dashboard main{padding-bottom:32px;}
+    body:not(.dash-scroll) #view-dashboard{min-height:0;}
+    .dash-pane.fit.active{display:flex; flex-direction:column; gap:14px; height:var(--pane-h, 640px);}
+    .dash-pane.fit > .grid{margin:0 !important; flex:1 1 0; min-height:0; grid-template-rows:minmax(0,1fr);}
+    .dash-pane.fit > .grid.grid-auto{flex:0 0 auto;}
+    .dash-pane.fit .panel{display:flex; flex-direction:column; min-height:0; padding:14px 18px 14px;}
+    .dash-pane.fit .panel .sub{margin-bottom:8px;}
+    .dash-pane.fit .panel-chart, .dash-pane.fit .panel-chart.tall{flex:1 1 0; height:auto; min-height:150px;}
+    .dash-pane.fit .toggle-row{padding:2px 0; margin-top:6px !important;}
+    .dash-pane.fit .heatmap-fill{flex:1 1 0; min-height:0; overflow:auto;}
+    .dash-pane.fit table.heat th, .dash-pane.fit table.heat td{padding:5px 9px;}
+    .dash-pane.fit #heatmap-atlas-op th, .dash-pane.fit #heatmap-atlas-op td{padding:4px 8px;}
+    .dash-pane.fit #heatmap-atlas-op tr:first-child th{position:sticky; top:0; background:#ffffff; z-index:1;}
+  }
+  /* short laptop screens: tighten so the charts keep most of the height */
+  @media (min-width: 901px) and (min-height: 560px) and (max-height: 820px){
+    .dash-bar{padding-top:6px; margin-bottom:12px;}
+    .dash-pane.fit.active{gap:10px;}
+    .dash-pane.fit .panel{padding:10px 16px;}
+    .dash-pane.fit .panel h2{font-size:16px; margin-bottom:2px;}
+    .dash-pane.fit .panel .sub{font-size:12px; line-height:1.35; margin-bottom:4px;}
+    .dash-pane.fit table.heat th, .dash-pane.fit table.heat td{padding:3px 8px;}
+    footer{padding:8px 24px;}
+  }
+
+  .cc-list{max-height:190px; overflow-y:auto; border:1px solid var(--line); border-radius:2px; padding:2px 8px;}
+  .cc-empty{font-size:13px; line-height:1.5; color:var(--text-dim); border:1px dashed var(--line); padding:14px 16px; margin:8px 0; background:var(--panel-2);}
+  .cc-empty code{font-family:var(--font-mono); font-size:12px; color:var(--text);}
+  table.heat.heat-compact{font-size:11.5px;}
+  table.heat.heat-compact th.col-head{white-space:normal; min-width:58px; line-height:1.25; vertical-align:bottom; font-size:11px;}
+  table.heat.heat-compact th:first-child{white-space:nowrap;}
+  table.heat th.muted-row{color:var(--text-dim); font-style:italic;}
+  .dash-pane.fit .heatmap-fill table.heat.heat-compact tr:first-child th{position:sticky; top:0; background:#ffffff; z-index:1;}
+  .aa-card{border:1px solid var(--line); border-radius:2px; padding:10px 12px; margin-bottom:10px; background:#ffffff;}
+  .aa-head{display:flex; gap:10px; align-items:flex-start; justify-content:space-between;}
+  .aa-title{font-size:12.5px; line-height:1.45; flex:1;}
+  .aa-status{width:auto; font-size:11.5px; padding:4px 6px;}
+  .aa-meta{font-size:11.5px; color:var(--text-dim); margin:4px 0 2px;}
+  .aa-author{display:grid; grid-template-columns:200px 1fr 26px; gap:8px; align-items:start; padding:6px 0; border-top:1px solid var(--line); margin-top:6px;}
+  .aa-author input, .aa-aff input{width:100%; font-size:12px; padding:6px 7px; border:1px solid var(--line); border-radius:2px; font-family:var(--font-display);}
+  .aa-affs{display:flex; flex-direction:column; gap:4px;}
+  .aa-aff{display:grid; grid-template-columns:1fr 170px 26px; gap:6px;}
+  .aa-country{font-size:12px; padding:5px 6px;}
+  .aa-affs .link-btn{align-self:flex-start; padding:2px 0;}
+
+  @media (min-width: 901px) and (min-height: 560px){
+    .dash-pane.fit[data-pane="nuclear"] > .grid:first-child{flex-grow:1.6;}
+  }
+  @media (max-width: 1400px){
+    .dash-bar{gap:10px;}
+    .dash-tab{font-size:13.5px; padding:6px 8px 9px;}
+    .in-view-note{font-size:12px;}
+  }
+
+  .ucd-head{font-family:var(--font-serif); font-weight:400; font-size:16px; margin:4px 0 8px;}
+  .aa-host > .ucd-head:not(:first-child){margin-top:22px;}
+  .aa-fhead{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:10px; padding-top:8px; border-top:1px solid var(--line); font-size:12px; font-weight:600;}
+  .aa-fund{display:grid; grid-template-columns:1fr 170px 1fr 26px; gap:6px; margin-top:6px;}
+  .aa-fund input{width:100%; font-size:12px; padding:6px 7px; border:1px solid var(--line); border-radius:2px; font-family:var(--font-display);}
+
+  .grid.three{grid-template-columns:repeat(3, minmax(0,1fr));}
+  @media (max-width: 900px){ .grid.three{grid-template-columns:minmax(0,1fr);} }
+  .heat-note{font-size:11.5px; color:var(--text-dim); line-height:1.35; margin:0 0 6px;}
+  table.heat td.diag{background:#ececec !important; color:var(--text-dim) !important; font-style:italic;}
+  .collab-net{flex:1 1 0; min-height:220px; position:relative; overflow:hidden;}
+  .dash-pane:not(.fit) .collab-net, .collab-net{height:320px;}
+  @media (min-width: 901px) and (min-height: 560px){ .dash-pane.fit .collab-net{height:auto;} }
+  .collab-net svg{display:block;}
+  #xs-country{max-width:170px;}
+
+  /* three-column pane: compact controls and tables */
+  .grid.three .panel .label-row{gap:6px;}
+  .grid.three .panel h2{font-size:15.5px;}
+  .grid.three .panel-controls select{font-size:11.5px; padding:4px 6px; max-width:100%;}
+  .grid.three .panel-controls{display:flex; gap:6px; flex-wrap:wrap;}
+  .grid.three table.heat.heat-compact{font-size:11px;}
+  .grid.three table.heat.heat-compact th.col-head{min-width:44px; font-size:10.5px; padding:3px 4px;}
+  .grid.three table.heat.heat-compact td{padding:3px 5px;}
+  .grid.three table.heat.heat-compact th:first-child{font-size:11px;}
+
+  /* evidence cards: source fields, then authors, then funding */
+  .ev-num{font-family:var(--font-serif); font-size:15px;}
+  .ev-remove{background:none; border:1px solid var(--line); border-radius:2px; font-size:11.5px; color:var(--text-dim); padding:4px 10px; cursor:pointer; font-family:var(--font-display);}
+  .ev-remove:hover{color:var(--amber); border-color:var(--amber);}
+  .ev-fields{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.6fr); gap:8px 12px; margin:10px 0 4px;}
+  .ev-field{display:flex; flex-direction:column; gap:3px;}
+  .ev-field.full{grid-column:1 / -1;}
+  .ev-field > span{font-size:11px; color:var(--text-dim);}
+  .ev-field input, .ev-field textarea{width:100%; box-sizing:border-box; font-size:12.5px; padding:6px 8px; border:1px solid var(--line); border-radius:2px; font-family:var(--font-display); line-height:1.4; resize:vertical;}
+  .aa-card .aa-fhead:first-of-type{margin-top:12px;}
+  .ev-add{margin-top:4px;}
+
+  /* dropdowns: one chevron, inset from the border, vertically centred, same height as the inputs */
+  select:not([multiple]){
+    -webkit-appearance:none; appearance:none; box-sizing:border-box;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%235f5f5f' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 9px center; background-size:10px 6px;
+    padding-right:28px !important; line-height:1.3;
+  }
+  select:not([multiple]):disabled{background-image:none;}
+  .aa-aff, .aa-fund{align-items:center;}
+  .aa-author input, .aa-aff input, .aa-fund input, .aa-country, .aa-status{height:30px; box-sizing:border-box;}
+  .aa-country, .aa-status{padding:5px 8px; font-size:12px;}
+  .aa-author{align-items:start;}
+  .aa-author > .row-remove, .aa-aff > .row-remove, .aa-fund > .row-remove{height:30px;}
+  .aa-author{grid-template-columns:200px minmax(0,1fr) auto !important;}
+  .aa-author-remove{height:30px; white-space:nowrap;}
 </style>
 </head>
 <body>
@@ -658,21 +872,44 @@
 </header>
 
 <div class="layout" id="view-dashboard">
-  <aside>
+  <div class="drawer-scrim" id="drawer-scrim"></div>
+  <aside class="filter-drawer" id="filter-drawer" aria-label="Dashboard filters" aria-hidden="true">
+    <div class="drawer-head">
+      <span class="drawer-title">Filters</span>
+      <button class="drawer-close" id="filter-drawer-close" type="button" aria-label="Close filters">×</button>
+    </div>
+
     <div class="filter-group">
       <div class="label-row">
-        <span class="eyebrow">Use Area</span>
-        <button class="link-btn" data-toggle="use_area">All / None</button>
+        <span class="eyebrow">Use area</span>
+        <button class="link-btn" data-toggle="use_area">All or none</button>
       </div>
       <div id="use-area-filters"></div>
     </div>
 
     <div class="filter-group">
       <div class="label-row">
-        <span class="eyebrow">Facility Domain</span>
-        <button class="link-btn" data-toggle="facility_domain">All / None</button>
+        <span class="eyebrow">Facility domain</span>
+        <button class="link-btn" data-toggle="facility_domain">All or none</button>
       </div>
       <div id="facility-filters"></div>
+    </div>
+
+    <div class="filter-group">
+      <div class="label-row">
+        <span class="eyebrow">Nuclear facility</span>
+        <button class="link-btn" id="nf-toggle-all" type="button">All or none</button>
+      </div>
+      <div id="nf-filters"><div class="status-toggle-note">Load a file to list facility types.</div></div>
+    </div>
+
+    <div class="filter-group">
+      <div class="label-row">
+        <span class="eyebrow">Author country</span>
+        <button class="link-btn" id="cc-toggle-all" type="button">All or none</button>
+      </div>
+      <div class="status-toggle-note" style="margin:0 0 6px;">From the authors of each entry's use-case evidence.</div>
+      <div id="cc-filters" class="cc-list"></div>
     </div>
 
     <div class="filter-group">
@@ -689,11 +926,7 @@
       </div>
       <label class="toggle-row" id="evidence-usecase-row">
         <input type="checkbox" id="evidence-filter-usecase">
-        <span>Has use_case evidence</span>
-      </label>
-      <label class="toggle-row" id="evidence-vulnerability-row">
-        <input type="checkbox" id="evidence-filter-vulnerability">
-        <span>Has vulnerability evidence</span>
+        <span>Has use-case evidence</span>
       </label>
     </div>
 
@@ -706,201 +939,395 @@
   </aside>
 
   <main>
+    <div class="dash-bar">
+      <button class="filters-toggle" id="filters-toggle" type="button" aria-controls="filter-drawer" aria-expanded="false">
+        <span class="filters-icon" aria-hidden="true">☰</span> Filters <span class="filters-count" id="filters-count"></span>
+      </button>
+      <nav class="dash-tabs" role="tablist" aria-label="Dashboard views">
+        <button class="dash-tab active" role="tab" type="button" data-pane="coverage" aria-selected="true">Coverage and crossover</button>
+        <button class="dash-tab" role="tab" type="button" data-pane="taxonomies" aria-selected="false">ATLAS and Nuclear Operations</button>
+        <button class="dash-tab" role="tab" type="button" data-pane="cooccurrence" aria-selected="false">Co-occurrence matrix</button>
+        <button class="dash-tab" role="tab" type="button" data-pane="risk" aria-selected="false">STRIDE and DREAD</button>
+        <button class="dash-tab" role="tab" type="button" data-pane="nuclear" aria-selected="false">Facilities and countries</button>
+        <button class="dash-tab" role="tab" type="button" data-pane="trial" aria-selected="false">Trial</button>
+      </nav>
+      <span class="in-view-note" id="in-view-note"></span>
+    </div>
+
     <div id="loaded-view" style="display:none;">
-      <div class="grid wide" style="margin-bottom:16px;">
-        <div class="panel">
-          <h2>Coverage — Use Area × Facility Domain</h2>
-          <div class="sub">Entry counts in current filter selection. An entry tagged with several facility domains counts once toward each.</div>
-          <div class="heatmap"><table class="heat" id="heatmap"></table></div>
-        </div>
-      </div>
 
-      <div class="grid" style="margin-bottom:16px;">
-        <div class="panel">
-          <div class="label-row" style="margin-bottom:4px;">
-            <h2 style="margin:0;">STRIDE taxa</h2>
-            <div class="panel-controls">
-              <select id="stride-group-by">
-                <option value="none">— none (overall) —</option>
-                <option value="use_area">Use Area</option>
-                <option value="facility_domain">Facility Domain</option>
-              </select>
-              <select id="stride-view-mode">
-                <option value="separate">Separate</option>
-                <option value="stacked">Stacked</option>
-              </select>
-            </div>
+      <section class="dash-pane fit active" data-pane="coverage" role="tabpanel">
+        <div class="grid wide grid-auto" style="margin-bottom:16px;">
+          <div class="panel">
+            <h2>Coverage: use area × facility domain</h2>
+            <div class="sub">Entry counts in current filter selection. An entry tagged with several facility domains counts once toward each. Click a cell to open those entries in the Editor.</div>
+            <div class="heatmap"><table class="heat" id="heatmap"></table></div>
           </div>
-          <div class="sub" id="stride-sub">Entries touching each STRIDE category (one entry can touch several).</div>
-          <div class="panel-chart"><canvas id="chart-stride"></canvas></div>
         </div>
-        <div class="panel">
-          <div class="label-row" style="margin-bottom:4px;">
-            <h2 style="margin:0;">DREAD scores</h2>
-            <div class="panel-controls">
-              <select id="dread-group-by">
-                <option value="none">— none (overall) —</option>
-                <option value="use_area">Use Area</option>
-                <option value="facility_domain">Facility Domain</option>
-              </select>
+        <div class="grid" style="margin-bottom:16px;">
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">Use-case profile scatter</h2>
+              <div class="panel-controls">
+                <select id="xs-colour" aria-label="Colour points by">
+                  <option value="use_area">Colour: use area</option>
+                  <option value="country">Colour: lead country</option>
+                </select>
+                <select id="xs-country" aria-label="Filter the scatter by author country"><option value="">All countries</option></select>
+                <select id="xs-count">
+                  <option value="codes">Count codes</option>
+                  <option value="bands">Count tactics / groups</option>
+                </select>
+              </div>
             </div>
+            <div class="sub" id="xs-sub">One dot per use case.</div>
+            <div class="panel-chart tall"><canvas id="chart-xs"></canvas></div>
           </div>
-          <div class="sub" id="dread-sub">Average score per dimension across entries with a dread_score.</div>
-          <div class="panel-chart"><canvas id="chart-dread"></canvas></div>
-          <label class="toggle-row" style="padding-left:0; margin-top:8px;">
-            <input type="checkbox" id="dread-show-stddev">
-            <span>Show standard deviation</span>
-          </label>
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">Adversarial vs implicit balance</h2>
+              <div class="panel-controls">
+                <select id="xd-by">
+                  <option value="use_area">By use area</option>
+                  <option value="facility_domain">By facility domain</option>
+                </select>
+                <select id="xd-measure">
+                  <option value="avg">Average per entry</option>
+                  <option value="total">Total</option>
+                </select>
+              </div>
+            </div>
+            <div class="sub" id="xd-sub"></div>
+            <div class="panel-chart tall"><canvas id="chart-xd"></canvas></div>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div class="grid" style="margin-bottom:16px;">
-        <div class="panel">
-          <div class="label-row" style="margin-bottom:4px;">
-            <h2 style="margin:0;">MITRE ATLAS</h2>
-            <div class="panel-controls">
-              <select id="atlas-view">
-                <option value="technique">By technique</option>
-                <option value="tactic">By tactic band</option>
-              </select>
-              <select id="atlas-group-by">
-                <option value="none">— none (overall) —</option>
-                <option value="use_area">Use Area</option>
-                <option value="facility_domain">Facility Domain</option>
-              </select>
-              <select id="atlas-view-mode">
-                <option value="separate">Separate</option>
-                <option value="stacked">Stacked</option>
-              </select>
+      <section class="dash-pane fit" data-pane="taxonomies" role="tabpanel">
+        <div class="grid" style="margin-bottom:16px;">
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">MITRE ATLAS</h2>
+              <div class="panel-controls">
+                <select id="atlas-view">
+                  <option value="technique">By technique</option>
+                  <option value="tactic">By tactic band</option>
+                </select>
+                <select id="atlas-group-by">
+                  <option value="none">Overall</option>
+                  <option value="use_area">By use area</option>
+                  <option value="facility_domain">By facility domain</option>
+                </select>
+              </div>
             </div>
+            <div class="sub" id="atlas-sub">Occurrences across ai_vulnerability_atlas (top 12).</div>
+            <div class="panel-chart tall"><canvas id="chart-atlas"></canvas></div>
+            <label class="toggle-row" id="atlas-rollup-row" style="padding-left:0; margin-top:8px;">
+              <input type="checkbox" id="atlas-rollup">
+              <span>Group sub-techniques into root ATLAS technique</span>
+            </label>
           </div>
-          <div class="sub" id="atlas-sub">Occurrences across ai_vulnerability_atlas (top 12).</div>
-          <div class="panel-chart tall"><canvas id="chart-atlas"></canvas></div>
-          <label class="toggle-row" id="atlas-rollup-row" style="padding-left:0; margin-top:8px;">
-            <input type="checkbox" id="atlas-rollup">
-            <span>Group sub-techniques into root ATLAS technique</span>
-          </label>
-        </div>
-        <div class="panel">
-          <div class="label-row" style="margin-bottom:4px;">
-            <h2 style="margin:0;">Operational taxonomy</h2>
-            <div class="panel-controls">
-              <select id="operational-view">
-                <option value="category">By category</option>
-                <option value="group">By group</option>
-              </select>
-              <select id="operational-group-by">
-                <option value="none">— none (overall) —</option>
-                <option value="use_area">Use Area</option>
-                <option value="facility_domain">Facility Domain</option>
-              </select>
-              <select id="operational-view-mode">
-                <option value="separate">Separate</option>
-                <option value="stacked">Stacked</option>
-              </select>
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">Operational taxonomy</h2>
+              <div class="panel-controls">
+                <select id="operational-view">
+                  <option value="category">By category</option>
+                  <option value="group">By group</option>
+                </select>
+                <select id="operational-group-by">
+                  <option value="none">Overall</option>
+                  <option value="use_area">By use area</option>
+                  <option value="facility_domain">By facility domain</option>
+                </select>
+              </div>
             </div>
+            <div class="sub" id="operational-sub">Occurrences across ai_vulnerability_operational (top 12).</div>
+            <div class="panel-chart tall"><canvas id="chart-operational"></canvas></div>
+            <label class="toggle-row" id="operational-rollup-row" style="padding-left:0; margin-top:8px;">
+              <input type="checkbox" id="operational-rollup">
+              <span>Group subgroups into root Operational category</span>
+            </label>
           </div>
-          <div class="sub" id="operational-sub">Occurrences across ai_vulnerability_operational (top 12).</div>
-          <div class="panel-chart tall"><canvas id="chart-operational"></canvas></div>
-          <label class="toggle-row" id="operational-rollup-row" style="padding-left:0; margin-top:8px;">
-            <input type="checkbox" id="operational-rollup">
-            <span>Group subgroups into root Operational category</span>
-          </label>
         </div>
-      </div>
+      </section>
 
-      <div class="grid wide" style="margin-bottom:16px;">
-        <div class="panel">
-          <div class="label-row" style="margin-bottom:4px;">
-            <h2 style="margin:0;">ATLAS × Nuclear Operations — co-occurrence</h2>
-            <div class="panel-controls">
-              <select id="atlas-op-view">
-                <option value="tactic-group">Tactic band × Group</option>
-                <option value="root">Root technique × Root category</option>
-                <option value="technique-category">Technique × Category</option>
-              </select>
+      <section class="dash-pane fit" data-pane="cooccurrence" role="tabpanel">
+        <div class="grid wide" style="margin-bottom:16px;">
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">ATLAS × Nuclear Operations co-occurrence</h2>
+              <div class="panel-controls">
+                <select id="atlas-op-view">
+                  <option value="tactic-group">Tactic band × Group</option>
+                  <option value="root">Root technique × Root category</option>
+                  <option value="technique-category">Technique × Category</option>
+                </select>
+              </div>
             </div>
+            <div class="sub" id="atlas-op-sub">Entries tagged with both a given ATLAS tactic band and a given Nuclear Operations group (an entry counted once per pair).</div>
+            <div class="heatmap heatmap-fill"><table class="heat" id="heatmap-atlas-op"></table></div>
           </div>
-          <div class="sub" id="atlas-op-sub">Entries tagged with both a given ATLAS tactic band and a given Nuclear Operations group (an entry counted once per pair).</div>
-          <div class="heatmap"><table class="heat" id="heatmap-atlas-op"></table></div>
         </div>
-      </div>
+      </section>
 
-      <!-- Candidate crossover views: four alternative ways to show where adversarial (ATLAS) and
-           implicit (Nuclear Operations) threats arise and cross over. Kept side by side for comparison;
-           delete whichever are not wanted (markup here + its renderCrossover* function + its call in render()). -->
-      <div class="crossover-intro">
-        <strong>Crossover views (candidates).</strong> Four alternative ways of showing where adversarial threats
-        (ATLAS codes) and implicit threats (Nuclear Operations codes) arise and where they cross over. All follow the
-        sidebar filters. Compare them against the co-occurrence matrix above and keep whichever reads best.
-      </div>
-
-      <div class="grid" style="margin-bottom:16px;">
-        <div class="panel">
-          <div class="label-row" style="margin-bottom:4px;">
-            <h2 style="margin:0;">A. Use-case profile scatter</h2>
-            <div class="panel-controls">
-              <select id="xs-count">
-                <option value="codes">Count codes</option>
-                <option value="bands">Count tactics / groups</option>
-              </select>
+      <section class="dash-pane fit" data-pane="risk" role="tabpanel">
+        <div class="grid" style="margin-bottom:16px;">
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">STRIDE taxa</h2>
+              <div class="panel-controls">
+                <select id="stride-group-by">
+                  <option value="none">Overall</option>
+                  <option value="use_area">By use area</option>
+                  <option value="facility_domain">By facility domain</option>
+                </select>
+              </div>
             </div>
+            <div class="sub" id="stride-sub">Entries touching each STRIDE category (one entry can touch several).</div>
+            <div class="panel-chart tall"><canvas id="chart-stride"></canvas></div>
           </div>
-          <div class="sub" id="xs-sub">One dot per use case.</div>
-          <div class="panel-chart tall"><canvas id="chart-xs"></canvas></div>
-        </div>
-        <div class="panel">
-          <div class="label-row" style="margin-bottom:4px;">
-            <h2 style="margin:0;">B. Adversarial vs implicit balance</h2>
-            <div class="panel-controls">
-              <select id="xd-by">
-                <option value="use_area">By Use Area</option>
-                <option value="facility_domain">By Facility Domain</option>
-              </select>
-              <select id="xd-measure">
-                <option value="avg">Average per entry</option>
-                <option value="total">Total</option>
-              </select>
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">DREAD scores</h2>
+              <div class="panel-controls">
+                <select id="dread-group-by">
+                  <option value="none">Overall</option>
+                  <option value="use_area">By use area</option>
+                  <option value="facility_domain">By facility domain</option>
+                </select>
+              </div>
             </div>
+            <div class="sub" id="dread-sub">Average score per dimension across entries with a dread_score.</div>
+            <div class="panel-chart tall"><canvas id="chart-dread"></canvas></div>
+            <label class="toggle-row" style="padding-left:0; margin-top:8px;">
+              <input type="checkbox" id="dread-show-stddev">
+              <span>Show standard deviation</span>
+            </label>
           </div>
-          <div class="sub" id="xd-sub"></div>
-          <div class="panel-chart tall"><canvas id="chart-xd"></canvas></div>
         </div>
-      </div>
+      </section>
 
-      <div class="grid wide" style="margin-bottom:16px;">
-        <div class="panel">
-          <div class="label-row" style="margin-bottom:4px;">
-            <h2 style="margin:0;">C. Flow: context → Nuclear Operations group → ATLAS tactic</h2>
-            <div class="panel-controls">
-              <select id="xk-left">
-                <option value="use_area">Start from Use Area</option>
-                <option value="facility_domain">Start from Facility Domain</option>
-              </select>
+      <section class="dash-pane fit" data-pane="nuclear" role="tabpanel">
+        <div class="grid three" style="margin-bottom:16px;">
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">Use cases by nuclear facility</h2>
+              <div class="panel-controls">
+                <select id="nf-stack">
+                  <option value="none">Coloured by facility group</option>
+                  <option value="use_area">Split by use area</option>
+                  <option value="use_status">Split by use status</option>
+                </select>
+              </div>
             </div>
+            <div class="sub" id="nf-sub"></div>
+            <div class="panel-chart tall"><canvas id="chart-nf"></canvas></div>
           </div>
-          <div class="sub" id="xk-sub"></div>
-          <div class="xsvg" id="xk-svg"></div>
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">Author affiliation countries</h2>
+              <div class="panel-controls">
+                <select id="cc-measure">
+                  <option value="entries">Count use cases</option>
+                  <option value="pubs">Count publications</option>
+                  <option value="authors">Count author affiliations</option>
+                </select>
+              </div>
+            </div>
+            <div class="sub" id="cc-sub"></div>
+            <div class="cc-empty" id="cc-empty">No author affiliations are recorded for the evidence in view yet. Run <code>python pipeline.py --enrich-context all</code> (with a free OpenAlex API key in <code>OPENALEX_API_KEY</code>) to fill them from OpenAlex, or add them by hand in the Editor's Use Case Data tab, then reload the file.</div>
+            <div class="panel-chart tall"><canvas id="chart-cc"></canvas></div>
+          </div>
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">International collaboration</h2>
+              <div class="panel-controls">
+                <select id="collab-mode">
+                  <option value="coauthor">Shared authorship</option>
+                  <option value="cofund">Shared funding</option>
+                  <option value="authfund">Authors → funder country</option>
+                </select>
+              </div>
+            </div>
+            <div class="sub" id="collab-sub"></div>
+            <div class="collab-net" id="collab-net"></div>
+          </div>
         </div>
-      </div>
+        <div class="grid three" style="margin-bottom:16px;">
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">Facility × taxonomy</h2>
+              <div class="panel-controls">
+                <select id="nf-dim">
+                  <option value="stride">STRIDE</option>
+                  <option value="dread">DREAD (mean)</option>
+                  <option value="atlas_tactic">ATLAS tactics</option>
+                  <option value="op_group">Nuclear Ops groups</option>
+                  <option value="use_area">Use area</option>
+                  <option value="use_status">Use status</option>
+                </select>
+                <select id="nf-norm">
+                  <option value="count">Entry count</option>
+                  <option value="share">Share of row (sums to 100%)</option>
+                  <option value="pct">% of row's entries tagged</option>
+                </select>
+              </div>
+            </div>
+            <div class="heat-note" id="nf-heat-note"></div>
+            <div class="heatmap heatmap-fill"><table class="heat heat-compact" id="nf-heat"></table></div>
+          </div>
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">Country × taxonomy</h2>
+              <div class="panel-controls">
+                <select id="cc-dim">
+                  <option value="stride">STRIDE</option>
+                  <option value="dread">DREAD (mean)</option>
+                  <option value="atlas_tactic">ATLAS tactics</option>
+                  <option value="op_group">Nuclear Ops groups</option>
+                  <option value="facility">Nuclear facility</option>
+                  <option value="use_area">Use area</option>
+                  <option value="use_status">Use status</option>
+                </select>
+                <select id="cc-norm">
+                  <option value="count">Entry count</option>
+                  <option value="share">Share of row (sums to 100%)</option>
+                  <option value="pct">% of row's entries tagged</option>
+                </select>
+              </div>
+            </div>
+            <div class="heat-note" id="cc-heat-note"></div>
+            <div class="heatmap heatmap-fill"><table class="heat heat-compact" id="cc-heat"></table></div>
+          </div>
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">Collaboration matrix</h2>
+            </div>
+            <div class="heat-note" id="collab-heat-note"></div>
+            <div class="heatmap heatmap-fill"><table class="heat heat-compact" id="collab-heat"></table></div>
+          </div>
+        </div>
+      </section>
 
-      <div class="grid wide" style="margin-bottom:16px;">
-        <div class="panel">
-          <div class="label-row" style="margin-bottom:4px;">
-            <h2 style="margin:0;">D. Chord: Nuclear Operations groups ↔ ATLAS tactics</h2>
+      <section class="dash-pane" data-pane="trial" role="tabpanel">
+        <p class="pane-note">Exploratory views for spotting patterns worth testing formally. They follow the same filters as every other tab, but have not been validated as publication figures.</p>
+
+        <div class="grid" style="margin-bottom:16px;">
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">Does vulnerability breadth track severity?</h2>
+              <div class="panel-controls">
+                <select id="tr-x">
+                  <option value="all_codes">X: all codes</option>
+                  <option value="atlas_codes">X: ATLAS codes</option>
+                  <option value="op_codes">X: Nuclear Ops codes</option>
+                  <option value="atlas_tactics">X: ATLAS tactics</option>
+                  <option value="op_groups">X: Nuclear Ops groups</option>
+                  <option value="stride">X: STRIDE categories</option>
+                  <option value="evidence">X: use-case evidence items</option>
+                </select>
+                <select id="tr-y">
+                  <option value="total">Y: DREAD total</option>
+                  <option value="damage">Y: Damage</option>
+                  <option value="reproducibility">Y: Reproducibility</option>
+                  <option value="exploitability">Y: Exploitability</option>
+                  <option value="affected_users">Y: Affected users</option>
+                  <option value="discoverability">Y: Discoverability</option>
+                </select>
+              </div>
+            </div>
+            <div class="sub" id="tr-corr-sub"></div>
+            <div class="panel-chart tall"><canvas id="chart-tr-corr"></canvas></div>
           </div>
-          <div class="sub" id="xc-sub"></div>
-          <div class="xsvg xsvg-chord" id="xc-svg"></div>
+          <div class="panel">
+            <h2>How well does DREAD discriminate?</h2>
+            <div class="sub" id="tr-dist-sub"></div>
+            <div class="panel-chart tall"><canvas id="chart-tr-dist"></canvas></div>
+          </div>
         </div>
-      </div>
+
+        <div class="grid wide" style="margin-bottom:16px;">
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">DREAD profile by context</h2>
+              <div class="panel-controls">
+                <select id="tr-prof-by">
+                  <option value="use_area">By use area</option>
+                  <option value="facility_domain">By facility domain</option>
+                  <option value="use_status">By use status</option>
+                </select>
+              </div>
+            </div>
+            <div class="sub">Mean score per dimension (1 to 5) with entry count; darker cells score higher. Cells with fewer than 3 entries are shown in italics as too small to compare.</div>
+            <div class="heatmap"><table class="heat" id="tr-prof"></table></div>
+          </div>
+        </div>
+
+        <div class="grid wide" style="margin-bottom:16px;">
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">STRIDE category × ATLAS tactic</h2>
+              <div class="panel-controls">
+                <select id="tr-sa-measure">
+                  <option value="count">Entry count</option>
+                  <option value="share">Share of row (sums to 100%)</option>
+                  <option value="row">% of STRIDE row's entries</option>
+                </select>
+              </div>
+            </div>
+            <div class="sub">Entries tagged with both a STRIDE category and an ATLAS tactic. Shows which machine-learning attack stages each classic threat category actually maps onto in this corpus. "Share of row" sums to 100% per STRIDE category; "% of entries" can exceed 100% in total because an entry usually spans several tactics.</div>
+            <div class="heatmap"><table class="heat" id="tr-sa"></table></div>
+          </div>
+        </div>
+
+        <div class="grid" style="margin-bottom:16px;">
+          <div class="panel">
+            <h2>Identified vs proposed use cases</h2>
+            <div class="sub" id="tr-status-sub"></div>
+            <div class="panel-chart tall"><canvas id="chart-tr-status"></canvas></div>
+          </div>
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">Use-case evidence by source type</h2>
+              <div class="panel-controls">
+              </div>
+            </div>
+            <div class="sub" id="tr-ev-sub"></div>
+            <div class="panel-chart tall"><canvas id="chart-tr-ev"></canvas></div>
+          </div>
+        </div>
+
+        <div class="grid wide" style="margin-bottom:16px;">
+          <div class="panel">
+            <div class="label-row" style="margin-bottom:4px;">
+              <h2 style="margin:0;">Concentration of vulnerability codes</h2>
+              <div class="panel-controls">
+                <select id="tr-par-src">
+                  <option value="both">ATLAS and Nuclear Ops</option>
+                  <option value="atlas">ATLAS only</option>
+                  <option value="op">Nuclear Ops only</option>
+                </select>
+                <select id="tr-par-roll">
+                  <option value="leaf">Individual codes</option>
+                  <option value="root">Rolled up to root</option>
+                </select>
+              </div>
+            </div>
+            <div class="sub" id="tr-par-sub"></div>
+            <div class="panel-chart tall"><canvas id="chart-tr-par"></canvas></div>
+          </div>
+        </div>
+      </section>
     </div>
 
     <div class="empty-note" id="empty-note" style="padding-top:120px;">
-      Load seed_taxonomy_populated.json (or new_candidate_entries.json) to populate the panel.<br>
-      Nothing is uploaded anywhere — the file is read locally in your browser.
+      Load seed_taxonomy_populated.json (or new_candidate_entries.json) to populate the dashboard.<br>
+      Nothing is uploaded anywhere. The file is read locally in your browser.
     </div>
   </main>
 </div>
+
 
 <div class="editor-layout" id="view-editor" style="display:none;">
   <div class="editor-list">
@@ -3104,7 +3531,8 @@ function filteredEntries(){
     const doms = domainsOf(e);
     if (!doms.some(d => activeFacilities.has(d))) return false;
     if (requireEvidenceUseCase && !hasEvidenceFor(e, "use_case")) return false;
-    if (requireEvidenceVulnerability && !hasEvidenceFor(e, "vulnerability")) return false;
+    
+    if (!passesNuclearFilters(e)) return false;
     return true;
   });
 }
@@ -3122,14 +3550,14 @@ function barChart(canvasId, labels, data, colors, horizontal=true){
       responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        x: { grid: { color: "#2a3541" }, ticks: { color: "#7c8a97", font: { family: "IBM Plex Mono", size: 10 } }, beginAtZero: true },
-        y: { grid: { display: false }, ticks: { color: "#d7dde3", font: { family: "IBM Plex Sans", size: 11 } } }
+        x: { grid: { color: "#e5e5e5" }, ticks: { color: "#5f5f5f", font: { family: "Source Sans 3", size: 10 } }, beginAtZero: true },
+        y: { grid: { display: false }, ticks: { color: "#1a1a1a", font: { family: "Source Sans 3", size: 11 } } }
       }
     }
   });
 }
 
-const GROUP_PALETTE = ["#e8a33d", "#7fa8c9", "#c9604f", "#8fb996", "#b98fcf", "#e0c46a"];
+const GROUP_PALETTE = ["#3b5b8c", "#c0862a", "#6f7f3a", "#a3201d", "#7a5c99", "#8c8c8c"];
 
 // One disabled-group set per chart (STRIDE / ATLAS / Operational) -- a group in here is
 // excluded from that chart's computation entirely (not just visually hidden), so toggling it via
@@ -3223,13 +3651,13 @@ function renderGroupedCategoryChart(canvasId, entries, { groupBy, stacked, getCa
       plugins: {
         legend: {
           display: showLegend, position: "bottom",
-          labels: { color: "#d7dde3", font: { family: "IBM Plex Mono", size: 9 }, boxWidth: 10 },
+          labels: { color: "#1a1a1a", font: { family: "Source Sans 3", size: 9 }, boxWidth: 10 },
           onClick: onLegendClick,
         },
       },
       scales: {
-        x: { stacked: groupBy !== "none" && stacked, grid: { color: "#2a3541" }, ticks: { color: "#7c8a97", font: { family: "IBM Plex Mono", size: 10 } }, beginAtZero: true },
-        y: { stacked: groupBy !== "none" && stacked, grid: { display: false }, ticks: { color: "#d7dde3", font: { family: "IBM Plex Sans", size: 11 } } },
+        x: { stacked: groupBy !== "none" && stacked, grid: { color: "#e5e5e5" }, ticks: { color: "#5f5f5f", font: { family: "Source Sans 3", size: 10 } }, beginAtZero: true },
+        y: { stacked: groupBy !== "none" && stacked, grid: { display: false }, ticks: { color: "#1a1a1a", font: { family: "Source Sans 3", size: 11 } } },
       },
     },
   });
@@ -3237,14 +3665,14 @@ function renderGroupedCategoryChart(canvasId, entries, { groupBy, stacked, getCa
 
 function renderStride(entries){
   const groupBy = document.getElementById("stride-group-by").value;
-  const stacked = document.getElementById("stride-view-mode").value === "stacked";
+  const stacked = true;   // grouped bars are always stacked
   document.getElementById("stride-sub").textContent = groupBy === "none"
     ? "Entries touching each STRIDE category (one entry can touch several)."
     : `Entries touching each STRIDE category, ${stacked ? "stacked" : "split"} by ${groupBy === "use_area" ? "use area" : "facility domain"} -- click a legend entry to toggle it and recalculate.`;
   renderGroupedCategoryChart("chart-stride", entries, {
     groupBy, stacked,
     getCategories: e => e.stride || [],
-    colorFn: () => "#e8a33d",
+    colorFn: () => "#4a4a4a",
     disabledGroups: strideDisabledGroups,
     rerender: () => renderStride(filteredEntries()),
   });
@@ -3280,7 +3708,7 @@ function atlasRootLabel(atlasId){
 function renderAtlas(entries){
   const view = document.getElementById("atlas-view").value;
   const groupBy = document.getElementById("atlas-group-by").value;
-  const stacked = document.getElementById("atlas-view-mode").value === "stacked";
+  const stacked = true;   // grouped bars are always stacked
   const byTechnique = view !== "tactic";
   const rollupRow = document.getElementById("atlas-rollup-row");
   const rollupToggle = document.getElementById("atlas-rollup");
@@ -3307,7 +3735,7 @@ function renderAtlas(entries){
           ? atlasRootLabel(m.atlas_id).replace(/ \(this is already a root technique\)$/, "")
           : `${m.atlas_id} ${m.atlas_name}`)
       : [...new Set((e.ai_vulnerability_atlas || []).flatMap(m => m.atlas_tactics || []))],
-    colorFn: () => "#7fa8c9",
+    colorFn: () => "#a3201d",
     disabledGroups: atlasDisabledGroups,
     rerender: () => renderAtlas(filteredEntries()),
   });
@@ -3334,7 +3762,7 @@ function operationalRootLabel(opId){
 function renderOperational(entries){
   const view = document.getElementById("operational-view").value;
   const groupBy = document.getElementById("operational-group-by").value;
-  const stacked = document.getElementById("operational-view-mode").value === "stacked";
+  const stacked = true;   // grouped bars are always stacked
   const byCategory = view !== "group";
   const rollupRow = document.getElementById("operational-rollup-row");
   const rollupToggle = document.getElementById("operational-rollup");
@@ -3363,7 +3791,7 @@ function renderOperational(entries){
           const g = m.op_group;
           return g && OPERATIONAL_GROUPS_JS[g] ? `${g} ${OPERATIONAL_GROUPS_JS[g]}` : g;
         }).filter(Boolean))],
-    colorFn: () => "#8fb996",
+    colorFn: () => "#3b5b8c",
     disabledGroups: operationalDisabledGroups,
     rerender: () => renderOperational(filteredEntries()),
   });
@@ -3419,7 +3847,7 @@ const errorBarsPlugin = {
         const yBot = chart.scales.y.getPixelForValue(Math.max(0, mean - std));
         const capWidth = Math.max(4, Math.min(10, (bar.width || 20) * 0.3));
         ctx.save();
-        ctx.strokeStyle = "#f4f6f8";
+        ctx.strokeStyle = "#1a1a1a";
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.moveTo(x, yTop); ctx.lineTo(x, yBot);
@@ -3450,7 +3878,7 @@ function renderDread(entries){
     document.getElementById("dread-sub").textContent = "Average score per dimension across entries with a dread_score."
       + (showStdDev ? " Whiskers show ± 1 standard deviation." : "");
     const avg = avgDreadFor(entries);
-    const dataset = { data: avg, backgroundColor: "#e8a33d", borderRadius: 2 };
+    const dataset = { data: avg, backgroundColor: "#4a4a4a", borderRadius: 2 };
     if (showStdDev) dataset.stddev = stddevDreadFor(entries);
     charts["chart-dread"] = new Chart(ctx, {
       type: "bar",
@@ -3460,8 +3888,8 @@ function renderDread(entries){
         responsive: true, maintainAspectRatio: false,
         plugins: { legend: { display: false } },
         scales: {
-          y: { min: 0, max: 5, grid: { color: "#2a3541" }, ticks: { color: "#7c8a97", font: { family: "IBM Plex Mono", size: 10 } } },
-          x: { grid: { display: false }, ticks: { color: "#d7dde3", font: { family: "IBM Plex Sans", size: 10 } } }
+          y: { min: 0, max: 5, grid: { color: "#e5e5e5" }, ticks: { color: "#5f5f5f", font: { family: "Source Sans 3", size: 10 } } },
+          x: { grid: { display: false }, ticks: { color: "#1a1a1a", font: { family: "Source Sans 3", size: 10 } } }
         }
       }
     });
@@ -3473,7 +3901,7 @@ function renderDread(entries){
     const candidateGroups = groupBy === "use_area" ? USE_AREAS : [...FACILITY_DOMAINS, "untagged"];
     const groups = candidateGroups.filter(g =>
       entries.some(e => (groupBy === "use_area" ? e.use_area === g : domainsOf(e).includes(g)) && e.dread_score));
-    const palette = ["#e8a33d", "#7fa8c9", "#c9604f", "#8fb996", "#b98fcf", "#e0c46a"];
+    const palette = GROUP_PALETTE;
     const datasets = groups.map((g, i) => {
       const subset = entries.filter(e => groupBy === "use_area" ? e.use_area === g : domainsOf(e).includes(g));
       const avg = avgDreadFor(subset);
@@ -3488,10 +3916,10 @@ function renderDread(entries){
       plugins: [errorBarsPlugin],
       options: {
         responsive: true, maintainAspectRatio: false,
-        plugins: { legend: { display: true, position: "bottom", labels: { color: "#d7dde3", font: { family: "IBM Plex Mono", size: 9 }, boxWidth: 10 } } },
+        plugins: { legend: { display: true, position: "bottom", labels: { color: "#1a1a1a", font: { family: "Source Sans 3", size: 9 }, boxWidth: 10 } } },
         scales: {
-          y: { min: 0, max: 5, grid: { color: "#2a3541" }, ticks: { color: "#7c8a97", font: { family: "IBM Plex Mono", size: 10 } } },
-          x: { grid: { display: false }, ticks: { color: "#d7dde3", font: { family: "IBM Plex Sans", size: 10 } } }
+          y: { min: 0, max: 5, grid: { color: "#e5e5e5" }, ticks: { color: "#5f5f5f", font: { family: "Source Sans 3", size: 10 } } },
+          x: { grid: { display: false }, ticks: { color: "#1a1a1a", font: { family: "Source Sans 3", size: 10 } } }
         }
       }
     });
@@ -3594,7 +4022,7 @@ function renderHeatmap(entries){
         td.className = "zero";
       } else {
         const alpha = 0.25 + 0.75 * (c / max);
-        td.style.background = `rgba(232,163,61,${alpha.toFixed(2)})`;
+        td.style.background = `rgba(163,32,29,${(alpha * 0.85).toFixed(2)})`; td.style.color = alpha > 0.7 ? "#ffffff" : "#1a1a1a";
       }
       // Every cell is clickable, including empty ones -- an empty cell is itself useful to land
       // on (confirms there's genuinely nothing there yet, with "+ New" right there to fill the gap).
@@ -3731,7 +4159,7 @@ function renderAtlasOpHeatmap(entries){
         td.className = "zero";
       } else {
         const alpha = 0.25 + 0.75 * (c / max);
-        td.style.background = `rgba(127,168,201,${alpha.toFixed(2)})`;
+        td.style.background = `rgba(59,91,140,${(alpha * 0.85).toFixed(2)})`; td.style.color = alpha > 0.7 ? "#ffffff" : "#1a1a1a";
       }
       td.classList.add("heat-cell-clickable");
       td.addEventListener("click", () => goToEditorFilteredByThreat(view, a, o));
@@ -3743,14 +4171,10 @@ function renderAtlasOpHeatmap(entries){
 
 document.getElementById("atlas-op-view").addEventListener("change", () => renderAtlasOpHeatmap(filteredEntries()));
 
-/* =========================== CROSSOVER VIEWS (candidates) ===========================
-   Four alternative views of where adversarial threats (ATLAS codes) and implicit threats (Nuclear
-   Operations codes) arise and cross over. Each is self-contained -- to drop one, delete its markup
-   panel, its renderCrossover* function and its call in render(). */
-const XC_ATLAS = "#c9604f";
-const XC_OP = "#8fb996";
-const OP_GROUP_PALETTE = ["#8fb996", "#7fa8c9", "#e0c46a", "#b98fcf", "#5fb3a8", "#d9a066", "#9aa7d9"];
-const SVGNS = "http://www.w3.org/2000/svg";
+/* =========================== CROSSOVER VIEWS ===========================
+   Use-case profile scatter and adversarial-vs-implicit balance (Coverage tab). */
+const XC_ATLAS = "#a3201d";
+const XC_OP = "#3b5b8c";
 
 function atlasCodesOf(e){ return [...new Set((e.ai_vulnerability_atlas || []).map(m => m.atlas_id).filter(Boolean))]; }
 function opCodesOf(e){ return [...new Set((e.ai_vulnerability_operational || []).map(m => m.op_id).filter(Boolean))]; }
@@ -3761,15 +4185,6 @@ function opGroupsOf(e){
   return [...new Set((e.ai_vulnerability_operational || []).map(m => m.op_group || (OPERATIONAL_CATALOG[m.op_id] || {}).op_group).filter(Boolean))];
 }
 function contextGroupsOf(e, by){ return by === "use_area" ? [e.use_area] : domainsOf(e); }
-function opGroupColor(g){ const i = Object.keys(OPERATIONAL_GROUPS_JS).sort().indexOf(g); return OP_GROUP_PALETTE[(i < 0 ? 0 : i) % OP_GROUP_PALETTE.length]; }
-
-function svgEl(tag, attrs, parent){
-  const el = document.createElementNS(SVGNS, tag);
-  Object.entries(attrs || {}).forEach(([k, v]) => el.setAttribute(k, v));
-  if (parent) parent.appendChild(el);
-  return el;
-}
-function svgTitle(el, text){ svgEl("title", {}, el).textContent = text; }
 
 function openEntryInEditor(entry){
   const pos = allEntries.indexOf(entry);
@@ -3785,8 +4200,8 @@ function openEntryInEditor(entry){
   selectEntryForEdit(idx);
 }
 
-const XC_AXIS = { grid: { color: "#2a3541" }, ticks: { color: "#7c8a97", font: { family: "IBM Plex Mono", size: 10 } } };
-const XC_AXIS_TITLE = (text) => ({ display: true, text, color: "#7c8a97", font: { family: "IBM Plex Mono", size: 10 } });
+const XC_AXIS = { grid: { color: "#e5e5e5" }, ticks: { color: "#5f5f5f", font: { family: "Source Sans 3", size: 10 } } };
+const XC_AXIS_TITLE = (text) => ({ display: true, text, color: "#5f5f5f", font: { family: "Source Sans 3", size: 10 } });
 
 /* A. One dot per use case: ATLAS count across, Nuclear Operations count up. Dashed lines at the
    medians split the plot into mostly-adversarial, mostly-implicit, crossover and light-coverage. */
@@ -3807,12 +4222,39 @@ function renderCrossoverScatter(entries){
   });
   const median = arr => { const a = [...arr].sort((p, q) => p - q), m = a.length >> 1; return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2; };
   const mx = median(pts.map(p => p.rx)), my = median(pts.map(p => p.ry));
-  sub.textContent = `One dot per use case, coloured by use area. Dashed lines are the medians (${mx} ATLAS, ${my} Nuclear Operations ${bands ? "tactics / groups" : "codes"}). Hover for the use case; click to open it in the Editor.`;
+  const cSel = document.getElementById("xs-country").value;
+  const byCountry = document.getElementById("xs-colour").value === "country";
+  const match = p => !cSel || countriesOf(p.entry).includes(cSel);
+  const active = pts.filter(match), rest = pts.filter(p => !match(p));
+  const what = `${bands ? "tactics / groups" : "codes"}`;
+  sub.textContent = (cSel
+    ? `${active.length} of ${pts.length} use cases have use-case evidence from ${countryLabel(cSel)}; the rest are greyed out. Axes and medians (dashed: ${mx} ATLAS, ${my} Nuclear Operations ${what}) stay those of all ${pts.length} in view.`
+    : `One dot per use case. Dashed lines are the medians (${mx} ATLAS, ${my} Nuclear Operations ${what}).`)
+    + (byCountry ? " Colour = lead country (first author's affiliation on the first use-case source)." : "")
+    + " Hover for the use case; click to open it in the Editor.";
 
-  const datasets = USE_AREAS.map((ua, i) => ({
-    label: ua, data: pts.filter(p => p.entry.use_area === ua),
-    backgroundColor: GROUP_PALETTE[i % GROUP_PALETTE.length], pointRadius: 5, pointHoverRadius: 7,
-  })).filter(d => d.data.length);
+  let datasets;
+  if (byCountry){
+    const leadCount = {};
+    pts.forEach(p => { const c = leadCountryOf(p.entry); leadCount[c] = (leadCount[c] || 0) + 1; });
+    const top = Object.keys(leadCount).filter(c => c !== NO_COUNTRY).sort((a, b) => leadCount[b] - leadCount[a]).slice(0, 7);
+    const groupOf = p => { const c = leadCountryOf(p.entry); return top.includes(c) ? c : (c === NO_COUNTRY ? NO_COUNTRY : "OTHER"); };
+    const keys = [...top, "OTHER", NO_COUNTRY];
+    const colour = k => k === "OTHER" ? "#8c8c8c" : (k === NO_COUNTRY ? "#cfcfcf" : COUNTRY_PALETTE[top.indexOf(k) % COUNTRY_PALETTE.length]);
+    const label = k => k === "OTHER" ? "Other countries" : (k === NO_COUNTRY ? "No affiliation data" : countryLabel(k));
+    datasets = keys.map(k => ({ label: label(k), data: active.filter(p => groupOf(p) === k),
+      backgroundColor: colour(k), borderColor: "#ffffff", borderWidth: 0.75, pointRadius: 5, pointHoverRadius: 7 }));
+  } else {
+    datasets = USE_AREAS.map((ua, i) => ({
+      label: ua, data: active.filter(p => p.entry.use_area === ua),
+      backgroundColor: GROUP_PALETTE[i % GROUP_PALETTE.length], borderColor: "#ffffff", borderWidth: 0.75, pointRadius: 5, pointHoverRadius: 7,
+    }));
+  }
+  datasets = datasets.filter(d => d.data.length);
+  if (rest.length) datasets.unshift({ label: `Other use cases (${rest.length})`, data: rest, order: 99,
+    backgroundColor: "rgba(150,150,150,0.22)", borderColor: "rgba(150,150,150,0.22)", borderWidth: 0, pointRadius: 4, pointHoverRadius: 5 });
+  // fixed axes: always span every use case in view, whatever the country filter
+  const axMaxX = Math.max(1, ...pts.map(p => p.x)) * 1.05, axMaxY = Math.max(1, ...pts.map(p => p.y)) * 1.05;
 
   const quadrants = {
     id: "xsQuadrants",
@@ -3820,9 +4262,9 @@ function renderCrossoverScatter(entries){
       const { ctx, chartArea: a, scales: { x, y } } = chart;
       const px = x.getPixelForValue(mx), py = y.getPixelForValue(my);
       ctx.save();
-      ctx.strokeStyle = "#4a5a6a"; ctx.setLineDash([4, 4]);
+      ctx.strokeStyle = "#9a9a9a"; ctx.setLineDash([4, 4]);
       ctx.beginPath(); ctx.moveTo(px, a.top); ctx.lineTo(px, a.bottom); ctx.moveTo(a.left, py); ctx.lineTo(a.right, py); ctx.stroke();
-      ctx.setLineDash([]); ctx.fillStyle = "#7c8a97"; ctx.font = "10px 'IBM Plex Mono', monospace";
+      ctx.setLineDash([]); ctx.fillStyle = "#5f5f5f"; ctx.font = "11px 'Source Sans 3', sans-serif";
       ctx.textAlign = "left";  ctx.fillText("mostly implicit", a.left + 6, a.top + 12); ctx.fillText("light coverage", a.left + 6, a.bottom - 6);
       ctx.textAlign = "right"; ctx.fillText("crossover", a.right - 6, a.top + 12); ctx.fillText("mostly adversarial", a.right - 6, a.bottom - 6);
       ctx.restore();
@@ -3839,13 +4281,13 @@ function renderCrossoverScatter(entries){
       onClick: (evt, els) => { if (els.length){ const el = els[0]; openEntryInEditor(charts["chart-xs"].data.datasets[el.datasetIndex].data[el.index].entry); } },
       onHover: (evt, els) => { evt.native.target.style.cursor = els.length ? "pointer" : "default"; },
       plugins: {
-        legend: { position: "bottom", labels: { color: "#d7dde3", font: { family: "IBM Plex Mono", size: 9 }, boxWidth: 10 } },
-        tooltip: { callbacks: { label: c => `${c.raw.entry.use_case} — ATLAS ${c.raw.rx}, Nuclear Ops ${c.raw.ry}` } },
+        legend: { position: "bottom", labels: { color: "#1a1a1a", font: { family: "Source Sans 3", size: 9 }, boxWidth: 10 } },
+        tooltip: { callbacks: { label: c => `${c.raw.entry.use_case.slice(0, 90)}… — ATLAS ${c.raw.rx}, Nuclear Ops ${c.raw.ry}; lead country: ${countryLabel(leadCountryOf(c.raw.entry))}` } },
       },
       scales: {
-        x: { ...XC_AXIS, beginAtZero: true, ticks: { ...XC_AXIS.ticks, precision: 0 },
+        x: { ...XC_AXIS, min: 0, max: Math.ceil(axMaxX), ticks: { ...XC_AXIS.ticks, precision: 0 },
              title: XC_AXIS_TITLE(bands ? "ATLAS tactics (adversarial)" : "ATLAS codes (adversarial)") },
-        y: { ...XC_AXIS, beginAtZero: true, ticks: { ...XC_AXIS.ticks, precision: 0 },
+        y: { ...XC_AXIS, min: 0, max: Math.ceil(axMaxY), ticks: { ...XC_AXIS.ticks, precision: 0 },
              title: XC_AXIS_TITLE(bands ? "Nuclear Operations groups (implicit)" : "Nuclear Operations codes (implicit)") },
       },
     },
@@ -3880,159 +4322,977 @@ function renderCrossoverDiverging(entries){
     options: {
       indexAxis: "y", responsive: true, maintainAspectRatio: false,
       plugins: {
-        legend: { position: "bottom", labels: { color: "#d7dde3", font: { family: "IBM Plex Mono", size: 9 }, boxWidth: 10 } },
+        legend: { position: "bottom", labels: { color: "#1a1a1a", font: { family: "Source Sans 3", size: 9 }, boxWidth: 10 } },
         tooltip: { callbacks: { label: c => `${c.dataset.label}: ${Math.abs(c.raw)}` } },
       },
       scales: {
         x: { ...XC_AXIS, stacked: true, ticks: { ...XC_AXIS.ticks, callback: v => Math.abs(v) } },
-        y: { stacked: true, grid: { display: false }, ticks: { color: "#d7dde3", font: { family: "IBM Plex Sans", size: 11 } } },
+        y: { stacked: true, grid: { display: false }, ticks: { color: "#1a1a1a", font: { family: "Source Sans 3", size: 11 } } },
       },
     },
   });
 }
 
-/* C. Three-column flow: use area (or facility domain) -> Nuclear Operations group -> ATLAS tactic.
-   Link width = number of entries tagged with both ends. The middle column is not conserved (an
-   entry can link one group to several tactics), so each middle node is sized to its larger side. */
-function renderCrossoverSankey(entries){
-  const host = document.getElementById("xk-svg");
-  host.innerHTML = "";
-  const by = document.getElementById("xk-left").value;
-  const key = (a, b) => `${a}\u0000${b}`;
-  const lm = new Map(), mr = new Map();
-  entries.forEach(e => {
-    const gs = contextGroupsOf(e, by), ops = opGroupsOf(e), ts = atlasTacticsOf(e);
-    gs.forEach(g => ops.forEach(o => lm.set(key(g, o), (lm.get(key(g, o)) || 0) + 1)));
-    ops.forEach(o => ts.forEach(t => mr.set(key(o, t), (mr.get(key(o, t)) || 0) + 1)));
-  });
-  document.getElementById("xk-sub").textContent = "Link width = entries tagged with both ends: left links join a context to the Nuclear Operations groups (implicit) "
-    + "its entries carry; right links join those groups to the ATLAS tactics (adversarial) the same entries carry. Hover a link or node for counts.";
-  if (!lm.size){ host.innerHTML = '<div class="empty-svg">No entries in view carry Nuclear Operations codes.</div>'; return; }
+/* =========================== TRIAL TAB (exploratory views) ===========================
+   Seven exploratory charts. Every one reads filteredEntries(), so the filter drawer applies. */
+const TR_INK = "#1a1a1a", TR_DIM = "#5f5f5f", TR_GRID = "#e5e5e5";
+const TR_FONT = { family: "Source Sans 3", size: 11 };
+const TR_AXIS = { grid: { color: TR_GRID }, ticks: { color: TR_DIM, font: TR_FONT } };
+const TR_TITLE = text => ({ display: true, text, color: TR_DIM, font: TR_FONT });
+const TR_LEGEND = { position: "bottom", labels: { color: TR_INK, font: TR_FONT, boxWidth: 10 } };
 
-  const cols = [[], [], []], byId = [new Map(), new Map(), new Map()];
-  const node = (c, id) => { if (!byId[c].has(id)){ const n = { id, c, in: 0, out: 0 }; byId[c].set(id, n); cols[c].push(n); } return byId[c].get(id); };
-  const links = [];
-  lm.forEach((v, k) => { const [a, b] = k.split("\u0000"); const s = node(0, a), t = node(1, b); s.out += v; t.in += v; links.push({ s, t, v }); });
-  mr.forEach((v, k) => { const [a, b] = k.split("\u0000"); const s = node(1, a), t = node(2, b); s.out += v; t.in += v; links.push({ s, t, v }); });
-  const ctxOrder = by === "use_area" ? USE_AREAS : [...FACILITY_DOMAINS, "untagged"];
-  const opOrder = Object.keys(OPERATIONAL_GROUPS_JS).sort();
-  const order = [ctxOrder, opOrder, ATLAS_TACTIC_ORDER];
-  cols.forEach((col, c) => col.sort((p, q) => order[c].indexOf(p.id) - order[c].indexOf(q.id)));
+function dreadScoreOf(e, dim){
+  const d = e.dread_score;
+  if (!d) return null;
+  if (dim === "total"){
+    if (typeof d.total === "number") return d.total;
+    const vals = DREAD_DIMS.map(k => dreadScoreOf(e, k));
+    return vals.every(v => typeof v === "number") ? vals.reduce((a, b) => a + b, 0) : null;
+  }
+  const v = d[dim];
+  const s = v && typeof v === "object" ? v.score : v;
+  return typeof s === "number" ? s : null;
+}
+function trMean(a){ return a.length ? a.reduce((s, v) => s + v, 0) / a.length : null; }
+function trSd(a){ if (a.length < 2) return 0; const m = trMean(a); return Math.sqrt(a.reduce((s, v) => s + (v - m) ** 2, 0) / (a.length - 1)); }
+function trPearson(xs, ys){
+  const n = xs.length; if (n < 3) return null;
+  const mx = trMean(xs), my = trMean(ys);
+  let sxy = 0, sxx = 0, syy = 0;
+  for (let i = 0; i < n; i++){ const dx = xs[i] - mx, dy = ys[i] - my; sxy += dx * dy; sxx += dx * dx; syy += dy * dy; }
+  return (sxx && syy) ? sxy / Math.sqrt(sxx * syy) : null;
+}
+function trRanks(a){
+  const idx = a.map((v, i) => [v, i]).sort((p, q) => p[0] - q[0]);
+  const r = new Array(a.length);
+  for (let i = 0; i < idx.length;){
+    let j = i; while (j + 1 < idx.length && idx[j + 1][0] === idx[i][0]) j++;
+    const avg = (i + j) / 2 + 1;
+    for (let k = i; k <= j; k++) r[idx[k][1]] = avg;
+    i = j + 1;
+  }
+  return r;
+}
+function trFmt(v, d = 2){ return v == null ? "n/a" : v.toFixed(d); }
 
-  const W = 1000, pad = 8, top = 30;
-  const H = Math.max(440, 30 * Math.max(...cols.map(c => c.length)) + 2 * top);
-  const xs = [190, 480, 790], nodeW = 12;
-  cols.forEach(col => col.forEach(n => n.value = Math.max(n.in, n.out)));
-  const k = Math.min(...cols.filter(c => c.length).map(col =>
-    (H - 2 * top - pad * (col.length - 1)) / col.reduce((s, n) => s + n.value, 0)));
-  cols.forEach(col => {
-    const used = col.reduce((s, n) => s + n.value * k, 0) + pad * (col.length - 1);
-    let y = top + (H - 2 * top - used) / 2;
-    col.forEach(n => { n.y = y; n.h = Math.max(1, n.value * k); n.outOff = 0; n.inOff = 0; y += n.h + pad; });
-  });
-
-  const svg = svgEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img" }, host);
-  const color = n => n.c === 0 ? GROUP_PALETTE[ctxOrder.indexOf(n.id) % GROUP_PALETTE.length] : n.c === 1 ? opGroupColor(n.id) : XC_ATLAS;
-  const label = n => n.c === 0 ? groupLabel(by, n.id) : n.c === 1 ? (OPERATIONAL_GROUPS_JS[n.id] || n.id) : n.id;
-
-  // stack link ends in the order of the node at the other end, to minimise crossings
-  [...links].sort((p, q) => p.t.y - q.t.y).forEach(l => { l.y0 = l.s.y + l.s.outOff + l.v * k / 2; l.s.outOff += l.v * k; });
-  [...links].sort((p, q) => p.s.y - q.s.y).forEach(l => { l.y1 = l.t.y + l.t.inOff + l.v * k / 2; l.t.inOff += l.v * k; });
-  const gLinks = svgEl("g", {}, svg);
-  links.forEach(l => {
-    const x0 = xs[l.s.c] + nodeW, x1 = xs[l.t.c], xm = (x0 + x1) / 2;
-    const p = svgEl("path", { class: "xk-link", d: `M${x0},${l.y0} C${xm},${l.y0} ${xm},${l.y1} ${x1},${l.y1}`,
-                              stroke: color(l.s), "stroke-width": Math.max(1, l.v * k) }, gLinks);
-    svgTitle(p, `${label(l.s)} → ${label(l.t)}: ${l.v} entr${l.v === 1 ? "y" : "ies"}`);
-  });
-  const halo = "paint-order:stroke; stroke:#171e26; stroke-width:3px;";
-  cols.forEach((col, c) => col.forEach(n => {
-    const r = svgEl("rect", { x: xs[c], y: n.y, width: nodeW, height: n.h, fill: color(n), rx: 1 }, svg);
-    svgTitle(r, `${label(n)} — ${c === 0 ? n.out : c === 2 ? n.in : `${n.in} in / ${n.out} out`}`);
-    const t = svgEl("text", { x: c === 0 ? xs[c] - 6 : xs[c] + nodeW + 6, y: n.y + n.h / 2, "dominant-baseline": "middle",
-                              "text-anchor": c === 0 ? "end" : "start", style: c === 1 ? halo : "" }, svg);
-    t.textContent = label(n);
-  }));
-  [["Context", xs[0] + nodeW / 2], ["Nuclear Operations group (implicit)", xs[1] + nodeW / 2], ["ATLAS tactic (adversarial)", xs[2] + nodeW / 2]]
-    .forEach(([txt, x]) => { const t = svgEl("text", { x, y: 10, "text-anchor": "middle", class: "dim" }, svg); t.textContent = txt; });
+/* Heat colour on white: accent red at strength t (0..1); text flips to white on dark cells. */
+function trHeatCell(td, t, rgb = "163,32,29"){
+  const a = 0.08 + 0.82 * Math.max(0, Math.min(1, t));
+  td.style.background = `rgba(${rgb},${a.toFixed(2)})`;
+  td.style.color = a > 0.5 ? "#ffffff" : TR_INK;
 }
 
-/* D. Chord diagram: Nuclear Operations groups (left) and ATLAS tactics (right) around a circle;
-   ribbon width = entries tagged with both. Hover an arc to isolate its ribbons. */
-function renderCrossoverChord(entries){
-  const host = document.getElementById("xc-svg");
-  host.innerHTML = ""; host.classList.remove("focus");
-  const opOrder = Object.keys(OPERATIONAL_GROUPS_JS).sort();
-  const pairs = new Map();
+/* 1. Breadth vs severity: any count on X against any DREAD measure on Y. */
+const TR_X = {
+  all_codes:     { label: "ATLAS + Nuclear Ops codes", fn: e => atlasCodesOf(e).length + opCodesOf(e).length },
+  atlas_codes:   { label: "ATLAS codes",               fn: e => atlasCodesOf(e).length },
+  op_codes:      { label: "Nuclear Ops codes",         fn: e => opCodesOf(e).length },
+  atlas_tactics: { label: "ATLAS tactics",             fn: e => atlasTacticsOf(e).length },
+  op_groups:     { label: "Nuclear Ops groups",        fn: e => opGroupsOf(e).length },
+  stride:        { label: "STRIDE categories",         fn: e => (e.stride || []).length },
+  evidence:      { label: "Use-case evidence items",   fn: e => evidenceForBasis(e).length },
+};
+function renderTrialCorrelation(entries){
+  destroyChart("chart-tr-corr");
+  const xKey = document.getElementById("tr-x").value, yKey = document.getElementById("tr-y").value;
+  const xDef = TR_X[xKey];
+  const yLabel = yKey === "total" ? "DREAD total" : (DREAD_DIM_LABELS[yKey] || yKey);
+  const rows = entries.map(e => ({ e, x: xDef.fn(e), y: dreadScoreOf(e, yKey) })).filter(r => r.y != null);
+  const sub = document.getElementById("tr-corr-sub");
+  if (!rows.length){ sub.textContent = "No entries in view have a DREAD score."; return; }
+  const xs = rows.map(r => r.x), ys = rows.map(r => r.y);
+  const r = trPearson(xs, ys), rho = trPearson(trRanks(xs), trRanks(ys));
+  const ySd = trSd(ys);
+  let note = `n = ${rows.length}. Pearson r = ${trFmt(r)}, Spearman ρ = ${trFmt(rho)}.`;
+  if (ySd === 0) note = `n = ${rows.length}. Every entry scores ${ys[0]} on ${yLabel}, so no correlation can be computed: the score carries no information across this set.`;
+  else if (Math.abs(r || 0) < 0.3) note += " Weak or no linear relationship.";
+  sub.textContent = note + " Points are jittered slightly so ties stay visible; click one to open it in the Editor.";
+
+  const jitter = (i, s) => (((i * 9301 + 49297) % 233280) / 233280 - 0.5) * s;
+  const datasets = USE_AREAS.map((ua, i) => ({
+    type: "scatter", label: ua,
+    data: rows.filter(p => p.e.use_area === ua).map((p, k) => ({ x: p.x + jitter(k + i * 7, 0.35), y: p.y + jitter(k * 3 + i, 0.25), rx: p.x, ry: p.y, entry: p.e })),
+    backgroundColor: GROUP_PALETTE[i % GROUP_PALETTE.length], borderColor: "#ffffff", borderWidth: 0.75, pointRadius: 4.5, pointHoverRadius: 6.5,
+  })).filter(d => d.data.length);
+
+  if (ySd > 0 && trSd(xs) > 0){
+    const mx = trMean(xs), my = trMean(ys);
+    const b = xs.reduce((s, x, i) => s + (x - mx) * (ys[i] - my), 0) / xs.reduce((s, x) => s + (x - mx) ** 2, 0);
+    const x0 = Math.min(...xs), x1 = Math.max(...xs);
+    datasets.push({ type: "line", label: "Least-squares fit", data: [{ x: x0, y: my + b * (x0 - mx) }, { x: x1, y: my + b * (x1 - mx) }],
+      borderColor: TR_INK, borderWidth: 1.25, borderDash: [5, 4], pointRadius: 0, fill: false });
+  }
+  charts["chart-tr-corr"] = new Chart(document.getElementById("chart-tr-corr").getContext("2d"), {
+    type: "scatter", data: { datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      onClick: (evt, els) => { const el = els[0]; if (!el) return; const p = charts["chart-tr-corr"].data.datasets[el.datasetIndex].data[el.index]; if (p.entry) openEntryInEditor(p.entry); },
+      onHover: (evt, els) => { evt.native.target.style.cursor = els.length ? "pointer" : "default"; },
+      plugins: { legend: TR_LEGEND, tooltip: { callbacks: { label: c => c.raw.entry ? `${c.raw.entry.use_case} (${xDef.label} ${c.raw.rx}, ${yLabel} ${c.raw.ry})` : c.dataset.label } } },
+      scales: {
+        x: { ...TR_AXIS, ticks: { ...TR_AXIS.ticks, precision: 0 }, title: TR_TITLE(xDef.label) },
+        y: { ...TR_AXIS, ticks: { ...TR_AXIS.ticks, precision: 0 }, title: TR_TITLE(yLabel) },
+      },
+    },
+  });
+}
+
+/* 2. Score distribution per DREAD dimension: 100% stacked bars of how many entries got each score. */
+function renderTrialDreadDistribution(entries){
+  destroyChart("chart-tr-dist");
+  const scored = entries.filter(e => e.dread_score);
+  const sub = document.getElementById("tr-dist-sub");
+  if (!scored.length){ sub.textContent = "No entries in view have a DREAD score."; return; }
+  const shades = ["#f2d9d8", "#e3a9a6", "#c96a66", "#a3201d", "#5c1210"];
+  const counts = DREAD_DIMS.map(d => [1, 2, 3, 4, 5].map(s => scored.filter(e => dreadScoreOf(e, d) === s).length));
+  const flat = DREAD_DIMS.filter((d, i) => counts[i].filter(c => c > 0).length <= 1).map(d => DREAD_DIM_LABELS[d] || d);
+  sub.textContent = `Share of ${scored.length} scored entries at each score level. A bar that is one solid block means that dimension gives every entry the same score and cannot separate one use case from another.`
+    + (flat.length ? ` Single-value dimensions in view: ${flat.join(", ")}.` : "");
+  charts["chart-tr-dist"] = new Chart(document.getElementById("chart-tr-dist").getContext("2d"), {
+    type: "bar",
+    data: {
+      labels: DREAD_DIMS.map(d => DREAD_DIM_LABELS[d] || d),
+      datasets: [1, 2, 3, 4, 5].map((s, si) => ({
+        label: `Score ${s}`, backgroundColor: shades[si], borderColor: "#ffffff", borderWidth: 1,
+        data: counts.map(c => +(100 * c[si] / scored.length).toFixed(1)), counts: counts.map(c => c[si]),
+      })),
+    },
+    options: {
+      indexAxis: "y", responsive: true, maintainAspectRatio: false,
+      plugins: { legend: TR_LEGEND, tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.dataset.counts[c.dataIndex]} entries (${c.raw}%)` } } },
+      scales: {
+        x: { ...TR_AXIS, stacked: true, min: 0, max: 100, ticks: { ...TR_AXIS.ticks, callback: v => v + "%" } },
+        y: { stacked: true, grid: { display: false }, ticks: { color: TR_INK, font: TR_FONT } },
+      },
+    },
+  });
+}
+
+/* 3. DREAD profile heatmap: context rows × dimension columns, mean score with n. */
+function renderTrialProfile(entries){
+  const by = document.getElementById("tr-prof-by").value;
+  const table = document.getElementById("tr-prof");
+  table.innerHTML = "";
+  const scored = entries.filter(e => e.dread_score);
+  if (!scored.length){ table.innerHTML = '<tr><td class="zero">No entries in view have a DREAD score.</td></tr>'; return; }
+  let groups, member, label;
+  if (by === "use_status"){
+    groups = ["identified", "proposed", ""].filter(s => scored.some(e => statusOf(e) === s));
+    member = (e, g) => statusOf(e) === g; label = g => g ? USE_STATUSES[g].label : "Unset";
+  } else {
+    groups = activeGroups(scored, by);
+    member = (e, g) => contextGroupsOf(e, by).includes(g); label = g => groupLabel(by, g);
+  }
+  const cols = [...DREAD_DIMS, "total"];
+  const head = document.createElement("tr");
+  head.appendChild(document.createElement("th"));
+  [...cols.map(c => c === "total" ? "Total (of 25)" : (DREAD_DIM_LABELS[c] || c)), "n"].forEach(t => {
+    const th = document.createElement("th"); th.className = "col-head"; th.textContent = t; head.appendChild(th);
+  });
+  table.appendChild(head);
+  const addRow = (name, subset, isAll) => {
+    const tr = document.createElement("tr");
+    if (isAll) tr.className = "heat-total-row";
+    const th = document.createElement("th"); th.textContent = name; tr.appendChild(th);
+    cols.forEach(c => {
+      const vals = subset.map(e => dreadScoreOf(e, c)).filter(v => v != null);
+      const m = trMean(vals), td = document.createElement("td");
+      td.textContent = m == null ? "–" : m.toFixed(c === "total" ? 1 : 2);
+      if (m == null) td.className = "zero";
+      else trHeatCell(td, c === "total" ? (m - 5) / 20 : (m - 1) / 4);
+      if (subset.length < 3) td.style.fontStyle = "italic";
+      td.title = m == null ? "" : `${name}, ${c}: mean ${m.toFixed(2)}, sd ${trSd(vals).toFixed(2)}, n ${vals.length}`;
+      tr.appendChild(td);
+    });
+    const tn = document.createElement("td"); tn.className = "zero"; tn.textContent = subset.length; tr.appendChild(tn);
+    table.appendChild(tr);
+  };
+  groups.forEach(g => addRow(label(g), scored.filter(e => member(e, g)), false));
+  addRow("All in view", scored, true);
+}
+
+/* 4. STRIDE × ATLAS tactic co-occurrence. */
+function renderTrialStrideAtlas(entries){
+  const measure = document.getElementById("tr-sa-measure").value, pct = measure !== "count";
+  const table = document.getElementById("tr-sa");
+  table.innerHTML = "";
+  const tactics = ATLAS_TACTIC_ORDER.filter(t => entries.some(e => atlasTacticsOf(e).includes(t)));
+  const strides = STRIDE_CATEGORIES.filter(s => entries.some(e => (e.stride || []).includes(s)));
+  if (!tactics.length || !strides.length){ table.innerHTML = '<tr><td class="zero">No entries in view carry both STRIDE and ATLAS tags.</td></tr>'; return; }
+  const count = {}, rowN = {};
   entries.forEach(e => {
-    const ops = opGroupsOf(e), ts = atlasTacticsOf(e);
-    ops.forEach(o => ts.forEach(t => pairs.set(`${o}\u0000${t}`, (pairs.get(`${o}\u0000${t}`) || 0) + 1)));
+    const ts = atlasTacticsOf(e);
+    (e.stride || []).forEach(s => { rowN[s] = (rowN[s] || 0) + 1; ts.forEach(t => count[`${s}|${t}`] = (count[`${s}|${t}`] || 0) + 1); });
   });
-  document.getElementById("xc-sub").textContent = "Arcs on the left are Nuclear Operations groups (implicit), arcs on the right ATLAS tactics (adversarial); "
-    + "a ribbon's width is the number of entries tagged with both. Hover an arc to isolate its ribbons.";
-  if (!pairs.size){ host.innerHTML = '<div class="empty-svg">No entries in view carry both ATLAS and Nuclear Operations codes.</div>'; return; }
-
-  const weight = {};
-  pairs.forEach((v, k) => { const [o, t] = k.split("\u0000"); weight[o] = (weight[o] || 0) + v; weight[t] = (weight[t] || 0) + v; });
-  const nodes = [
-    ...opOrder.filter(o => weight[o]).map(o => ({ id: o, kind: "op", w: weight[o], name: OPERATIONAL_GROUPS_JS[o] || o })),
-    ...ATLAS_TACTIC_ORDER.filter(t => weight[t]).map(t => ({ id: t, kind: "atlas", w: weight[t], name: t })),
-  ];
-  // padA between neighbouring arcs, plus a wider blockGap where the Operations half meets the ATLAS
-  // half (top and bottom), so the two families read as separate sides.
-  const padA = 0.025, blockGap = 0.22, total = nodes.reduce((s, n) => s + n.w, 0);
-  const scale = (2 * Math.PI - padA * nodes.length - 2 * blockGap) / total;
-  let a = 0;
-  nodes.forEach((n, i) => {
-    if (i > 0 && n.kind !== nodes[i - 1].kind) a += blockGap;
-    n.a0 = a; n.a1 = a + n.w * scale; a = n.a1 + padA;
-  });
-  const opEnd = nodes.filter(n => n.kind === "op").reduce((m, n) => Math.max(m, n.a1), 0);
-  const shift = 1.5 * Math.PI - opEnd / 2;                    // centre the Operations arcs on the left
-  nodes.forEach(n => { n.a0 += shift; n.a1 += shift; n.cur = n.a0; });
-  const byId = Object.fromEntries(nodes.map(n => [n.id, n]));
-
-  const R = 200, pt = (r, ang) => `${(r * Math.sin(ang)).toFixed(2)},${(-r * Math.cos(ang)).toFixed(2)}`;
-  const svg = svgEl("svg", { viewBox: "-450 -255 900 510", role: "img" }, host);
-  const gRib = svgEl("g", {}, svg);
-  opOrder.forEach(o => ATLAS_TACTIC_ORDER.forEach(t => {
-    const v = pairs.get(`${o}\u0000${t}`); if (!v) return;
-    const s = byId[o], d = byId[t], sw = v * scale, dw = v * scale;
-    const s0 = s.cur, s1 = s.cur + sw; s.cur = s1;
-    const d0 = d.cur, d1 = d.cur + dw; d.cur = d1;
-    const path = svgEl("path", { class: "xc-ribbon", fill: opGroupColor(o), "data-a": o, "data-b": t,
-      d: `M${pt(R, s0)} A${R},${R} 0 0 1 ${pt(R, s1)} Q0,0 ${pt(R, d0)} A${R},${R} 0 0 1 ${pt(R, d1)} Q0,0 ${pt(R, s0)} Z` }, gRib);
-    svgTitle(path, `${s.name} ↔ ${t}: ${v} entr${v === 1 ? "y" : "ies"}`);
-  }));
-  nodes.forEach(n => {
-    const large = n.a1 - n.a0 > Math.PI ? 1 : 0, r0 = R + 3, r1 = R + 17;
-    const arc = svgEl("path", { class: "xc-arc", fill: n.kind === "op" ? opGroupColor(n.id) : XC_ATLAS,
-      d: `M${pt(r1, n.a0)} A${r1},${r1} 0 ${large} 1 ${pt(r1, n.a1)} L${pt(r0, n.a1)} A${r0},${r0} 0 ${large} 0 ${pt(r0, n.a0)} Z` }, svg);
-    svgTitle(arc, `${n.name} — ${n.w} ${n.kind === "op" ? "Operations–ATLAS" : "ATLAS–Operations"} link${n.w === 1 ? "" : "s"}`);
-    arc.addEventListener("mouseenter", () => {
-      host.classList.add("focus");
-      gRib.querySelectorAll(".xc-ribbon").forEach(r => r.classList.toggle("on", r.dataset.a === n.id || r.dataset.b === n.id));
+  const rowTags = {};   // an entry usually has several tactics, so "% of entries" rows exceed 100%; "share" divides by tags
+  strides.forEach(s => rowTags[s] = tactics.reduce((n, t) => n + (count[`${s}|${t}`] || 0), 0));
+  const val = (s, t) => { const c = count[`${s}|${t}`] || 0;
+    if (measure === "share") return rowTags[s] ? 100 * c / rowTags[s] : 0;
+    return measure === "row" ? (rowN[s] ? 100 * c / rowN[s] : 0) : c; };
+  const shareInts = {};
+  if (measure === "share") strides.forEach(s => { const v = tactics.map(t => val(s, t)); shareInts[s] = v.some(x => x > 0) ? roundToHundred(v) : v; });
+  const max = Math.max(1, ...strides.flatMap(s => tactics.map(t => val(s, t))));
+  const head = document.createElement("tr");
+  head.appendChild(document.createElement("th"));
+  tactics.forEach(t => { const th = document.createElement("th"); th.className = "col-head"; th.textContent = t; th.title = ATLAS_TACTIC_DESCRIPTIONS_JS[t] || t; head.appendChild(th); });
+  table.appendChild(head);
+  strides.forEach(s => {
+    const tr = document.createElement("tr");
+    const th = document.createElement("th"); th.textContent = `${s} (${rowN[s] || 0})`; tr.appendChild(th);
+    tactics.forEach(t => {
+      const v = val(s, t), td = document.createElement("td");
+      td.textContent = measure === "share" ? shareInts[s][tactics.indexOf(t)] : (pct ? Math.round(v) : v);
+      if (!v) td.className = "zero"; else trHeatCell(td, v / max);
+      td.title = `${s} × ${t}: ${count[`${s}|${t}`] || 0} entries`;
+      tr.appendChild(td);
     });
-    arc.addEventListener("mouseleave", () => { host.classList.remove("focus"); gRib.querySelectorAll(".xc-ribbon.on").forEach(r => r.classList.remove("on")); });
-    const mid = (n.a0 + n.a1) / 2, lr = R + 24;
-    n.lx = lr * Math.sin(mid); n.ly = -lr * Math.cos(mid); n.right = Math.sin(mid) >= 0;
+    table.appendChild(tr);
   });
-  // Labels: nudge apart vertically on each side so small neighbouring arcs don't overprint, with a
-  // thin leader line from the arc when a label had to move.
-  [true, false].forEach(side => {
-    const ls = nodes.filter(n => n.right === side).sort((p, q) => p.ly - q.ly);
-    ls.forEach((n, i) => { n.ty = i === 0 ? n.ly : Math.max(n.ly, ls[i - 1].ty + 13); });
-    for (let i = ls.length - 1; i >= 0; i--){ // pull back up if pushed past the bottom
-      const limit = i === ls.length - 1 ? 240 : ls[i + 1].ty - 13;
-      if (ls[i].ty > limit) ls[i].ty = limit;
+}
+
+/* 5. Identified vs proposed: mean per DREAD dimension with ±1 SD whiskers. */
+function renderTrialStatus(entries){
+  destroyChart("chart-tr-status");
+  const groups = [["identified", "#1a1a1a"], ["proposed", "#a3201d"]]
+    .map(([st, col]) => ({ st, col, set: entries.filter(e => statusOf(e) === st && e.dread_score) })).filter(g => g.set.length);
+  const sub = document.getElementById("tr-status-sub");
+  if (!groups.length){ sub.textContent = "No scored entries with a use status in view."; return; }
+  const codeLine = groups.map(g => `${USE_STATUSES[g.st].label} n = ${g.set.length}, mean ${trFmt(trMean(g.set.map(e => atlasCodesOf(e).length)), 1)} ATLAS / ${trFmt(trMean(g.set.map(e => opCodesOf(e).length)), 1)} Nuclear Ops codes`).join("; ");
+  sub.textContent = `Mean DREAD score per dimension, whiskers ±1 SD. ${codeLine}. Do proposed applications get rated as riskier than ones already in service?`
+    + (groups.some(g => g.set.length < 10) ? " One group is small, so read differences cautiously." : "");
+  charts["chart-tr-status"] = new Chart(document.getElementById("chart-tr-status").getContext("2d"), {
+    type: "bar",
+    data: {
+      labels: DREAD_DIMS.map(d => DREAD_DIM_LABELS[d] || d),
+      datasets: groups.map(g => ({
+        label: `${USE_STATUSES[g.st].label} (${g.set.length})`, backgroundColor: g.col, borderRadius: 1,
+        data: DREAD_DIMS.map(d => +trMean(g.set.map(e => dreadScoreOf(e, d)).filter(v => v != null)).toFixed(2)),
+        stddev: DREAD_DIMS.map(d => trSd(g.set.map(e => dreadScoreOf(e, d)).filter(v => v != null))),
+      })),
+    },
+    plugins: [errorBarsPlugin],
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: TR_LEGEND },
+      scales: { y: { ...TR_AXIS, min: 0, max: 5 }, x: { grid: { display: false }, ticks: { color: TR_INK, font: TR_FONT } } },
+    },
+  });
+}
+
+/* 6. Evidence base: share of evidence items by source type, per use area. */
+const TR_SOURCE_ORDER = ["Peer-reviewed Journal", "IAEA Publication", "National or State Government Publication", "National Laboratory Publication",
+  "Think Tank Publication", "Conference Proceedings", "Industry Group Publication", "Non-governmental Organization", "arXiv Preprint", "Other"];
+const TR_SOURCE_COLOURS = ["#1a1a1a", "#3b5b8c", "#6f86ad", "#a9b8d0", "#6f7f3a", "#b4bd8f", "#b07a1c", "#d9bf86", "#c96a66", "#cfcfcf"];
+function renderTrialEvidence(entries){
+  destroyChart("chart-tr-ev");
+  const items = e => evidenceForBasis(e);
+  const sub = document.getElementById("tr-ev-sub");
+  const all = entries.flatMap(items);
+  if (!all.length){ sub.textContent = "No evidence items in view."; return; }
+  const types = [...TR_SOURCE_ORDER, ...new Set(all.map(ev => ev.source_type || "Other"))].filter((t, i, a) => a.indexOf(t) === i && all.some(ev => (ev.source_type || "Other") === t));
+  const groups = activeGroups(entries, "use_area");
+  const rows = [...groups.map(g => ({ name: g, list: entries.filter(e => e.use_area === g).flatMap(items) })), { name: "All in view", list: all }];
+  const share = t => all.filter(ev => (ev.source_type || "Other") === t).length / all.length * 100;
+  const archival = share("Peer-reviewed Journal") + share("IAEA Publication") + share("National or State Government Publication") + share("Think Tank Publication");
+  sub.textContent = `${all.length} evidence items. ${share("Peer-reviewed Journal").toFixed(0)}% peer-reviewed journal; ${archival.toFixed(0)}% from journals, IAEA, government (e.g. NRC) or think-tank sources; ${share("arXiv Preprint").toFixed(0)}% arXiv preprints. Bar labels give item counts.`;
+  charts["chart-tr-ev"] = new Chart(document.getElementById("chart-tr-ev").getContext("2d"), {
+    type: "bar",
+    data: {
+      labels: rows.map(r => `${r.name} (${r.list.length})`),
+      datasets: types.map(t => {
+        const ci = TR_SOURCE_ORDER.indexOf(t);
+        return {
+          label: t, backgroundColor: TR_SOURCE_COLOURS[ci < 0 ? TR_SOURCE_COLOURS.length - 1 : ci], borderColor: "#ffffff", borderWidth: 1,
+          counts: rows.map(r => r.list.filter(ev => (ev.source_type || "Other") === t).length),
+          data: rows.map(r => r.list.length ? +(100 * r.list.filter(ev => (ev.source_type || "Other") === t).length / r.list.length).toFixed(1) : 0),
+        };
+      }),
+    },
+    options: {
+      indexAxis: "y", responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { ...TR_LEGEND, labels: { ...TR_LEGEND.labels, font: { ...TR_FONT, size: 10 } } },
+        tooltip: { callbacks: { label: c => `${c.dataset.label}: ${c.dataset.counts[c.dataIndex]} (${c.raw}%)` } } },
+      scales: {
+        x: { ...TR_AXIS, stacked: true, min: 0, max: 100, ticks: { ...TR_AXIS.ticks, callback: v => v + "%" } },
+        y: { stacked: true, grid: { display: false }, ticks: { color: TR_INK, font: TR_FONT } },
+      },
+    },
+  });
+}
+
+/* 7. Pareto: how concentrated tagging is on a few codes. */
+function renderTrialPareto(entries){
+  destroyChart("chart-tr-par");
+  const src = document.getElementById("tr-par-src").value, roll = document.getElementById("tr-par-roll").value === "root";
+  const counts = {}, kind = {};
+  entries.forEach(e => {
+    const add = (codes, k) => [...new Set(codes)].forEach(c => { counts[c] = (counts[c] || 0) + 1; kind[c] = k; });
+    if (src !== "op") add(atlasCodesOf(e).map(c => roll ? atlasRootId(c) : c), "atlas");
+    if (src !== "atlas") add(opCodesOf(e).map(c => roll ? operationalRootId(c) : c), "op");
+  });
+  const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  const sub = document.getElementById("tr-par-sub");
+  if (!sorted.length){ sub.textContent = "No codes in view."; return; }
+  const total = sorted.reduce((s, [, n]) => s + n, 0);
+  let run = 0;
+  const cum = sorted.map(([, n]) => +(100 * (run += n) / total).toFixed(1));
+  const k80 = cum.findIndex(v => v >= 80) + 1;
+  const shown = sorted.slice(0, 30);
+  const nameOf = c => kind[c] === "atlas" ? ((ATLAS_CATALOG[c] || {}).atlas_name || c) : ((OPERATIONAL_CATALOG[c] || {}).op_name || c);
+  sub.textContent = `${sorted.length} distinct codes, ${total} tags. The top ${k80} code${k80 === 1 ? "" : "s"} (${(100 * k80 / sorted.length).toFixed(0)}% of codes in use) account for 80% of tags. Red bars are ATLAS (adversarial), blue bars Nuclear Operations (implicit); the line is cumulative share.`
+    + (sorted.length > 30 ? " Top 30 shown." : "");
+  charts["chart-tr-par"] = new Chart(document.getElementById("chart-tr-par").getContext("2d"), {
+    data: {
+      labels: shown.map(([c]) => c),
+      datasets: [
+        { type: "line", label: "Cumulative share", data: cum.slice(0, shown.length), yAxisID: "y2", borderColor: TR_INK, borderWidth: 1.25, pointRadius: 2, pointBackgroundColor: TR_INK, tension: 0 },
+        { type: "bar", label: "Entries tagged", data: shown.map(([, n]) => n), yAxisID: "y", backgroundColor: shown.map(([c]) => kind[c] === "atlas" ? "#a3201d" : "#3b5b8c"), borderRadius: 1 },
+      ],
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { callbacks: { title: items => `${items[0].label}: ${nameOf(items[0].label)}`, label: c => c.dataset.type === "line" ? `Cumulative: ${c.raw}%` : `Entries: ${c.raw}` } } },
+      scales: {
+        x: { grid: { display: false }, ticks: { color: TR_DIM, font: { ...TR_FONT, size: 10 }, maxRotation: 70, minRotation: 50 } },
+        y: { ...TR_AXIS, beginAtZero: true, ticks: { ...TR_AXIS.ticks, precision: 0 }, title: TR_TITLE("Entries tagged") },
+        y2: { position: "right", min: 0, max: 100, grid: { display: false }, ticks: { color: TR_DIM, font: TR_FONT, callback: v => v + "%" } },
+      },
+    },
+  });
+}
+
+function renderTrial(entries){
+  renderTrialCorrelation(entries);
+  renderTrialDreadDistribution(entries);
+  renderTrialProfile(entries);
+  renderTrialStrideAtlas(entries);
+  renderTrialStatus(entries);
+  renderTrialEvidence(entries);
+  renderTrialPareto(entries);
+}
+["tr-x", "tr-y", "tr-prof-by", "tr-sa-measure", "tr-par-src", "tr-par-roll"]
+  .forEach(id => document.getElementById(id).addEventListener("change", () => { if (allEntries.length) renderTrial(filteredEntries()); }));
+
+/* =========================== DASHBOARD SUB-TABS + FILTER DRAWER =========================== */
+function syncHeaderHeight(){
+  const h = document.querySelector("header");
+  if (h) document.documentElement.style.setProperty("--header-h", h.offsetHeight + "px");
+  // Height left for a dashboard tab once the header, tab bar and footer are in place, so the
+  // non-Trial tabs fit the window with no page scroll. Measured from the document top, not the
+  // current scroll position, so it is stable whichever tab was scrolled last.
+  const lv = document.getElementById("loaded-view");
+  const ft = document.querySelector("footer");
+  if (lv && lv.offsetParent){
+    const top = lv.getBoundingClientRect().top + window.scrollY;
+    const avail = window.innerHeight - top - (ft ? ft.offsetHeight : 0) - 32 - 2;
+    document.documentElement.style.setProperty("--pane-h", Math.max(440, Math.floor(avail)) + "px");
+  }
+}
+window.addEventListener("resize", syncHeaderHeight);
+syncHeaderHeight();
+
+document.querySelectorAll(".dash-tab").forEach(btn => {
+  btn.addEventListener("click", () => {
+    document.querySelectorAll(".dash-tab").forEach(b => { b.classList.toggle("active", b === btn); b.setAttribute("aria-selected", b === btn); });
+    document.querySelectorAll(".dash-pane").forEach(p => p.classList.toggle("active", p.dataset.pane === btn.dataset.pane));
+    document.body.classList.toggle("dash-scroll", btn.dataset.pane === "trial");
+    window.scrollTo(0, 0);
+    syncHeaderHeight();
+    // Charts drawn while their pane was hidden have zero size; redraw now that it is visible.
+    if (allEntries.length) render();
+  });
+});
+
+function setFilterDrawer(open){
+  const drawer = document.getElementById("filter-drawer");
+  drawer.classList.toggle("open", open);
+  drawer.setAttribute("aria-hidden", !open);
+  document.getElementById("drawer-scrim").classList.toggle("open", open);
+  document.getElementById("filters-toggle").setAttribute("aria-expanded", open);
+  if (open) syncHeaderHeight();
+}
+document.getElementById("filters-toggle").addEventListener("click", () =>
+  setFilterDrawer(!document.getElementById("filter-drawer").classList.contains("open")));
+document.getElementById("filter-drawer-close").addEventListener("click", () => setFilterDrawer(false));
+document.getElementById("drawer-scrim").addEventListener("click", () => setFilterDrawer(false));
+document.addEventListener("keydown", evt => { if (evt.key === "Escape") setFilterDrawer(false); });
+
+function updateFilterSummary(entries){
+  const n = (USE_AREAS.some(u => !activeUseAreas.has(u)) ? 1 : 0)
+    + (FACILITY_DOMAINS.some(f => !activeFacilities.has(f)) ? 1 : 0)
+    + (useStatusFilter !== "all" ? 1 : 0) + (requireEvidenceUseCase ? 1 : 0)
+    + (activeNuclearFacilities && document.querySelectorAll("#nf-filters input:not(:checked)").length ? 1 : 0)
+    + (activeCountries && document.querySelectorAll("#cc-filters input:not(:checked)").length ? 1 : 0);
+  document.getElementById("filters-count").textContent = n ? `(${n} active)` : "";
+  document.getElementById("in-view-note").textContent = allEntries.length ? `${entries.length} of ${allEntries.length} entries in view` : "";
+}
+
+/* =========================== NUCLEAR FACILITIES AND AUTHOR COUNTRIES ===========================
+   nuclear_facility: one label per entry (reactor type, or the fuel-cycle facility / safeguards
+   activity the use case serves). Author countries come from evidence[].authors[].affiliations[],
+   filled by pipeline.py (OpenAlex, via nuclear_context.py) or by hand in the Editor. */
+const NUCLEAR_FACILITY_GROUPS = [
+  { group: "Reactors", colour: "#3b5b8c", types: [
+    "Pressurized Water Reactor (PWR)", "VVER (Russian-design PWR)", "Boiling Water Reactor (BWR)",
+    "Light Water Reactor (PWR or BWR unspecified)", "Pressurized Heavy Water Reactor (PHWR / CANDU)",
+    "High-Temperature Gas-cooled Reactor (HTGR)", "Sodium-cooled Fast Reactor (SFR)", "Molten Salt Reactor (MSR)",
+    "Microreactor", "Research Reactor", "Nuclear Reactor (unspecified)"] },
+  { group: "Fuel cycle, waste and decommissioning", colour: "#c0862a", types: [
+    "Enrichment Facility", "Fuel Manufacturing Facility", "Reprocessing Facility", "Waste Processing", "Transport",
+    "Interim Storage", "Geological Disposal", "Decommissioning"] },
+  { group: "Safeguards", colour: "#a3201d", types: ["Safeguards Verification and Monitoring"] },
+  { group: "Other", colour: "#8c8c8c", types: ["Cross-cutting (multiple facility types)", "Unclassified"] },
+];
+const NUCLEAR_FACILITY_TYPES = NUCLEAR_FACILITY_GROUPS.flatMap(g => g.types);
+const NF_GROUP_OF = Object.fromEntries(NUCLEAR_FACILITY_GROUPS.flatMap(g => g.types.map(t => [t, g])));
+const NF_SHORT = {
+  "Pressurized Water Reactor (PWR)": "PWR", "VVER (Russian-design PWR)": "VVER", "Boiling Water Reactor (BWR)": "BWR",
+  "Light Water Reactor (PWR or BWR unspecified)": "LWR (unspecified)", "Pressurized Heavy Water Reactor (PHWR / CANDU)": "PHWR / CANDU",
+  "High-Temperature Gas-cooled Reactor (HTGR)": "HTGR", "Sodium-cooled Fast Reactor (SFR)": "SFR", "Molten Salt Reactor (MSR)": "MSR",
+  "Nuclear Reactor (unspecified)": "Reactor (unspecified)", "Safeguards Verification and Monitoring": "Safeguards", "Cross-cutting (multiple facility types)": "Cross-cutting",
+};
+const nfShort = t => NF_SHORT[t] || t;
+const COUNTRY_NAMES_JS = {"AW":"Aruba","AF":"Afghanistan","AO":"Angola","AI":"Anguilla","AX":"\u00c5land Islands","AL":"Albania","AD":"Andorra","AE":"United Arab Emirates","AR":"Argentina","AM":"Armenia","AS":"American Samoa","AQ":"Antarctica","TF":"French Southern Territories","AG":"Antigua and Barbuda","AU":"Australia","AT":"Austria","AZ":"Azerbaijan","BI":"Burundi","BE":"Belgium","BJ":"Benin","BQ":"Bonaire, Sint Eustatius and Saba","BF":"Burkina Faso","BD":"Bangladesh","BG":"Bulgaria","BH":"Bahrain","BS":"Bahamas","BA":"Bosnia and Herzegovina","BL":"Saint Barth\u00e9lemy","BY":"Belarus","BZ":"Belize","BM":"Bermuda","BO":"Bolivia","BR":"Brazil","BB":"Barbados","BN":"Brunei Darussalam","BT":"Bhutan","BV":"Bouvet Island","BW":"Botswana","CF":"Central African Republic","CA":"Canada","CC":"Cocos (Keeling) Islands","CH":"Switzerland","CL":"Chile","CN":"China","CI":"C\u00f4te d'Ivoire","CM":"Cameroon","CD":"Congo, The Democratic Republic of the","CG":"Congo","CK":"Cook Islands","CO":"Colombia","KM":"Comoros","CV":"Cabo Verde","CR":"Costa Rica","CU":"Cuba","CW":"Cura\u00e7ao","CX":"Christmas Island","KY":"Cayman Islands","CY":"Cyprus","CZ":"Czechia","DE":"Germany","DJ":"Djibouti","DM":"Dominica","DK":"Denmark","DO":"Dominican Republic","DZ":"Algeria","EC":"Ecuador","EG":"Egypt","ER":"Eritrea","EH":"Western Sahara","ES":"Spain","EE":"Estonia","ET":"Ethiopia","FI":"Finland","FJ":"Fiji","FK":"Falkland Islands (Malvinas)","FR":"France","FO":"Faroe Islands","FM":"Micronesia, Federated States of","GA":"Gabon","GB":"United Kingdom","GE":"Georgia","GG":"Guernsey","GH":"Ghana","GI":"Gibraltar","GN":"Guinea","GP":"Guadeloupe","GM":"Gambia","GW":"Guinea-Bissau","GQ":"Equatorial Guinea","GR":"Greece","GD":"Grenada","GL":"Greenland","GT":"Guatemala","GF":"French Guiana","GU":"Guam","GY":"Guyana","HK":"Hong Kong","HM":"Heard Island and McDonald Islands","HN":"Honduras","HR":"Croatia","HT":"Haiti","HU":"Hungary","ID":"Indonesia","IM":"Isle of Man","IN":"India","IO":"British Indian Ocean Territory","IE":"Ireland","IR":"Iran","IQ":"Iraq","IS":"Iceland","IL":"Israel","IT":"Italy","JM":"Jamaica","JE":"Jersey","JO":"Jordan","JP":"Japan","KZ":"Kazakhstan","KE":"Kenya","KG":"Kyrgyzstan","KH":"Cambodia","KI":"Kiribati","KN":"Saint Kitts and Nevis","KR":"South Korea","KW":"Kuwait","LA":"Laos","LB":"Lebanon","LR":"Liberia","LY":"Libya","LC":"Saint Lucia","LI":"Liechtenstein","LK":"Sri Lanka","LS":"Lesotho","LT":"Lithuania","LU":"Luxembourg","LV":"Latvia","MO":"Macao","MF":"Saint Martin (French part)","MA":"Morocco","MC":"Monaco","MD":"Moldova","MG":"Madagascar","MV":"Maldives","MX":"Mexico","MH":"Marshall Islands","MK":"North Macedonia","ML":"Mali","MT":"Malta","MM":"Myanmar","ME":"Montenegro","MN":"Mongolia","MP":"Northern Mariana Islands","MZ":"Mozambique","MR":"Mauritania","MS":"Montserrat","MQ":"Martinique","MU":"Mauritius","MW":"Malawi","MY":"Malaysia","YT":"Mayotte","NA":"Namibia","NC":"New Caledonia","NE":"Niger","NF":"Norfolk Island","NG":"Nigeria","NI":"Nicaragua","NU":"Niue","NL":"Netherlands","NO":"Norway","NP":"Nepal","NR":"Nauru","NZ":"New Zealand","OM":"Oman","PK":"Pakistan","PA":"Panama","PN":"Pitcairn","PE":"Peru","PH":"Philippines","PW":"Palau","PG":"Papua New Guinea","PL":"Poland","PR":"Puerto Rico","KP":"North Korea","PT":"Portugal","PY":"Paraguay","PS":"Palestine, State of","PF":"French Polynesia","QA":"Qatar","RE":"R\u00e9union","RO":"Romania","RU":"Russia","RW":"Rwanda","SA":"Saudi Arabia","SD":"Sudan","SN":"Senegal","SG":"Singapore","GS":"South Georgia and the South Sandwich Islands","SH":"Saint Helena, Ascension and Tristan da Cunha","SJ":"Svalbard and Jan Mayen","SB":"Solomon Islands","SL":"Sierra Leone","SV":"El Salvador","SM":"San Marino","SO":"Somalia","PM":"Saint Pierre and Miquelon","RS":"Serbia","SS":"South Sudan","ST":"Sao Tome and Principe","SR":"Suriname","SK":"Slovakia","SI":"Slovenia","SE":"Sweden","SZ":"Eswatini","SX":"Sint Maarten (Dutch part)","SC":"Seychelles","SY":"Syria","TC":"Turks and Caicos Islands","TD":"Chad","TG":"Togo","TH":"Thailand","TJ":"Tajikistan","TK":"Tokelau","TM":"Turkmenistan","TL":"Timor-Leste","TO":"Tonga","TT":"Trinidad and Tobago","TN":"Tunisia","TR":"T\u00fcrkiye","TV":"Tuvalu","TW":"Taiwan","TZ":"Tanzania","UG":"Uganda","UA":"Ukraine","UM":"United States Minor Outlying Islands","UY":"Uruguay","US":"United States","UZ":"Uzbekistan","VA":"Holy See (Vatican City State)","VC":"Saint Vincent and the Grenadines","VE":"Venezuela","VG":"Virgin Islands, British","VI":"Virgin Islands, U.S.","VN":"Vietnam","VU":"Vanuatu","WF":"Wallis and Futuna","WS":"Samoa","YE":"Yemen","ZA":"South Africa","ZM":"Zambia","ZW":"Zimbabwe","INT":"International organization"};
+const NO_COUNTRY = "NONE";
+const countryLabel = c => c === NO_COUNTRY ? "No affiliation data yet" : (COUNTRY_NAMES_JS[c] || c);
+const FUNDING_LOOKUP_STATUSES = ["pending", "found", "none_listed", "not_found", "organization_publication", "manual"];
+const AUTHOR_LOOKUP_STATUSES = ["pending", "resolved", "partial", "no_affiliations", "affiliations_withheld", "not_found", "organization_author", "manual"];
+
+function facilityOf(e){ return NUCLEAR_FACILITY_TYPES.includes(e.nuclear_facility) ? e.nuclear_facility : "Unclassified"; }
+// All evidence is use-case evidence (vulnerability evidence was removed from the taxonomy).
+function evidenceForBasis(e){ return (e.evidence || []).filter(ev => ev && (!ev.evidence_for || ev.evidence_for === "use_case")); }
+function countriesOf(e, basis){
+  const s = new Set();
+  evidenceForBasis(e, basis).forEach(ev => (ev.authors || []).forEach(a => (a.affiliations || []).forEach(f => { if (f.country_code) s.add(f.country_code); })));
+  return s.size ? [...s] : [NO_COUNTRY];
+}
+function countryBasis(){ return "use_case"; }
+
+let activeNuclearFacilities = null;   // null = no filter; Set once a file is loaded
+let activeCountries = null;
+function passesNuclearFilters(e){
+  if (activeNuclearFacilities && !activeNuclearFacilities.has(facilityOf(e))) return false;
+  if (activeCountries && !countriesOf(e, countryBasis()).some(c => activeCountries.has(c))) return false;
+  return true;
+}
+
+function checklist(boxId, items, set, onChange){
+  const box = document.getElementById(boxId);
+  box.innerHTML = "";
+  items.forEach(({ value, label, count }) => {
+    const row = document.createElement("label");
+    row.className = "toggle-row" + (set.has(value) ? "" : " off");
+    const cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = set.has(value);
+    const span = document.createElement("span"); span.textContent = count != null ? `${label} (${count})` : label;
+    cb.addEventListener("change", () => { cb.checked ? set.add(value) : set.delete(value); row.classList.toggle("off", !cb.checked); onChange(); });
+    row.appendChild(cb); row.appendChild(span); box.appendChild(row);
+  });
+}
+function buildNuclearFilterUI(){
+  const nfCount = {}; allEntries.forEach(e => nfCount[facilityOf(e)] = (nfCount[facilityOf(e)] || 0) + 1);
+  const nfItems = NUCLEAR_FACILITY_TYPES.filter(t => nfCount[t]).map(t => ({ value: t, label: nfShort(t), count: nfCount[t] }));
+  activeNuclearFacilities = new Set(nfItems.map(i => i.value));
+  checklist("nf-filters", nfItems, activeNuclearFacilities, () => { clearEditorSelection(); render(); });
+  buildCountryFilterUI();
+}
+function buildCountryFilterUI(){
+  const basis = countryBasis(), cnt = {};
+  allEntries.forEach(e => countriesOf(e, basis).forEach(c => cnt[c] = (cnt[c] || 0) + 1));
+  const codes = Object.keys(cnt).filter(c => c !== NO_COUNTRY).sort((a, b) => cnt[b] - cnt[a] || countryLabel(a).localeCompare(countryLabel(b)));
+  if (cnt[NO_COUNTRY]) codes.push(NO_COUNTRY);
+  activeCountries = new Set(codes);
+  checklist("cc-filters", codes.map(c => ({ value: c, label: countryLabel(c), count: cnt[c] })), activeCountries, () => { clearEditorSelection(); render(); });
+  buildScatterCountryOptions();
+}
+[["nf-toggle-all", "nf-filters", () => activeNuclearFacilities], ["cc-toggle-all", "cc-filters", () => activeCountries]].forEach(([btnId, boxId, getSet]) => {
+  document.getElementById(btnId).addEventListener("click", () => {
+    const set = getSet(); if (!set) return;
+    const boxes = [...document.querySelectorAll(`#${boxId} input`)];
+    const allOn = boxes.every(b => b.checked);
+    boxes.forEach(b => { if (b.checked === allOn) b.click(); });
+  });
+});
+
+/* ---- panel 1: entries per facility type ---- */
+function renderNuclearFacilityChart(entries){
+  destroyChart("chart-nf");
+  const stack = document.getElementById("nf-stack").value;
+  const types = NUCLEAR_FACILITY_TYPES.filter(t => entries.some(e => facilityOf(e) === t));
+  const sub = document.getElementById("nf-sub");
+  if (!types.length){ sub.textContent = "No entries in view."; return; }
+  const reactors = entries.filter(e => NF_GROUP_OF[facilityOf(e)].group === "Reactors").length;
+  sub.textContent = `${entries.length} entries: ${reactors} reactor, ${entries.length - reactors} fuel-cycle, waste, decommissioning, safeguards or cross-cutting. `
+    + `"Reactor (unspecified)" is not a reactor type: it holds reactor use cases whose source does not state the type.`;
+  let datasets;
+  if (stack === "none"){
+    datasets = [{ data: types.map(t => entries.filter(e => facilityOf(e) === t).length), backgroundColor: types.map(t => NF_GROUP_OF[t].colour), borderRadius: 1 }];
+  } else {
+    const groups = stack === "use_area" ? USE_AREAS : ["identified", "proposed", ""];
+    const lab = g => stack === "use_area" ? g : (g ? USE_STATUSES[g].label : "Unset");
+    const member = (e, g) => stack === "use_area" ? e.use_area === g : statusOf(e) === g;
+    datasets = groups.map((g, i) => ({ label: lab(g), backgroundColor: GROUP_PALETTE[i % GROUP_PALETTE.length], borderRadius: 1,
+      data: types.map(t => entries.filter(e => facilityOf(e) === t && member(e, g)).length) })).filter(d => d.data.some(v => v));
+  }
+  charts["chart-nf"] = new Chart(document.getElementById("chart-nf").getContext("2d"), {
+    type: "bar", data: { labels: types.map(nfShort), datasets },
+    options: {
+      indexAxis: "y", responsive: true, maintainAspectRatio: false,
+      plugins: {
+        legend: stack === "none"
+          ? { ...TR_LEGEND, labels: { ...TR_LEGEND.labels, generateLabels: () => NUCLEAR_FACILITY_GROUPS.filter(g => g.types.some(t => types.includes(t)))
+                .map(g => ({ text: g.group, fillStyle: g.colour, strokeStyle: g.colour, lineWidth: 0 })) }, onClick: () => {} }
+          : TR_LEGEND,
+        tooltip: { callbacks: { title: it => types[it[0].dataIndex] } },
+      },
+      scales: { x: { ...TR_AXIS, stacked: stack !== "none", beginAtZero: true, ticks: { ...TR_AXIS.ticks, precision: 0 } },
+                y: { stacked: stack !== "none", grid: { display: false }, ticks: { color: TR_INK, font: { ...TR_FONT, size: types.length > 12 ? 10 : 11 }, autoSkip: false } } },
+    },
+  });
+}
+
+/* ---- panel 2: author affiliation countries ---- */
+function renderCountryChart(entries){
+  destroyChart("chart-cc");
+  const basis = countryBasis(), measure = document.getElementById("cc-measure").value;
+  const evs = entries.flatMap(e => evidenceForBasis(e, basis));
+  const resolved = evs.filter(ev => (ev.authors || []).some(a => (a.affiliations || []).some(f => f.country_code)));
+  const sub = document.getElementById("cc-sub");
+  const basisTxt = "use-case evidence";
+  sub.textContent = `Affiliations known for ${resolved.length} of ${evs.length} ${basisTxt} items in view (${evs.length ? Math.round(100 * resolved.length / evs.length) : 0}%). `
+    + (measure === "entries" ? "An entry counts once for every country among its authors." : measure === "pubs" ? "A publication counts once for every country among its authors." : "Each author-affiliation pair counts once.");
+  const empty = document.getElementById("cc-empty");
+  empty.style.display = resolved.length ? "none" : "block";
+  if (!resolved.length) return;
+  const cnt = {};
+  if (measure === "entries") entries.forEach(e => countriesOf(e, basis).forEach(c => cnt[c] = (cnt[c] || 0) + 1));
+  else if (measure === "pubs") evs.forEach(ev => { const s = new Set(); (ev.authors || []).forEach(a => (a.affiliations || []).forEach(f => f.country_code && s.add(f.country_code))); (s.size ? [...s] : [NO_COUNTRY]).forEach(c => cnt[c] = (cnt[c] || 0) + 1); });
+  else evs.forEach(ev => (ev.authors || []).forEach(a => (a.affiliations || []).forEach(f => { if (f.country_code) cnt[f.country_code] = (cnt[f.country_code] || 0) + 1; })));
+  const codes = Object.keys(cnt).filter(c => c !== NO_COUNTRY).sort((a, b) => cnt[b] - cnt[a]).slice(0, 20);
+  if (cnt[NO_COUNTRY]) codes.push(NO_COUNTRY);
+  charts["chart-cc"] = new Chart(document.getElementById("chart-cc").getContext("2d"), {
+    type: "bar",
+    data: { labels: codes.map(countryLabel), datasets: [{ data: codes.map(c => cnt[c]), backgroundColor: codes.map(c => c === NO_COUNTRY ? "#cfcfcf" : c === "INT" ? "#6f7f3a" : "#3b5b8c"), borderRadius: 1, maxBarThickness: 22 }] },
+    options: { indexAxis: "y", responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } },
+      scales: { x: { ...TR_AXIS, beginAtZero: true, ticks: { ...TR_AXIS.ticks, precision: 0 } }, y: { grid: { display: false }, ticks: { color: TR_INK, font: { ...TR_FONT, size: codes.length > 14 ? 10 : 11 }, autoSkip: false } } } },
+  });
+}
+
+/* ---- panels 3 and 4: facility type or country (rows) × any taxonomy dimension (columns) ---- */
+const CROSS_DIMS = {
+  stride:       { label: "STRIDE", cols: () => STRIDE_CATEGORIES, of: e => e.stride || [] },
+  dread:        { label: "DREAD (mean)", cols: () => [...DREAD_DIMS, "total"], mean: true },
+  atlas_tactic: { label: "ATLAS tactics", cols: () => ATLAS_TACTIC_ORDER, of: atlasTacticsOf },
+  op_group:     { label: "Nuclear Ops groups", cols: () => Object.keys(OPERATIONAL_GROUPS_JS).sort(), of: opGroupsOf, colLabel: g => OPERATIONAL_GROUPS_JS[g] || g },
+  use_area:     { label: "Use area", cols: () => USE_AREAS, of: e => [e.use_area] },
+  use_status:   { label: "Use status", cols: () => ["identified", "proposed"], of: e => [statusOf(e)], colLabel: s => USE_STATUSES[s].label },
+  facility:     { label: "Nuclear facility", cols: () => NUCLEAR_FACILITY_TYPES, of: e => [facilityOf(e)], colLabel: nfShort },
+};
+/* Round a row of percentages to integers that still sum to exactly 100 (largest remainder). */
+function roundToHundred(vals){
+  const fl = vals.map(v => Math.floor(v)), short = 100 - fl.reduce((a, b) => a + b, 0);
+  const order = vals.map((v, i) => [v - fl[i], i]).filter(([, i]) => vals[i] > 0).sort((a, b) => b[0] - a[0]);
+  for (let k = 0; k < short && k < order.length; k++) fl[order[k][1]] += 1;
+  return fl;
+}
+function renderCrossHeat(tableId, rows, dimKey, norm, rowHeader){
+  const pct = norm !== "count";
+  const dim = CROSS_DIMS[dimKey], table = document.getElementById(tableId);
+  table.innerHTML = "";
+  rows = rows.filter(r => r.entries.length);
+  if (!rows.length){ table.innerHTML = '<tr><td class="zero">No entries in view.</td></tr>'; return; }
+  const all = rows.flatMap(r => r.entries);
+  let cols = dim.cols();
+  if (!dim.mean) cols = cols.filter(c => all.some(e => dim.of(e).includes(c)));
+  const colLabel = c => dim.mean ? (c === "total" ? "Total" : (DREAD_DIM_LABELS[c] || c)) : (dim.colLabel ? dim.colLabel(c) : c);
+  const val = (r, c) => {
+    if (dim.mean){ const v = r.entries.map(e => dreadScoreOf(e, c)).filter(x => x != null); return v.length ? trMean(v) : null; }
+    const n = r.entries.filter(e => dim.of(e).includes(c)).length;
+    if (norm === "pct") return 100 * n / r.entries.length;
+    if (norm === "share"){   // a use case can carry several categories: divide by the row's tag total
+      const tot = r.tagTotal ??= cols.reduce((s, cc) => s + r.entries.filter(e => dim.of(e).includes(cc)).length, 0);
+      return tot ? 100 * n / tot : 0;
     }
-    ls.forEach(n => {
-      const tx = n.lx + (side ? 6 : -6);
-      if (Math.abs(n.ty - n.ly) > 1.5) svgEl("path", { d: `M${n.lx.toFixed(1)},${n.ly.toFixed(1)} L${tx.toFixed(1)},${n.ty.toFixed(1)}`, stroke: "#4a5a6a", fill: "none" }, svg);
-      const t = svgEl("text", { x: tx.toFixed(1), y: n.ty.toFixed(1), "dominant-baseline": "middle", "text-anchor": side ? "start" : "end" }, svg);
-      t.textContent = n.name;
+    return n;
+  };
+  const max = dim.mean ? 1 : Math.max(1, ...rows.flatMap(r => cols.map(c => val(r, c) || 0)));
+  const head = document.createElement("tr");
+  const corner = document.createElement("th"); corner.textContent = rowHeader || ""; corner.className = "col-head"; head.appendChild(corner);
+  cols.forEach(c => { const th = document.createElement("th"); th.className = "col-head"; th.textContent = colLabel(c); head.appendChild(th); });
+  table.appendChild(head);
+  if (norm === "share" && !dim.mean) rows.forEach(r => { const v = cols.map(c => val(r, c) || 0); r.shareInts = v.some(x => x > 0) ? roundToHundred(v) : v; });
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+    const th = document.createElement("th"); th.textContent = `${r.label} (${r.entries.length})`; th.title = r.title || r.label; tr.appendChild(th);
+    if (r.muted) th.classList.add("muted-row");
+    cols.forEach(c => {
+      const v = val(r, c), td = document.createElement("td");
+      if (v == null || v === 0){ td.className = "zero"; td.textContent = v == null ? "–" : "0"; }
+      else {
+        td.textContent = dim.mean ? v.toFixed(c === "total" ? 1 : 2) : (norm === "share" ? r.shareInts[cols.indexOf(c)] : (pct ? Math.round(v) : v));
+        trHeatCell(td, dim.mean ? (c === "total" ? (v - 5) / 20 : (v - 1) / 4) : v / max, r.muted ? "140,140,140" : "59,91,140");
+      }
+      if (r.entries.length < 3) td.style.fontStyle = "italic";
+      tr.appendChild(td);
     });
+    table.appendChild(tr);
   });
+}
+function renderNuclearTab(entries){
+  renderNuclearFacilityChart(entries);
+  renderCountryChart(entries);
+  const nfDim = document.getElementById("nf-dim").value, nfPct = document.getElementById("nf-norm").value;
+  renderCrossHeat("nf-heat", NUCLEAR_FACILITY_TYPES.map(t => ({ label: nfShort(t), title: t, entries: entries.filter(e => facilityOf(e) === t) })), nfDim, nfPct, "Facility (entries)");
+  const basis = countryBasis(), ccDim = document.getElementById("cc-dim").value, ccPct = document.getElementById("cc-norm").value;
+  const cnt = {}; entries.forEach(e => countriesOf(e, basis).forEach(c => cnt[c] = (cnt[c] || 0) + 1));
+  const codes = Object.keys(cnt).filter(c => c !== NO_COUNTRY).sort((a, b) => cnt[b] - cnt[a]).slice(0, 15);
+  if (cnt[NO_COUNTRY]) codes.push(NO_COUNTRY);
+  renderCrossHeat("cc-heat", codes.map(c => ({ label: countryLabel(c), entries: entries.filter(e => countriesOf(e, basis).includes(c)), muted: c === NO_COUNTRY })), ccDim, ccPct, "Country (entries)");
+  ["nf-norm", "cc-norm"].forEach(id => {
+    const dimKey = document.getElementById(id.replace("norm", "dim")).value, norm = document.getElementById(id).value;
+    document.getElementById(id).disabled = dimKey === "dread";
+    document.getElementById(id.replace("norm", "heat-note")).textContent = heatNote(dimKey, norm);
+  });
+  renderCollabNetwork(entries);
+  renderCollabMatrix(entries);
+}
+const MULTI_LABEL_DIMS = new Set(["stride", "atlas_tactic", "op_group"]);
+function heatNote(dimKey, norm){
+  if (dimKey === "dread") return "Mean score per dimension (1 to 5; total out of 25).";
+  if (norm === "count") return "Use cases in each row tagged with each column.";
+  if (norm === "share") return MULTI_LABEL_DIMS.has(dimKey)
+    ? "Each row sums to 100%: the column's share of all the row's tags (a use case usually carries several)."
+    : "Each row sums to 100%.";
+  return MULTI_LABEL_DIMS.has(dimKey)
+    ? "% of the row's use cases tagged with each column. A use case can carry several, so rows add up to more than 100%."
+    : "% of the row's use cases in each column.";
+}
+["nf-stack", "cc-measure", "nf-dim", "nf-norm", "cc-dim", "cc-norm", "collab-mode"]
+  .forEach(id => document.getElementById(id).addEventListener("change", () => { if (allEntries.length) renderNuclearTab(filteredEntries()); }));
+
+/* ---- Editor: nuclear facility field + authors and affiliations per evidence item ---- */
+function nuclearFacilityEditor(e, touch){
+  const wrap = document.createElement("div");
+  const sel = document.createElement("select"); sel.className = "f-select";
+  const blank = document.createElement("option"); blank.value = ""; blank.textContent = "Unclassified"; sel.appendChild(blank);
+  NUCLEAR_FACILITY_GROUPS.forEach(g => {
+    const og = document.createElement("optgroup"); og.label = g.group;
+    g.types.filter(t => t !== "Unclassified").forEach(t => { const o = document.createElement("option"); o.value = t; o.textContent = t; if (e.nuclear_facility === t) o.selected = true; og.appendChild(o); });
+    sel.appendChild(og);
+  });
+  sel.addEventListener("change", () => { if (sel.value) e.nuclear_facility = sel.value; else delete e.nuclear_facility; touch(); });
+  const note = document.createElement("input"); note.className = "f-input"; note.placeholder = "Classification note (optional), e.g. why a borderline case sits here";
+  note.value = e.nuclear_facility_note || ""; note.style.marginTop = "6px";
+  note.addEventListener("input", () => { if (note.value.trim()) e.nuclear_facility_note = note.value; else delete e.nuclear_facility_note; touch(); });
+  wrap.appendChild(sel); wrap.appendChild(note);
+  return wrap;
+}
+function countrySelect(value, onChange){
+  const sel = document.createElement("select"); sel.className = "aa-country";
+  const o0 = document.createElement("option"); o0.value = ""; o0.textContent = "Country"; sel.appendChild(o0);
+  Object.entries(COUNTRY_NAMES_JS).sort((a, b) => a[1].localeCompare(b[1])).forEach(([c, n]) => {
+    const o = document.createElement("option"); o.value = c; o.textContent = n; if (c === value) o.selected = true; sel.appendChild(o);
+  });
+  sel.addEventListener("change", () => onChange(sel.value));
+  return sel;
+}
+function evidenceEditor(e, touch){
+  if (activeEditorTab === "authors") activeEditorTab = "evidence";
+  const host = document.createElement("div");
+  host.className = "aa-host";
+  function redraw(){
+    host.innerHTML = "";
+    const facHead = document.createElement("h3"); facHead.className = "ucd-head"; facHead.textContent = "Nuclear facility";
+    host.appendChild(facHead);
+    host.appendChild(nuclearFacilityEditor(e, touch));
+    const pubHead = document.createElement("h3"); pubHead.className = "ucd-head"; pubHead.textContent = "Evidence";
+    host.appendChild(pubHead);
+    const intro = document.createElement("div"); intro.className = "tab-intro";
+    intro.innerHTML = "Each source supporting this entry's <strong>use_case</strong> (that it is a real or credibly proposed deployment), "
+      + "with every author, their affiliations and countries, and the publication's funders. "
+      + "<strong>pipeline.py</strong> fills authors and funders from OpenAlex; anything you change here is marked <strong>manual</strong> so the script never overwrites it. "
+      + "A funding status of <em>none listed</em> means the publisher deposited no funder metadata, not that the work was unfunded.";
+    host.appendChild(intro);
+    if (!e.evidence) e.evidence = [];
+    (e.evidence || []).forEach((ev, j) => {
+      if (!ev) return;
+      ev.evidence_for = "use_case";
+      if (!ev.authors) ev.authors = [];
+      if (!ev.author_lookup) ev.author_lookup = { status: "pending" };
+      const markManual = () => { ev.author_lookup = { ...ev.author_lookup, status: "manual", source: "Editor" }; statusSel.value = "manual"; touch(); };
+      const card = document.createElement("div"); card.className = "aa-card";
+      const top = document.createElement("div"); top.className = "aa-head";
+      const num = document.createElement("div"); num.className = "ev-num"; num.textContent = `Source ${j + 1}`;
+      const rm = document.createElement("button"); rm.type = "button"; rm.className = "ev-remove"; rm.textContent = "Remove source";
+      rm.addEventListener("click", () => { e.evidence.splice(j, 1); touch(); redraw(); });
+      top.appendChild(num); top.appendChild(rm); card.appendChild(top);
+
+      const fields = document.createElement("div"); fields.className = "ev-fields";
+      const fld = (label, control, cls) => { const w = document.createElement("label"); w.className = "ev-field" + (cls ? " " + cls : "");
+        const l = document.createElement("span"); l.textContent = label; w.appendChild(l); w.appendChild(control); fields.appendChild(w); return control; };
+      const st = document.createElement("select");
+      ["", ...EVIDENCE_SOURCE_TYPES].forEach(t => { const o = document.createElement("option"); o.value = t; o.textContent = t || "Choose…"; if ((ev.source_type || "") === t) o.selected = true; st.appendChild(o); });
+      st.addEventListener("change", () => { ev.source_type = st.value; touch(); });
+      fld("Source type", st);
+      const url = document.createElement("input"); url.value = ev.url || ""; url.placeholder = "https://…";
+      url.addEventListener("input", () => { ev.url = url.value; touch(); });
+      fld("Link (URL)", url);
+      const cit = document.createElement("textarea"); cit.rows = 2; cit.value = ev.citation || ""; cit.placeholder = "Author/org (year), \"Title,\" Venue";
+      cit.addEventListener("input", () => { ev.citation = cit.value; touch(); });
+      fld("Citation / title", cit, "full");
+      const note = document.createElement("textarea"); note.rows = 2; note.value = ev.note || ""; note.placeholder = "Optional: what this source shows, in your own words";
+      note.addEventListener("input", () => { ev.note = note.value; touch(); });
+      fld("Note (optional)", note, "full");
+      card.appendChild(fields);
+
+      const head = document.createElement("div"); head.className = "aa-fhead";
+      const title = document.createElement("span"); title.textContent = "Authors and affiliations";
+      const statusSel = document.createElement("select"); statusSel.className = "aa-status";
+      AUTHOR_LOOKUP_STATUSES.forEach(s => { const o = document.createElement("option"); o.value = s; o.textContent = s.replace(/_/g, " "); if ((ev.author_lookup.status || "pending") === s) o.selected = true; statusSel.appendChild(o); });
+      statusSel.addEventListener("change", () => { ev.author_lookup = { ...ev.author_lookup, status: statusSel.value }; touch(); });
+      head.appendChild(title); head.appendChild(statusSel); card.appendChild(head);
+      if (ev.author_lookup.work_title && ev.author_lookup.source === "OpenAlex"){
+        const m = document.createElement("div"); m.className = "aa-meta";
+        m.textContent = `Matched in OpenAlex by ${ev.author_lookup.match}: "${ev.author_lookup.work_title}"` + (ev.author_lookup.title_similarity != null ? ` (title similarity ${ev.author_lookup.title_similarity})` : "");
+        card.appendChild(m);
+      }
+      ev.authors.forEach((a, ai) => {
+        const row = document.createElement("div"); row.className = "aa-author";
+        const name = document.createElement("input"); name.className = "aa-name"; name.placeholder = "Author name"; name.value = a.name || "";
+        name.addEventListener("input", () => { a.name = name.value; markManual(); });
+        const del = document.createElement("button"); del.type = "button"; del.className = "ev-remove aa-author-remove"; del.textContent = "Remove author";
+        del.addEventListener("click", () => { ev.authors.splice(ai, 1); markManual(); redraw(); });
+        const affs = document.createElement("div"); affs.className = "aa-affs";
+        if (!a.affiliations) a.affiliations = [];
+        a.affiliations.forEach((f, fi) => {
+          const fr = document.createElement("div"); fr.className = "aa-aff";
+          const inst = document.createElement("input"); inst.placeholder = "Institution"; inst.value = f.institution || "";
+          inst.addEventListener("input", () => { f.institution = inst.value; markManual(); });
+          const cs = countrySelect(f.country_code, v => { f.country_code = v; f.country = v ? COUNTRY_NAMES_JS[v] : ""; markManual(); });
+          const fdel = document.createElement("button"); fdel.type = "button"; fdel.className = "row-remove"; fdel.textContent = "×"; fdel.title = "Remove affiliation";
+          fdel.addEventListener("click", () => { a.affiliations.splice(fi, 1); markManual(); redraw(); });
+          fr.appendChild(inst); fr.appendChild(cs); fr.appendChild(fdel); affs.appendChild(fr);
+        });
+        const addAff = document.createElement("button"); addAff.type = "button"; addAff.className = "link-btn"; addAff.textContent = "+ affiliation";
+        addAff.addEventListener("click", () => { a.affiliations.push({ institution: "", country: "", country_code: "" }); markManual(); redraw(); });
+        affs.appendChild(addAff);
+        row.appendChild(name); row.appendChild(affs); row.appendChild(del); card.appendChild(row);
+      });
+      const addA = document.createElement("button"); addA.type = "button"; addA.className = "row-add"; addA.textContent = "+ add author";
+      addA.addEventListener("click", () => { ev.authors.push({ name: "", affiliations: [{ institution: "", country: "", country_code: "" }] }); markManual(); redraw(); });
+      card.appendChild(addA);
+
+      // funding sources for this publication
+      if (!ev.funding) ev.funding = [];
+      if (!ev.funding_lookup) ev.funding_lookup = { status: "pending" };
+      const fHead = document.createElement("div"); fHead.className = "aa-fhead";
+      const fLabel = document.createElement("span"); fLabel.textContent = "Funding";
+      const fStatus = document.createElement("select"); fStatus.className = "aa-status";
+      FUNDING_LOOKUP_STATUSES.forEach(st => { const o = document.createElement("option"); o.value = st; o.textContent = st.replace(/_/g, " "); if ((ev.funding_lookup.status || "pending") === st) o.selected = true; fStatus.appendChild(o); });
+      fStatus.addEventListener("change", () => { ev.funding_lookup = { ...ev.funding_lookup, status: fStatus.value }; touch(); });
+      fHead.appendChild(fLabel); fHead.appendChild(fStatus); card.appendChild(fHead);
+      const markFundManual = () => { ev.funding_lookup = { ...ev.funding_lookup, status: "manual", source: "Editor" }; fStatus.value = "manual"; touch(); };
+      if (!ev.funding.length){
+        const none = document.createElement("div"); none.className = "aa-meta";
+        none.textContent = ev.funding_lookup.status === "none_listed" ? "OpenAlex lists no funders for this publication." : "No funders recorded yet.";
+        card.appendChild(none);
+      }
+      ev.funding.forEach((f, fi) => {
+        const fr = document.createElement("div"); fr.className = "aa-fund";
+        const name = document.createElement("input"); name.placeholder = "Funder"; name.value = f.funder || "";
+        name.addEventListener("input", () => { f.funder = name.value; markFundManual(); });
+        const cs = countrySelect(f.country_code, v => { f.country_code = v; f.country = v ? COUNTRY_NAMES_JS[v] : ""; markFundManual(); });
+        const awards = document.createElement("input"); awards.placeholder = "Award IDs, comma-separated"; awards.value = (f.award_ids || []).join(", ");
+        awards.addEventListener("input", () => { f.award_ids = awards.value.split(",").map(x => x.trim()).filter(Boolean); markFundManual(); });
+        const del = document.createElement("button"); del.type = "button"; del.className = "row-remove"; del.textContent = "×"; del.title = "Remove funder";
+        del.addEventListener("click", () => { ev.funding.splice(fi, 1); markFundManual(); redraw(); });
+        fr.appendChild(name); fr.appendChild(cs); fr.appendChild(awards); fr.appendChild(del); card.appendChild(fr);
+      });
+      const addF = document.createElement("button"); addF.type = "button"; addF.className = "row-add"; addF.textContent = "+ add funder";
+      addF.addEventListener("click", () => { ev.funding.push({ funder: "", country: "", country_code: "", award_ids: [] }); markFundManual(); redraw(); });
+      card.appendChild(addF);
+      host.appendChild(card);
+    });
+    const addEv = document.createElement("button"); addEv.type = "button"; addEv.className = "row-add ev-add"; addEv.textContent = "+ add source";
+    addEv.addEventListener("click", () => {
+      e.evidence.push({ evidence_for: "use_case", source_type: "", citation: "", url: "", note: "",
+                        authors: [], author_lookup: { status: "pending" }, funding: [], funding_lookup: { status: "pending" } });
+      touch(); redraw();
+    });
+    host.appendChild(addEv);
+  }
+  redraw();
+  host.redraw = redraw;
+  return host;
+}
+
+/* ---- international collaboration: shared authorship / shared funding between countries ----
+   Unit = publication. Use-case evidence only; a paper cited by several entries counts once. */
+function pubsInView(entries){
+  const pubs = new Map();
+  entries.forEach(e => evidenceForBasis(e).forEach(ev => {
+    const key = (ev.author_lookup && ev.author_lookup.work_id) || (ev.funding_lookup && ev.funding_lookup.work_id) || ev.citation;
+    if (!key || pubs.has(key)) return;
+    const a = new Set(), f = new Set();
+    (ev.authors || []).forEach(au => (au.affiliations || []).forEach(x => { if (x.country_code) a.add(x.country_code); }));
+    (ev.funding || []).forEach(x => { if (x.country_code) f.add(x.country_code); });
+    pubs.set(key, { authors: a, funders: f, citation: ev.citation });
+  }));
+  return [...pubs.values()];
+}
+function collabData(entries, mode){
+  const pubs = pubsInView(entries);
+  const node = {}, link = {};
+  const add = (m, k, v = 1) => m[k] = (m[k] || 0) + v;
+  let base = 0, multi = 0;
+  pubs.forEach(p => {
+    if (mode === "authfund"){
+      if (!p.authors.size || !p.funders.size) return;
+      base++;
+      let cross = false;
+      p.authors.forEach(a => p.funders.forEach(f => { add(link, `${a}|${f}`); if (a !== f) cross = true; }));
+      p.authors.forEach(a => add(node, a)); p.funders.forEach(f => add(node, f));
+      if ([...p.funders].some(f => !p.authors.has(f))) multi++;
+      return;
+    }
+    const s = [...(mode === "cofund" ? p.funders : p.authors)].sort();
+    if (!s.length) return;
+    base++;
+    if (s.length > 1) multi++;
+    s.forEach(c => add(node, c));
+    for (let i = 0; i < s.length; i++) for (let j = i + 1; j < s.length; j++) add(link, `${s[i]}|${s[j]}`);
+  });
+  return { pubs, node, link, base, multi };
+}
+const COLLAB_TEXT = {
+  coauthor: (d) => `${d.base} publications with known author countries; ${d.multi} (${d.base ? Math.round(100 * d.multi / d.base) : 0}%) have authors in more than one country. Lines join countries whose researchers co-authored a paper; thicker = more papers. Node size = papers with that country.`,
+  cofund:   (d) => `${d.base} publications with known funder countries; ${d.multi} (${d.base ? Math.round(100 * d.multi / d.base) : 0}%) are funded from more than one country. Lines join countries that co-funded a paper.`,
+  authfund: (d) => `${d.base} publications with both author and funder countries; ${d.multi} (${d.base ? Math.round(100 * d.multi / d.base) : 0}%) have a funder from a country none of the authors is in. Lines run from author country to a different funder country (arrowhead at the funder).`,
+};
+const NET_SHORT = { INT: "Intl. org.", US: "USA", GB: "UK", AE: "UAE", KR: "S. Korea" };
+function renderCollabNetwork(entries){
+  const mode = document.getElementById("collab-mode").value;
+  const host = document.getElementById("collab-net");
+  const d = collabData(entries, mode);
+  document.getElementById("collab-sub").textContent = COLLAB_TEXT[mode](d);
+  host.innerHTML = "";
+  const W = host.clientWidth || 400, H = host.clientHeight || 300;
+  const codes = Object.keys(d.node).sort((a, b) => d.node[b] - d.node[a]);
+  const shown = codes.slice(0, 18), hidden = codes.length - shown.length;
+  if (!shown.length){ host.innerHTML = '<div class="cc-empty">No publications in view have the country data this view needs.</div>'; return; }
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs, parent) => { const n = document.createElementNS(NS, tag); Object.entries(attrs).forEach(([k, v]) => n.setAttribute(k, v)); parent && parent.appendChild(n); return n; };
+  const svg = el("svg", { width: W, height: H, viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Country collaboration network" }, host);
+  const defs = el("defs", {}, svg);
+  const mk = el("marker", { id: "collab-arrow", viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 8, markerHeight: 8, markerUnits: "userSpaceOnUse", orient: "auto-start-reverse" }, defs);
+  el("path", { d: "M0,0 L10,5 L0,10 z", fill: "#a3201d" }, mk);
+  // ellipse that uses the whole panel: wide horizontal margin for the labels, a little vertical room
+  const cx = W / 2, cy = H / 2 + 4, RX = Math.max(50, W / 2 - 74), RY = Math.max(50, H / 2 - 34);
+  const pos = {};
+  shown.forEach((c, i) => { const a = -Math.PI / 2 + 2 * Math.PI * i / shown.length; pos[c] = { x: cx + RX * Math.cos(a), y: cy + RY * Math.sin(a), a }; });
+  const maxN = Math.max(...shown.map(c => d.node[c]));
+  const rad = c => 4 + 14 * Math.sqrt(d.node[c] / maxN);
+  const links = Object.entries(d.link).map(([k, v]) => { const [a, b] = k.split("|"); return { a, b, v }; })
+    .filter(l => pos[l.a] && pos[l.b] && l.a !== l.b);
+  const maxL = Math.max(1, ...links.map(l => l.v));
+  const gL = el("g", {}, svg);
+  links.sort((p, q) => p.v - q.v).forEach(l => {
+    const A = pos[l.a], B = pos[l.b];
+    // curve towards the centre so chords don't overlap the ring
+    const mx = (A.x + B.x) / 2, my = (A.y + B.y) / 2, qx = mx + (cx - mx) * 0.45, qy = my + (cy - my) * 0.45;
+    let ex = B.x, ey = B.y;
+    if (mode === "authfund"){ const dx = B.x - qx, dy = B.y - qy, L = Math.hypot(dx, dy) || 1; ex = B.x - dx / L * (rad(l.b) + 2); ey = B.y - dy / L * (rad(l.b) + 2); }
+    const p = el("path", { d: `M${A.x},${A.y} Q${qx},${qy} ${ex},${ey}`, fill: "none", stroke: "#a3201d",
+      "stroke-width": (0.8 + 5.2 * l.v / maxL).toFixed(2), "stroke-opacity": (0.25 + 0.55 * l.v / maxL).toFixed(2),
+      ...(mode === "authfund" ? { "marker-end": "url(#collab-arrow)" } : {}) }, gL);
+    el("title", {}, p).textContent = mode === "authfund"
+      ? `Authors in ${countryLabel(l.a)}, funder in ${countryLabel(l.b)}: ${l.v} publication(s)`
+      : `${countryLabel(l.a)} – ${countryLabel(l.b)}: ${l.v} shared publication(s)`;
+  });
+  const gN = el("g", {}, svg);
+  shown.forEach(c => {
+    const P = pos[c];
+    const n = el("circle", { cx: P.x, cy: P.y, r: rad(c), fill: c === "INT" ? "#6f7f3a" : "#3b5b8c", stroke: "#ffffff", "stroke-width": 1.5 }, gN);
+    el("title", {}, n).textContent = `${countryLabel(c)}: ${d.node[c]} publication(s)`;
+    const off = rad(c) + 5, lx = P.x + off * Math.cos(P.a), ly = P.y + off * Math.sin(P.a) + (Math.abs(Math.cos(P.a)) < 0.25 ? (Math.sin(P.a) > 0 ? 8 : -4) : 0);
+    const t = el("text", { x: lx, y: ly + 3.5, "font-size": 10.5, fill: "#1a1a1a", "font-family": "'Source Sans 3', 'Helvetica Neue', Arial, sans-serif",
+      "text-anchor": Math.abs(Math.cos(P.a)) < 0.25 ? "middle" : (Math.cos(P.a) > 0 ? "start" : "end") }, gN);
+    t.textContent = NET_SHORT[c] || COUNTRY_NAMES_JS[c] || c;
+  });
+  if (hidden > 0){
+    const t = el("text", { x: 4, y: 11, "font-size": 10, fill: "#5f5f5f", "font-family": "'Source Sans 3', sans-serif" }, svg);
+    t.textContent = `${hidden} smaller countr${hidden === 1 ? "y" : "ies"} not drawn (see matrix).`;
+  }
+}
+function renderCollabMatrix(entries){
+  const mode = document.getElementById("collab-mode").value;
+  const d = collabData(entries, mode), table = document.getElementById("collab-heat");
+  table.innerHTML = "";
+  const note = document.getElementById("collab-heat-note");
+  let rows, cols, val;
+  if (mode === "authfund"){
+    const ac = {}, fc = {};
+    Object.entries(d.link).forEach(([k, v]) => { const [a, f] = k.split("|"); ac[a] = (ac[a] || 0) + v; fc[f] = (fc[f] || 0) + v; });
+    rows = Object.keys(ac).sort((a, b) => ac[b] - ac[a]).slice(0, 15);
+    cols = Object.keys(fc).sort((a, b) => fc[b] - fc[a]).slice(0, 12);
+    val = (r, c) => d.link[`${r}|${c}`] || 0;
+    note.textContent = "Rows: author country. Columns: funder country. Cells: publications. Off-diagonal cells are cross-border funding.";
+  } else {
+    rows = cols = Object.keys(d.node).sort((a, b) => d.node[b] - d.node[a]).slice(0, 15);
+    val = (r, c) => r === c ? d.node[r] : (d.link[[r, c].sort().join("|")] || 0);
+    note.textContent = `Cells: publications ${mode === "cofund" ? "co-funded" : "co-authored"} by both countries. Diagonal (grey): all publications with that country.`;
+  }
+  if (!rows.length){ table.innerHTML = '<tr><td class="zero">No publications in view have the country data this view needs.</td></tr>'; return; }
+  const max = Math.max(1, ...rows.flatMap(r => cols.map(c => (mode !== "authfund" && r === c) ? 0 : val(r, c))));
+  const short = c => c === "INT" ? "Intl. org." : (COUNTRY_NAMES_JS[c] || c);
+  const head = document.createElement("tr");
+  const corner = document.createElement("th"); corner.className = "col-head"; corner.textContent = mode === "authfund" ? "Author ↓ / funder →" : ""; head.appendChild(corner);
+  cols.forEach(c => { const th = document.createElement("th"); th.className = "col-head"; th.textContent = short(c); head.appendChild(th); });
+  table.appendChild(head);
+  rows.forEach(r => {
+    const tr = document.createElement("tr");
+    const th = document.createElement("th"); th.textContent = short(r); tr.appendChild(th);
+    cols.forEach(c => {
+      const v = val(r, c), td = document.createElement("td");
+      td.textContent = v || "";
+      if (mode !== "authfund" && r === c){ td.className = "diag"; td.textContent = v; }
+      else if (!v) td.className = "zero";
+      else trHeatCell(td, v / max, "163,32,29");
+      td.title = mode === "authfund" ? `Authors in ${countryLabel(r)}, funded from ${countryLabel(c)}: ${v}` : (r === c ? `${countryLabel(r)}: ${v} publications` : `${countryLabel(r)} – ${countryLabel(c)}: ${v}`);
+      tr.appendChild(td);
+    });
+    table.appendChild(tr);
+  });
+}
+let collabResizeTimer = null;
+window.addEventListener("resize", () => {
+  clearTimeout(collabResizeTimer);
+  collabResizeTimer = setTimeout(() => {
+    const pane = document.querySelector('.dash-pane[data-pane="nuclear"]');
+    if (allEntries.length && pane && pane.classList.contains("active")) renderCollabNetwork(filteredEntries());
+  }, 150);
+});
+
+/* ---- country filter for the use-case profile scatter ---- */
+const COUNTRY_PALETTE = ["#3b5b8c", "#a3201d", "#c0862a", "#6f7f3a", "#7a5c99", "#2f8f8a", "#b5605d"];
+/* Lead country: first author's first affiliation on the entry's first use-case source with authors. */
+function leadCountryOf(e){
+  for (const ev of evidenceForBasis(e)){
+    for (const a of ev.authors || []){
+      const f = (a.affiliations || []).find(x => x.country_code);
+      if (f) return f.country_code;
+    }
+  }
+  return NO_COUNTRY;
+}
+function buildScatterCountryOptions(){
+  const sel = document.getElementById("xs-country");
+  if (!sel) return;
+  const keep = sel.value, cnt = {};
+  allEntries.forEach(e => countriesOf(e).forEach(c => cnt[c] = (cnt[c] || 0) + 1));
+  const codes = Object.keys(cnt).filter(c => c !== NO_COUNTRY).sort((a, b) => cnt[b] - cnt[a] || countryLabel(a).localeCompare(countryLabel(b)));
+  if (cnt[NO_COUNTRY]) codes.push(NO_COUNTRY);
+  sel.innerHTML = '<option value="">All countries</option>' + codes.map(c => `<option value="${c}">${countryLabel(c)} (${cnt[c]})</option>`).join("");
+  sel.value = codes.includes(keep) ? keep : "";
 }
 
 function render(){
@@ -4047,11 +5307,12 @@ function render(){
   renderAtlasOpHeatmap(entries);
   renderCrossoverScatter(entries);
   renderCrossoverDiverging(entries);
-  renderCrossoverSankey(entries);
-  renderCrossoverChord(entries);
+  renderNuclearTab(entries);
+  renderTrial(entries);
+  updateFilterSummary(entries);
 }
 
-["xs-count", "xd-by", "xd-measure", "xk-left"].forEach(id => document.getElementById(id).addEventListener("change", render));
+["xs-count", "xs-colour", "xs-country", "xd-by", "xd-measure"].forEach(id => document.getElementById(id).addEventListener("change", render));
 
 document.getElementById("evidence-filter-usecase").addEventListener("change", (evt) => {
   requireEvidenceUseCase = evt.target.checked;
@@ -4059,13 +5320,6 @@ document.getElementById("evidence-filter-usecase").addEventListener("change", (e
   clearEditorSelection();
   render();
 });
-document.getElementById("evidence-filter-vulnerability").addEventListener("change", (evt) => {
-  requireEvidenceVulnerability = evt.target.checked;
-  evt.target.closest(".toggle-row").classList.toggle("off", !evt.target.checked);
-  clearEditorSelection();
-  render();
-});
-
 document.getElementById("dread-group-by").addEventListener("change", render);
 document.getElementById("dread-show-stddev").addEventListener("change", render);
 document.getElementById("atlas-view").addEventListener("change", render);
@@ -4073,9 +5327,7 @@ document.getElementById("atlas-rollup").addEventListener("change", render);
 document.getElementById("operational-view").addEventListener("change", render);
 document.getElementById("operational-rollup").addEventListener("change", render);
 
-// Group-by / stacked-vs-separate controls for STRIDE, ATLAS, and Operational. Each group-by
-// select also toggles its paired stacked/separate select's disabled state, since "stacked vs
-// separate" is meaningless with nothing to split -- see updateStackedSelectState. Changing the
+// Group-by controls for STRIDE, ATLAS, and Operational (split bars are always stacked). Changing the
 // group-by dimension also clears that chart's disabled-groups set: a legend toggle recorded under
 // "group by use area" doesn't mean anything once you switch to "group by facility domain".
 [
@@ -4084,17 +5336,10 @@ document.getElementById("operational-rollup").addEventListener("change", render)
   ["operational-group-by", "operational-view-mode", operationalDisabledGroups],
 ].forEach(([groupId, modeId, disabledGroups]) => {
   const groupSelect = document.getElementById(groupId);
-  const modeSelect = document.getElementById(modeId);
   groupSelect.addEventListener("change", () => {
     disabledGroups.clear();
-    if (groupSelect.value !== "none") modeSelect.value = "stacked"; // stacked is the default view
-                                                                     // once you're actually splitting
-                                                                     // by use area or facility domain
-    updateStackedSelectState(groupId, modeId);
     render();
   });
-  modeSelect.addEventListener("change", render);
-  updateStackedSelectState(groupId, modeId); // set initial disabled state
 });
 
 document.getElementById("file-input").addEventListener("change", (evt) => {
@@ -4125,9 +5370,11 @@ document.getElementById("file-input").addEventListener("change", (evt) => {
     deletedLoadedCount = 0;
     selectedEditIndex = null;
     strideDisabledGroups.clear(); atlasDisabledGroups.clear(); operationalDisabledGroups.clear();
+    buildNuclearFilterUI();
     document.getElementById("file-status").innerHTML = `<span class="status-lamp on"></span>${file.name} — ${data.length} entries`;
     document.getElementById("loaded-view").style.display = "block";
     document.getElementById("empty-note").style.display = "none";
+    syncHeaderHeight();
     try {
       render();
     } catch (err) {
@@ -4502,7 +5749,9 @@ document.querySelectorAll(".tab-btn").forEach(btn => {
     document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     const tab = btn.dataset.tab;
-    document.getElementById("view-dashboard").style.display = tab === "dashboard" ? "grid" : "none";
+    document.getElementById("view-dashboard").style.display = tab === "dashboard" ? "block" : "none";
+    if (tab === "dashboard") syncHeaderHeight();
+    if (tab !== "dashboard") setFilterDrawer(false);
     document.getElementById("view-editor").style.display = tab === "editor" ? "grid" : "none";
     document.getElementById("view-help").style.display = tab === "help" ? "block" : "none";
     document.getElementById("view-taxonomy").style.display = tab === "taxonomy" ? "block" : "none";
@@ -5693,26 +6942,9 @@ function renderEditorForm(idx){
   }
 
   if (activeEditorTab === "evidence"){
-    // evidence -- citations/links supporting this entry, either for the use_case itself (i.e. that
-    // it reflects a real or credibly proposed deployment) or for a vulnerability mechanism
-    // described in incurred_insecurity. Deliberately restricted to citable literature -- see
-    // EVIDENCE_SOURCE_TYPES -- rather than a free-text "notes" box, so entries stay traceable back
-    // to a real source rather than accumulating unsourced assertions.
-    const intro = document.createElement("div");
-    intro.className = "tab-intro";
-    intro.innerHTML = "Supporting literature for this entry -- either evidence for the "
-      + "<strong>use_case</strong> (that it is a real or credibly proposed deployment) or evidence "
-      + "for the <strong>vulnerability</strong>.";
-    tabContent.appendChild(intro);
-
-    if (!e.evidence) e.evidence = [];
-    tabContent.appendChild(fieldGroup("evidence", matchListEditor(e.evidence, [
-      { key: "evidence_for", label: "Evidence for", type: "select", options: ["use_case", "vulnerability"] },
-      { key: "source_type", label: "Source type", type: "select", options: EVIDENCE_SOURCE_TYPES },
-      { key: "citation", label: "Citation / title", full: true },
-      { key: "url", label: "Link (URL)", full: true },
-      { key: "note", label: "Note (optional)", full: true },
-    ], touch, "+ add evidence")));
+    // One card per use-case source: citation fields, then its authors/affiliations/countries, then
+    // its funders. The entry's nuclear facility sits at the top of the tab.
+    tabContent.appendChild(evidenceEditor(e, touch));
   }
 }
 
